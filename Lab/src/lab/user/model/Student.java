@@ -1,4 +1,4 @@
-package lab.model;
+package lab.user.model;
 
 public class Student {
 	String sid;
@@ -49,6 +49,6 @@ public class Student {
 	}
 	
 	public boolean matchPassword(String password){
-		return password!=null&&password.equals(password);
+		return password!=null&&this.password.equals(password);
 	}
 }
