@@ -141,7 +141,6 @@ $(document).ready(function() {									// 동적으로 변하는 리스트에 �
 });
 
 </script>
-	<br>
 	<!-- (예약취소), (수정하기), (단체취소) 버튼  -->												
 	<input type="button" id="modify_btn" value="예약수정" disabled="true" onclick="reservation_modify();">
 	<input type="button" id="cancel_btn" value="예약취소" disabled="true" onclick="reservation_cancel();">
@@ -149,12 +148,12 @@ $(document).ready(function() {									// 동적으로 변하는 리스트에 �
 
 <script>
 // ajax를 위한 함수
-function getInfo() {
+function getInfo(page) {
 	   var form = $("#info_form");
 	
 	   $.ajax({
 	     type: "POST",
-	     url: form.attr("action"),
+	     url: "searchReservation.jsp?page=" + page,
 	     data: form.serialize(),
 	     success: function(response) {
 	        var body = $('#result_body');
