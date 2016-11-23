@@ -183,7 +183,7 @@ public class ReservationDao {
 		try {
 			pstmt = conn.prepareStatement(
 					"select * from reservation " + 
-					"where sid = ? and startdate>=? and startdate <= ? order by rid desc limit ?,?");
+					"where sid = ? and startdate>=? and startdate <= ? order by startdate desc limit ?,?");
 			pstmt.setString(1, id);
 			pstmt.setString(2, startDate);
 			pstmt.setString(3, endDate);

@@ -20,7 +20,7 @@ public class SelectReservationService {
 
 	private SelectReservationService() {}
 
-	private static final int COUNT_PER_PAGE = 2;
+	private static final int COUNT_PER_PAGE = 10;
 
 	public Reservation getReservation(int rid) {						// rid를 통한 특정 예약 정보 리턴
 		Connection conn = null;
@@ -79,8 +79,8 @@ public class SelectReservationService {
 			int firstRow = 0;
 			int endRow = 0;
 			if (reservationTotalCount > 0) {
-				firstRow = (pageNumber - 1) * COUNT_PER_PAGE +1;
-				endRow = firstRow + COUNT_PER_PAGE - 1;
+				firstRow = (pageNumber - 1) * COUNT_PER_PAGE;
+				endRow = firstRow + COUNT_PER_PAGE;
 				reservationList = reservationDao.selectList(conn, firstRow, endRow, id, startDate, endDate);
 			} else {
 				currentPageNumber = 0;
