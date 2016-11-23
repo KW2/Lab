@@ -12,7 +12,7 @@
 	String pageNumberStr = request.getParameter("page");
 
 	int pageNumber = 1;
-	if (pageNumberStr != null) { // 페이지 번호 기능 (추후 수정 필요)
+	if (pageNumberStr != null) { 
 		pageNumber = Integer.parseInt(pageNumberStr);
 	}
 	if (startDate == null || startDate.equals("")) {

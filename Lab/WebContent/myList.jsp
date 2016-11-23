@@ -57,7 +57,7 @@
 		</tbody>
 	</table>
 
-<div id="count_body"></div>
+<div id="count_body"></div>			<!-- 페이지 번호 자리 -->
 
 <script type="text/javascript">
 
