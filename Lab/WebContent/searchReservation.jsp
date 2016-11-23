@@ -51,7 +51,8 @@
 "purpose": "${reservation.purpose }",
 "team": "${reservation.team }",
 "groupleader": "${reservation.groupleader }",
-"status": "${reservation.status }"
+"status": "${reservation.status }",
+"pageTotalCount": "${viewData.pageTotalCount}"
 
 }
 

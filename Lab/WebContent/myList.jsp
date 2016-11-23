@@ -37,9 +37,8 @@
 		<p>
 			조회기간: <input type="text" id="start_date" name="start_date"> ~
 					<input type="text" id="end_date" name="end_date"> 
-			<input type="hidden" id="page" name="page" value="1">  <!-- 페이지 번호 추후 기능 추가 -->
 		</p>
-		<input type='button' value='검색' onclick="getInfo()" />
+		<input type='button' value='검색' onclick="getInfo(1)" />
 	</form>
 
 	<table border="1" id="table">
@@ -58,9 +57,7 @@
 		</tbody>
 	</table>
 
-	<%-- <c:forEach var="pageNum" begin="1" end="${pageTotalCount}">
-<a id="a" href="#" onclick="check(); return false;">[${pageNum }]</a>
-</c:forEach>  페이지 번호 기능 필요--%>
+<div id="count_body"></div>
 
 <script type="text/javascript">
 
@@ -117,6 +114,8 @@ function reservation_modify(){														// 수정 하기 버튼 클릭 이�
 		return;
 }
 
+// 위 3개 메소드에서 resDelete.jsp, resModify.jsp를 1조 페이지로 보내고 1조 페이지에 로직()을 추가한다.
+
 $(document).ready(function() {									// 동적으로 변하는 리스트에 체크박스 체크 여부에 따른 버튼 활성/비활성
 
 	$('.caution_check').live('click', function() {
@@ -159,11 +158,12 @@ function getInfo() {
 	     data: form.serialize(),
 	     success: function(response) {
 	        var body = $('#result_body');
+	        var cntBody = $('#count_body');
 	        body.empty();
 	        
 	        obj = JSON.parse(response).items;
 	        for (var i = 0; i < obj.length; i++) {
-	           var newTr = $('<tr id="a'+i+'" onclick="getRid();"></tr>');
+	           var newTr = $('<tr id="a'+i+'"></tr>');
 	           var newTd0 = $('<td></td>');
 	           var newTd1 = $('<td></td>');
 	           var newTd2 = $('<td></td>');
@@ -206,15 +206,14 @@ function getInfo() {
 	           
 	           body.append(newTr);
 	        
-	        }
-	        /*    obj1 = JSON.parse(response).item;					// 페이지 번호 기능 추후 추가
-	 		var div = $('#count_body');
-        	body.empty();
-	        for(var i = 0; i<obj[0].pageTotalCount; i++){
-	        	var newA = $('<a href="#" onclick="check(); return false;"></a>');
-	        	newA.text(i+1);
-	        	div.append(newA);
-	        } */                 
+	        
+		       if(i+1 == obj.length){				// 페이지 번호 
+		        	$('.page').remove();
+			        for(var j = 1; j <= obj[0].pageTotalCount; j++){
+			       		cntBody.append($('<a href="javascript:void(0);" class="page" onclick="getInfo(' + j + ');">[' + j + ']</a>'));
+			        }
+		       }
+		   }              
 	     },
 	     error : function() {
 	    	
@@ -242,7 +241,7 @@ $.datepicker.setDefaults({
   });
   
   // 처음 페이지 출력시에도 default 값으로 검색.
-  window.onload = getInfo();
+  window.onload = getInfo(1);
 </script>   
 </body>
 </html>
