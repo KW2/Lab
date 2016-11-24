@@ -85,10 +85,14 @@
 				}
 			}
 		}
-	}
-	if(falseGroupId.isEmpty() && correctGroupIds > 0){
+		
+		if(falseGroupId.isEmpty() && correctGroupIds > 0){
+			group_id_check = true;
+		}
+	}else{
 		group_id_check = true;
 	}
+	
 	
 	
 	// 날짜 체크, 시간 체크
