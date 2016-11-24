@@ -30,8 +30,8 @@
 	     if(arrayG != ""){
 		     for(int y=0; y<ridG.length; y++){
 		    	 reservation = rsselectService.getReservation(Integer.parseInt(ridG[y]));
-		    	 groupInfo = rsselectService.getGroupSid(reservation.getGroupleader(), reservation.getStartdate());
-		    	 groupRid = rsselectService.getGroupRid(reservation.getGroupleader(), reservation.getStartdate());
+		    	 groupInfo = rsselectService.getGroupSid(reservation.getGroupleader(), reservation.getStartdate(), reservation.getStarttime());
+		    	 groupRid = rsselectService.getGroupRid(reservation.getGroupleader(), reservation.getStartdate(), reservation.getStarttime());
 		    	 
 		    	 
 		    	 if(groupInfo.size()==2){
@@ -45,10 +45,10 @@
 		     }
 	     }
 	     if(arrayGG != ""){
-		     for(int z=0; z<ridG.length; z++){
+		     for(int z=0; z<ridGG.length; z++){
 		    	 reservation = rsselectService.getReservation(Integer.parseInt(ridGG[z]));
-		    	 groupInfo = rsselectService.getGroupSid(groupleader, reservation.getStartdate());
-		    	 groupRid = rsselectService.getGroupRid(groupleader, reservation.getStartdate());
+		    	 groupInfo = rsselectService.getGroupSid(groupleader, reservation.getStartdate(), reservation.getStarttime());
+		    	 groupRid = rsselectService.getGroupRid(groupleader, reservation.getStartdate(), reservation.getStarttime());
 		    	 
 		    	 
 		    	 if(groupInfo.size()==2){
@@ -65,12 +65,12 @@
 		    		reservation = rsselectService.getReservation(Integer.parseInt(updateId)); 
 		    	 	rsupdateService.updateGroupleader(reservation, sid);
 		    	 }
-		    	 rsdeleteService.deleteReservation(Integer.parseInt(ridG[z]));
+		    	 rsdeleteService.deleteReservation(Integer.parseInt(ridGG[z]));
 		     }
 	     }
 	 }else{
 		reservation = rsselectService.getReservation(Integer.parseInt(rid));
-		groupInfo = rsselectService.getGroupRid(groupleader, reservation.getStartdate());
+		groupInfo = rsselectService.getGroupRid(groupleader, reservation.getStartdate(), reservation.getStarttime());
 		for(String deleteId : groupInfo){
 			rsdeleteService.deleteReservation(Integer.parseInt(deleteId));
 		}

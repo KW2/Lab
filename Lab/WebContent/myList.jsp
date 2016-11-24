@@ -82,7 +82,7 @@ function reservation_cancel(){				// 취소 버튼 클릭 이벤트 (다중 취�
 			if(groupleader == '${UserId}'){											// 그룹 리더와 로그인 아이디 일치 시 단체장 개인 취소
 				arrayGG[a] = $(this).siblings("#hidden").val();
 				a++;
-			}else if(groupleader != " "){																	// 그룹 리더와 로그인 아이디 붕일치 시 일반 예약 취소
+			}else if(groupleader != ""){																	// 그룹 리더와 로그인 아이디 붕일치 시 일반 예약 취소
 				arrayG[b] = $(this).siblings("#hidden").val();
 				b++;
 			}else{

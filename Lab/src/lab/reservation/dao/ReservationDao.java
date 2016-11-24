@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +44,19 @@ public class ReservationDao {
 		}
 	}
 	
-	public int update(Connection conn, Reservation message) throws SQLException {
+	public int update(Connection conn, Reservation reservation) throws SQLException {
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = conn.prepareStatement("update reservation " + "set labroom = ? where rid = ?");
-			pstmt.setString(1, message.getLabroom());
-			pstmt.setInt(2, message.getRid());
+			pstmt = conn.prepareStatement("update reservation " + "set labroom = ?, startdate = ?, starttime = ?"
+					+ ", usingtime = ?, purpose = ?, team = ?, groupleader = ? where rid = ?");
+			pstmt.setString(1, reservation.getLabroom());
+			pstmt.setDate(2, reservation.getStartdate());
+			pstmt.setTime(3, reservation.getStarttime());
+			pstmt.setInt(4, reservation.getUsingtime());
+			pstmt.setString(5, reservation.getPurpose());
+			pstmt.setBoolean(6, reservation.isTeam());
+			pstmt.setString(7, reservation.getGroupleader());
+			pstmt.setInt(8, reservation.getRid());
 
 			return pstmt.executeUpdate();
 		} finally {
@@ -94,13 +102,37 @@ public class ReservationDao {
 		}
 	}
 
-	public List<String> selectGroupSid(Connection conn, Date startdate, String groupleader) throws SQLException {
+	public List<Reservation> select(Connection conn, String sid, Date startdate) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ?");
+			pstmt = conn.prepareStatement("select * from reservation where sid = ? and startdate = ?");
+			pstmt.setString(1, sid);
+			pstmt.setDate(2, startdate);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<Reservation> dayResevationInfo = new ArrayList<Reservation>();
+				do {
+					dayResevationInfo.add(makeReservationFromResultSet(rs));
+				} while (rs.next());
+				return dayResevationInfo;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public List<String> selectGroupSid(Connection conn, Date startdate, String groupleader, Time starttime) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ? and starttime= ?");
 			pstmt.setString(1, groupleader);
 			pstmt.setDate(2, startdate);
+			pstmt.setTime(3, starttime);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				List<String> groupInfo = new ArrayList<String>();
@@ -117,13 +149,14 @@ public class ReservationDao {
 		}
 	}
 
-	public List<String> selectGroupRid(Connection conn, Date startdate, String groupleader) throws SQLException {
+	public List<String> selectGroupRid(Connection conn, Date startdate, String groupleader, Time starttime) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ?");
+			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ? and starttime=?");
 			pstmt.setString(1, groupleader);
 			pstmt.setDate(2, startdate);
+			pstmt.setTime(3, starttime);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				List<String> groupInfo = new ArrayList<String>();
@@ -132,7 +165,7 @@ public class ReservationDao {
 				} while (rs.next());
 				return groupInfo;
 			} else {
-				return null;
+				return null;  
 			}
 		} finally {
 			JdbcUtil.close(rs);

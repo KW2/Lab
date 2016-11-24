@@ -3,6 +3,8 @@ package lab.reservation.service;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,12 +39,12 @@ public class SelectReservationService {
 
 	}
 
-	public List<String> getGroupSid(String groupleader, Date startdate) {			// 단체 삭제 및 단체 수정에 사용
+	public List<String> getGroupSid(String groupleader, Date startdate, Time starttime) {			// 단체 삭제 및 단체 수정에 사용
 		Connection conn = null;														// groupleader, startdate 로 단체예약에 대한 sid들 리턴
 		try {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();
-			return reservationDao.selectGroupSid(conn, startdate, groupleader);
+			return reservationDao.selectGroupSid(conn, startdate, groupleader, starttime);
 		} catch (SQLException e) {
 			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
 		} finally {
@@ -51,12 +53,12 @@ public class SelectReservationService {
 
 	}
 
-	public List<String> getGroupRid(String groupleader, Date startdate) {			// 단체 삭제에 사용
+	public List<String> getGroupRid(String groupleader, Date startdate, Time starttime) {			// 단체 삭제에 사용
 		Connection conn = null;														// groupleader, startdate 로 단체예약에 대한 rid들 리턴
 		try {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();
-			return reservationDao.selectGroupRid(conn, startdate, groupleader);
+			return reservationDao.selectGroupRid(conn, startdate, groupleader, starttime);
 		} catch (SQLException e) {
 			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
 		} finally {
@@ -94,5 +96,38 @@ public class SelectReservationService {
 			JdbcUtil.close(conn);
 		}
 
+	}
+	
+	// 해당 예약정보와 중복되는 예약이 있는지 검색
+	public Boolean isDuplicationReservation(Reservation reservation){
+		List<Reservation> dayResevationInfo = new ArrayList<Reservation>();		
+		Connection conn = null;
+		boolean duplicationFlag = false;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			dayResevationInfo = reservationDao.select(conn, reservation.getSid(), reservation.getStartdate());
+			
+			if(dayResevationInfo != null){
+				for(int i = 0; i < dayResevationInfo.size(); i++){
+					int lStartTime = Integer.parseInt(reservation.getStarttime().toString().split(":")[0]);
+					int lEndTime = lStartTime + reservation.getUsingtime();
+					int rStartTime = Integer.parseInt(dayResevationInfo.get(i).getStarttime().toString().split(":")[0]);
+					int rEndTime = rStartTime + dayResevationInfo.get(i).getUsingtime();
+					
+					if(lStartTime < rEndTime && lEndTime > rStartTime){
+						duplicationFlag = true;
+					}
+				}
+			}
+			
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		
+		return duplicationFlag;
 	}
 }

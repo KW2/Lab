@@ -1,3 +1,4 @@
+<%@page import="lab.reservation.service.SelectReservationService"%>
 <%@page import="lab.reservation.model.Reservation"%>
 <%@page import="lab.user.model.User"%>
 <%@page import="lab.user.service.SelectUserService"%>
@@ -85,8 +86,11 @@
 				}
 			}
 		}
-	}
-	if(falseGroupId.isEmpty() && correctGroupIds > 0){
+		
+		if(falseGroupId.isEmpty() && correctGroupIds > 0){
+			group_id_check = true;
+		}
+	}else{
 		group_id_check = true;
 	}
 	
@@ -121,7 +125,8 @@
 			thisWeekFriday.set(Calendar.MINUTE, 0);
 			thisWeekFriday.set(Calendar.SECOND, 0);	
 						
-			if(serverCalendar.before(thisWeekFriday)){
+			if((serverCalendar.before(thisWeekFriday))
+					&& (clientCalendar.get(Calendar.HOUR_OF_DAY) >= limitWeekendTime)){
 				start_time_check = true;
 			}
 						
@@ -209,22 +214,32 @@
 	}
 	
 	if(all_check){
-		
 		// 굳이 안써도 되는듯, 에러가 따로 발생 안하기 때문에 성공으로 생각이 되는것 같다.
 		//response.setStatus(200);
 		Reservation reservationInfo = new Reservation(0, labroom, sid, date, time, usingtime, team, "승인대기", purpose, groupleader);	
-		request.setAttribute("reservationInfo", reservationInfo);
-		
-		if(team){
-			List<String> checkGroupIds = new ArrayList<String>();
-			for(int i = 0; i < groupIds.length; i++){
-				if(groupIds[i] != ""){
-					checkGroupIds.add(groupIds[i]);
-				}
-			}
-			request.setAttribute("checkGroupIds", checkGroupIds);
+		SelectReservationService selectReservationService = SelectReservationService.getInstance();
+
+		if(selectReservationService.isDuplicationReservation(reservationInfo) && !request.getParameter("updateCheck").equals("true")){
+			response.setStatus(308);
+			
+			JSONObject jsonMain = new JSONObject();
+			jsonMain.put("informProblem", "중복된 예약입니다.\n다시 확인해 주십시오");
+			out.println(jsonMain.toJSONString());
 		}
-		pageContext.forward("./insertReservation.jsp");
+		else{
+			request.setAttribute("reservationInfo", reservationInfo);
+			
+			if(team){
+				List<String> checkGroupIds = new ArrayList<String>();
+				for(int i = 0; i < groupIds.length; i++){
+					if(groupIds[i] != ""){
+						checkGroupIds.add(groupIds[i]);
+					}
+				}
+				request.setAttribute("checkGroupIds", checkGroupIds);
+			}
+			pageContext.forward("./insertReservation.jsp");	
+		}		
 	}else{
 		
 		// 따로 에러가 발생안하는경우 성공이라고 판단을 하게되서, 일부러 해당경우를 에러라고 하기위해

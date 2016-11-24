@@ -32,4 +32,16 @@ public class UpdateReservationService {
 
 	}
 
+	public void update(Reservation reservation){
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			reservationDao.update(conn, reservation);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+	}
 }

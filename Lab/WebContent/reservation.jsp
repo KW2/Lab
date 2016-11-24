@@ -17,12 +17,14 @@
 	String rid = request.getParameter("rid");
 	String groupleader = request.getParameter("groupleader");
 	SelectReservationService selectReservationService = SelectReservationService.getInstance();
+	boolean updateCheck = false;
 	
 	if(rid != null){
 		reservationInfo = selectReservationService.getReservation(Integer.parseInt(rid));
+		updateCheck = true;
 	}
 	if(groupleader!=null){
-		 groupInfo = selectReservationService.getGroupSid(groupleader, reservationInfo.getStartdate());
+		 groupInfo = selectReservationService.getGroupSid(groupleader, reservationInfo.getStartdate(), reservationInfo.getStarttime());
 	}
 	
 	if(groupInfo != null){
@@ -43,6 +45,9 @@
 %>
 <c:set var="reservationInfo" value="<%= reservationInfo %>"/>
 <c:set var="groupInfoStr" value="<%= groupInfoStr %>"/>
+<c:set var="updateCheck" value="<%= updateCheck %>"/>
+<c:set var="updateRid" value="<%= rid %>"/>
+
 
 <link href="./static/css/jquery-ui.min.css" rel="stylesheet">
 
@@ -259,7 +264,7 @@
 <title>실습실 예약 페이지</title>
 </head>
 <body>
-	<form id="resForm" action="./checkItem.jsp" method="get">
+	<form id="resForm" action="./checkItem.jsp" method="post">
 	<div>
 		<div id="lab">
 			<div id="lab_information">
@@ -396,6 +401,9 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<input type="hidden" name="updateCheck" value="${updateCheck}">
+	<input type="hidden" name="updateRid" value="${updateRid}">
 	
 	<div id="ok">
 		<input type="submit" id="ok_submit" name="ok_submit" value="제출" disabled="true">
