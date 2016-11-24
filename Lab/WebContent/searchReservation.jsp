@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.sql.Date"%>
-<%@ page import="java.sql.Time"%>
-<%@ page import="lab.reservation.service.*"%>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.*"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="java.sql.Time" %>
+<%@ page import="lab.reservation.service.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 	String startDate = request.getParameter("start_date");
 	String endDate = request.getParameter("end_date");
@@ -53,7 +53,7 @@
 "purpose": "${reservation.purpose }",
 "team": "${reservation.team }",
 "groupleader": "${reservation.groupleader }",
-"status": "${reservation.status }",
+"approval": "${reservation.approval }",
 "pageTotalCount": "${viewData.pageTotalCount}"
 
 }

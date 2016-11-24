@@ -1,4 +1,4 @@
-package lab.reservation.service;
+package lab.error;
 
 public class ServiceException extends RuntimeException {
 

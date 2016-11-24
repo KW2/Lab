@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="lab.reservation.service.*"%>
-<%@ page import="java.util.Collections"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="lab.reservation.service.*" %>
+<%@ page import="java.util.Collections" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 	
 	boolean check = false;									// 로그인 여부 check
@@ -13,16 +12,23 @@
     }
    	
 %>
-<c:set var="UserId" value="<%=id %>" />
+<c:set var="UserId" value="<%= id %>" />
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
+
+<link href="./static/css/jquery-ui.min.css" rel="stylesheet">
+
+<!-- <script src="./static/js/jquery.js"></script>
+<script src="./static/js/jquery-ui.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<link rel="stylesheet"
-	href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
 </head>
 
 <body>
@@ -51,7 +57,7 @@
 			<td>용도</td>
 			<td>단체유무</td>
 			<td>단체장</td>
-			<td>상태</td>
+			<td>승인여부</td>
 		</tr>
 		<tbody id="result_body">
 		</tbody>
@@ -64,23 +70,29 @@
 function reservation_cancel(){				// 취소 버튼 클릭 이벤트 (다중 취소를 위해 배열을 파라미터로 넘긴다.)
 	if(confirm("정말 취소하시겠습니까??")==true){
 		var array = new Array();		// 일반 예약 취소를 위한 rid 배열
-		var arrayG = new Array();		// 단체 예약 취소(단체장이 본인만 빠짐)를 위한 rid 배열
+		var arrayG = new Array();		// 단체 예약 이지만 단체장은 아닌 rid 배열
+		var arrayGG = new Array();		// 단체 예약 취소(단체장이 본인만 빠짐)를 위한 rid 배열
 		var a = 0;
 		var b = 0;
+		var c = 0;
 		 
 		$('.caution_check:checked').each(function() { 
 			var groupleader = $(this).parent().siblings("#groupleader").html();		// 체크된 예약 정보에 그룹리더 값을 가져옴
 			
 			if(groupleader == '${UserId}'){											// 그룹 리더와 로그인 아이디 일치 시 단체장 개인 취소
+				arrayGG[a] = $(this).siblings("#hidden").val();
+				a++;
+			}else if(groupleader != " "){																	// 그룹 리더와 로그인 아이디 붕일치 시 일반 예약 취소
 				arrayG[b] = $(this).siblings("#hidden").val();
 				b++;
-			}else{																	// 그룹 리더와 로그인 아이디 붕일치 시 일반 예약 취소
-				array[a] = $(this).siblings("#hidden").val();
-				a++;
+			}else{
+				array[c] = $(this).siblings("#hidden").val();
+				c++;
 			}
 		});
 	    
-		location.href = "resDelete.jsp?array="+array+"&arrayG="+arrayG; 			// 파라미터로 array(일반 취소할 rid 값들), arrayG(단체장 개인 취소할 rid 값들)를 보내준다.
+		location.href = "resDelete.jsp?array="+array+"&arrayG="+arrayG+"&arrayGG="+arrayGG; 			
+		// 파라미터로 array(일반 취소할 rid 값들), arrayG(단체예약이지만 단체장이 아닌 rid 값들), arrayGG(단체장 개인 취소할 rid 값들)를 보내준다.
 		
 	}
 	else
@@ -104,9 +116,11 @@ function reservation_modify(){														// 수정 하기 버튼 클릭 이�
 		var groupleader = $('.caution_check:checked').parent().siblings("#groupleader").html(); 
 	
 		if(groupleader == '${UserId}'){												// 수정 하는 예약이 단체장의 단체예약인지 확인
-			location.href = "resModify.jsp?rid="+rid+"&groupleader="+groupleader;	// 단체장의 단체예약 수정 시, rid와 groupleader를 보내준다.		 
+			location.href = "index.jsp?pageContent=reservation&rid="+rid+"&groupleader="+groupleader;	// 단체장의 단체예약 수정 시, rid와 groupleader를 보내준다.
+		//	location.href = "reservation.jsp?rid="+rid+"&groupleader="+groupleader;
 		}else{
-			location.href = "resModify.jsp?rid="+rid;								// 단체 예약 수정이 아니면 rid 값만 보내준다.
+			location.href = "index.jsp?pageContent=reservation&rid="+rid;								// 단체 예약 수정이 아니면 rid 값만 보내준다.
+		//	location.href = "reservation.jsp?rid="+rid;
 		}
 		
 	}
@@ -159,7 +173,7 @@ function getInfo(page) {
 	        var body = $('#result_body');
 	        var cntBody = $('#count_body');
 	        body.empty();
-	        
+	       
 	        obj = JSON.parse(response).items;
 	        for (var i = 0; i < obj.length; i++) {
 	           var newTr = $('<tr id="a'+i+'"></tr>');
@@ -191,7 +205,7 @@ function getInfo(page) {
 	           }else{
 	        	   newTd7.text(obj[i].groupleader);
 	           }
-	           newTd8.text(obj[i].status);
+	           newTd8.text(obj[i].approval);
 	        
 	           newTr.append(newTd0);
 	           newTr.append(newTd1);

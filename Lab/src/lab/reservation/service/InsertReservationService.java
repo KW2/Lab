@@ -9,27 +9,28 @@ import lab.error.ServiceException;
 import lab.reservation.dao.ReservationDao;
 import lab.reservation.model.Reservation;
 
-public class UpdateReservationService {
-	private static UpdateReservationService instance = new UpdateReservationService();
+public class InsertReservationService {
+	private static InsertReservationService instance = new InsertReservationService();
 
-	public static UpdateReservationService getInstance() {
+	public static InsertReservationService getInstance() {
 		return instance;
 	}
 
-	private UpdateReservationService() {}
-
-	public void updateGroupleader(Reservation reservation, String sid) {       // 단체장 개인 삭제시 groupleader 변경시 사용
+	private InsertReservationService() {
+	}
+	
+	public void insert(Reservation reservation) {
 		Connection conn = null;
 		try {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();
-			reservationDao.updateGroupleader(conn, reservation, sid);
+			reservationDao.insert(conn, reservation);
 		} catch (SQLException e) {
-			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+			throw new ServiceException(
+					"예약 실패: " + e.getMessage(), e);
 		} finally {
 			JdbcUtil.close(conn);
 		}
-
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
+import lab.error.ServiceException;
 import lab.reservation.dao.ReservationDao;
 import lab.reservation.model.Reservation;
 
@@ -24,7 +25,6 @@ public class SelectReservationService {
 
 	public Reservation getReservation(int rid) {						// rid를 통한 특정 예약 정보 리턴
 		Connection conn = null;
-		Reservation reservation = new Reservation();
 		try {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();

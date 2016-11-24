@@ -1,6 +1,4 @@
-package lab.reservation.service;
-
-import lab.reservation.service.ServiceException;
+package lab.error;
 
 public class ReservationNotFoundException extends ServiceException {
 

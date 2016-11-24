@@ -7,23 +7,21 @@ import lab.reservation.model.Reservation;
 public class ReservationListView {
 
 	// 예약 정보 검색 결과 리스트
-	// 현재 페이지 번호 구현 x
-	
-	private int ReservationTotalCount;
-	private int currentPageNumber;
-	private List<Reservation> ReservationList;
-	private int pageTotalCount;
-	private int ReservationCountPerPage;
-	private int firstRow;
-	private int endRow; 
 
-	public ReservationListView(List<Reservation> ReservationList, int ReservationTotalCount, 
-			int currentPageNumber, int ReservationCountPerPage, 
-			int startRow, int endRow) {
-		this.ReservationList = ReservationList;
-		this.ReservationTotalCount = ReservationTotalCount;
+	private int reservationTotalCount;
+	private int currentPageNumber;
+	private List<Reservation> reservationList;
+	private int pageTotalCount;
+	private int reservationCountPerPage;
+	private int firstRow;
+	private int endRow;
+
+	public ReservationListView(List<Reservation> ReservationList, int ReservationTotalCount, int currentPageNumber,
+			int ReservationCountPerPage, int startRow, int endRow) {
+		this.reservationList = ReservationList;
+		this.reservationTotalCount = ReservationTotalCount;
 		this.currentPageNumber = currentPageNumber;
-		this.ReservationCountPerPage = ReservationCountPerPage;
+		this.reservationCountPerPage = ReservationCountPerPage;
 		this.firstRow = startRow;
 		this.endRow = endRow;
 
@@ -31,18 +29,18 @@ public class ReservationListView {
 	}
 
 	private void calculatePageTotalCount() {
-		if (ReservationTotalCount == 0) {
+		if (reservationTotalCount == 0) {
 			pageTotalCount = 0;
 		} else {
-			pageTotalCount = ReservationTotalCount / ReservationCountPerPage;
-			if (ReservationTotalCount % ReservationCountPerPage > 0) {
+			pageTotalCount = reservationTotalCount / reservationCountPerPage;
+			if (reservationTotalCount % reservationCountPerPage > 0) {
 				pageTotalCount++;
 			}
 		}
 	}
 
 	public int getReservationTotalCount() {
-		return ReservationTotalCount;
+		return reservationTotalCount;
 	}
 
 	public int getCurrentPageNumber() {
@@ -50,7 +48,7 @@ public class ReservationListView {
 	}
 
 	public List<Reservation> getReservationList() {
-		return ReservationList;
+		return reservationList;
 	}
 
 	public int getPageTotalCount() {
@@ -58,7 +56,7 @@ public class ReservationListView {
 	}
 
 	public int getReservationCountPerPage() {
-		return ReservationCountPerPage;
+		return reservationCountPerPage;
 	}
 
 	public int getFirstRow() {
@@ -70,6 +68,6 @@ public class ReservationListView {
 	}
 
 	public boolean isEmpty() {
-		return ReservationTotalCount == 0;
+		return reservationTotalCount == 0;
 	}
 }

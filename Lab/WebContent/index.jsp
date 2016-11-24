@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.lang.String.*"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ page import="java.lang.String.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
 	request.setCharacterEncoding("utf-8");
     String content = request.getParameter("pageContent");   // 파라미터로 받은 값에 따라 본문내용 페이지를 변경한다.
@@ -27,7 +26,6 @@
 <c:set var="content" value="<%= pageContent %>" />
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>실습실 예약 홈페이지</title>
 <style>
 * {
