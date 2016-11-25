@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jdbc.JdbcUtil;
+import lab.error.EqualStatusException;
 import lab.reservation.model.Reservation;
 
 public class ReservationDao {
@@ -265,5 +266,80 @@ public class ReservationDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	
+	public int updatepermisson(Connection conn, List<Integer> sno, List<String> labRoom,  boolean flag) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String status = "";
+		int i = 0;
+		String permisson;
+		if(flag){
+			permisson ="예약승인";
+		} else {
+			permisson ="승인거절";
+		}	//flag 값이 true이면 상태값을 예약승인으로 false면 승인거절로 변경
+		try {
+			for(int x = 0; x < sno.size(); x++){
+				if(flag){
+					pstmt = conn.prepareStatement(
+							"select approval from reservation where rid = ?");
+					pstmt.setInt(1, sno.get(x));
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()){
+						status = rs.getString("approval");
+					}
+					//해당 예약번호에 해당하는 상태데이터 추출
+					
+					if(permisson.equals(status)){
+						throw new EqualStatusException("상태 중복 삽입");
+					}	//DB에 저장된 상태 데이터와 변경 시키려는 상태 값이 값으면 Exception 발생
+					
+					
+					pstmt = conn.prepareStatement(
+							"update reservation set approval = ? where rid = ?");
+					pstmt.setString(1, permisson);
+					pstmt.setInt(2, sno.get(x));
+					
+					pstmt.executeUpdate();	//예약 번호를 이용하여 상태 데이터를 예약승인으로 변경
+					
+					pstmt = conn.prepareStatement(
+							"update reservation set LabRoom = ? where rid = ?");
+					pstmt.setString(1, labRoom.get(x));
+					pstmt.setInt(2, sno.get(x));	
+					//예약 번호를 이용하여 실습실 값 변경
+				} else {
+					pstmt = conn.prepareStatement(
+							"select approval from reservation where rid = ?");
+					pstmt.setInt(1, sno.get(x));
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()){
+						status = rs.getString("approval");
+					}
+					//해당 예약번호에 해당하는 상태데이터 추출
+					
+					if(permisson.equals(status)){
+						System.out.println("에외");
+						throw new EqualStatusException("상태 중복 삽입");
+					}	//DB에 저장된 상태 데이터와 변경 시키려는 상태 값이 값으면 Exception 발생
+					 
+					pstmt = conn.prepareStatement(
+							"update reservation set approval = ? where rid = ?");
+					pstmt.setString(1, permisson);
+					pstmt.setInt(2, sno.get(x));
+					//예약 번호를 이용하여 상태 데이터를 예약승인으로 변경
+				}
+				i += pstmt.executeUpdate();	//변경된 투플의 개수가 i에 저장
+			}
+		} catch(Exception e) {
+			System.out.println("에외");
+			throw new EqualStatusException("상태 중복 삽입");
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return i;
+	}	//예약번호를 이용하여 실습실 데이터와 상태 데이터 변경
+	
 
 }

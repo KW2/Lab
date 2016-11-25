@@ -109,5 +109,29 @@ public class UserDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	
+	public String selectPhone(Connection conn, String sid) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			System.out.println("1");
+			pstmt = conn.prepareStatement(
+					"select phone from user where id = ?");
+			System.out.println("2");
+			pstmt.setString(1, sid);
+			System.out.println("3");
+			rs = pstmt.executeQuery();
+			System.out.println("4");
+			if (rs.next()) {
+				System.out.println("5");
+				return rs.getString("phone");
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}	//매개값으로 들어온 학번에 대응하는 전화번호 값 리턴 (변)
 
 }

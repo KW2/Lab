@@ -9,22 +9,27 @@
       request.setCharacterEncoding("utf-8");
       String id = request.getParameter("userId");
       String pw = request.getParameter("password");
-      
       boolean check = false;
       
       SelectUserService selectUserService = SelectUserService.getInstance();
       User user = selectUserService.getUserInfo(id);
-      
+      String loginUser = "student";
       if(user != null){
       	check = user.matchPassword(pw);
       	if(check){
       		session.setAttribute("UserId", id);		// 로그인이 성공하면 session 속성에 해당 로그인 id를 넣는다.
+      		
+      		if(user.getName().equals("Manager")){	// 로그인한 사용자가 조교일 경우 
+      			loginUser = "manager";
+      		}else if(user.getName().equals("Admin")){
+      			loginUser = "admin";				// 로그인한 사용자가 관리자일 경우
+      		}
+      		
       	}
       } 
       
-	  
-
 %>
+<c:set var="loginUser" value="<%=loginUser%>"/>
 <html>
 <head>
 <title>Insert title here</title>
@@ -35,7 +40,17 @@
 
 	</c:if>
 	<c:if test="<%= check %>">
-		<script> location.href = "index.jsp" ;</script>
+		<c:choose>
+			<c:when test="${loginUser == 'student'}">
+				<script> location.href = "index.jsp" ;</script>
+			</c:when>
+			<c:when test="${loginUser == 'manager'}">
+				<script> location.href = "indexManager.jsp" ;</script>
+			</c:when>
+			<c:when test="${loginUser == 'admin'}">
+				<script> location.href = "indexAdmin.jsp" ;</script>
+			</c:when>
+		</c:choose>		
 	</c:if>
 </body>
 </html>

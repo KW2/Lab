@@ -33,5 +33,20 @@ public class SelectUserService {
 		}
 
 	}
+	
+	public String selectPhoneNumber(String id){
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			UserDao studentDao = UserDao.getInstance();
+					
+			return studentDao.selectPhone(conn, id);
+		} catch (SQLException e) {
+			throw new ServiceException(
+					"���� ����: " + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+	}	//학번을 이용해 전화번호 추출
 
 }

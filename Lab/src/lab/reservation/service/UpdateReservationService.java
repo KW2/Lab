@@ -2,9 +2,11 @@ package lab.reservation.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
+import lab.error.EqualStatusException;
 import lab.error.ServiceException;
 import lab.reservation.dao.ReservationDao;
 import lab.reservation.model.Reservation;
@@ -44,4 +46,26 @@ public class UpdateReservationService {
 			JdbcUtil.close(conn);
 		}
 	}
+	
+	public int UpdateStatus(List<Integer> status, List<String> labRoom, boolean flag){
+		Connection conn = null;
+		int i = 0;
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			ReservationDao messageDao = ReservationDao.getInstance();
+			i = messageDao.updatepermisson(conn, status, labRoom, flag);
+			conn.commit();
+			return i;
+		} catch(EqualStatusException e) {
+			throw new EqualStatusException("상태 중복 삽입");
+			//예약 승인 상태에서 예약승인으로 상태 값을 변경 시키려고 할때 에러를 발생시킴
+		} catch(Exception e){
+			JdbcUtil.rollback(conn);			
+			return 0;
+		} finally{
+			
+			JdbcUtil.close(conn);
+		}
+	}	//예약 번호를 이용하여 예약내역의 상태 값과 실습실 값을 변경 시켜줌
 }
