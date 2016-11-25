@@ -163,7 +163,7 @@
 	}
 	
 	// 사용용도 체크
-	if(purpose != ""){
+	if(purpose != "" && purpose.length() <= 30){
 		purpose_text_check = true;
 	}
 
