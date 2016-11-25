@@ -11,26 +11,23 @@
 
 <%
 	request.setCharacterEncoding("utf-8");
-	System.out.println("1");
+
 	String startDate = request.getParameter("start_date");	//시작 날짜
 	String endDate = request.getParameter("end_date");		//끝 날짜
-	System.out.println("2");
+
 	Date start_date = Date.valueOf(startDate);
 	Date end_date = Date.valueOf(endDate);
-	System.out.println("3");
+
 	if(start_date.after(end_date)){
 		throw new ReverseDateException("날짜 오류");
 	} 
 	String pageNo = request.getParameter("page");	//현재 페이지
 	int no = Integer.parseInt(pageNo);
-	System.out.println("4");
-	
 	
 	if(startDate.isEmpty()||endDate.isEmpty()){
 		throw new ColdException("실습실 선택");
 		
 	}
-	System.out.println("5");
 	SelectRoomService service = SelectRoomService.getInstance();
 	List<PauseRoom> list = service.getList(no, start_date, end_date);	//현재 페이지의 실습실 리스트 출력
 	List<PauseRoom> testlist = service.SelectDate(start_date, end_date);	

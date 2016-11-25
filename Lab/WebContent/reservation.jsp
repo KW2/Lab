@@ -117,7 +117,7 @@
 			// 예약날짜 초기화
 			// 문자열을 yyyy-mm-dd 형태로 주면 val()의 매개값으로 주면 된다.
 			$("#res_date").val("${reservationInfo.startdate}");
-			reCounting();
+			updateInformation();
 			
 			// 예약시간 초기화
 			$("#start_time").val(convertTimeForm("${reservationInfo.starttime}"));
@@ -138,12 +138,14 @@
 				} 
 			}
 			$("#res_date").val(current_date_str);
-			reCounting();
+			updateInformation();
 			
 		}
 		
-		// 해당 날짜의 예약인원 표시 이벤트핸들러 등록
-		$("#res_date").change(reCounting);
+		// 해당 날짜의 예약인원 표시 및 실습실 상태 확인 이벤트핸들러 등록
+		$("#res_date").change(updateInformation);
+		$("#start_time").change(searchPossibleLabroom);
+		$("#using_time").change(searchPossibleLabroom);
 		
 		// 단체 기입리스트 추가 이벤트핸들러 등록
 		$("input[name='group_radio']").change(groupTableShow);
@@ -166,10 +168,11 @@
 		return time.split(":")[0] + ":" +  time.split(":")[1];
 	};
 	
-	// 예약 인원 카운팅 이벤트핸들러
+	// 예약 인원 카운팅 및 현재 실습실 상태 확인 이벤트핸들러
 	// 악의적으로 값을 지우는 경우 현재 날짜로 초기화
-	var reCounting = function(){
+	var updateInformation = function(){
 		var res_date = $("#res_date").val();
+		
 		if(res_date == ""){
 			$("#res_date").val(current_date_str);
 			res_date = current_date_str;
@@ -191,7 +194,82 @@
 				alert("데이터베이스 연동 실패");
 			}
 		});
+		
+		searchPossibleLabroom();
 	};
+	
+	// 현재 실습실 상태 확인
+	var searchPossibleLabroom = function(){
+		var res_date = $("#res_date").val();
+		var start_time = $("#start_time").val(); 
+		var using_time = $("#using_time").val();
+		
+		$.ajax({
+			url:'./returnLabroomStatus.jsp',
+			type: 'POST',
+			dataType:'JSON',
+			data: {"res_date": res_date, "start_time": start_time, "using_time": using_time},
+			success: function(data){
+				if(data.lab1 == null){
+					$("#lab1").removeAttr("disabled", true);
+					$("#lab2").removeAttr("disabled", true);
+					$("#lab3").removeAttr("disabled", true);
+					$("#lab4").removeAttr("disabled", true);
+					$("#lab5").removeAttr("disabled", true);
+					
+					$("#lab1_using").html("없음");
+					$("#lab2_using").html("없음");
+					$("#lab3_using").html("없음");
+					$("#lab4_using").html("없음");
+					$("#lab5_using").html("없음");
+				}else{
+					if(data.lab1 != ""){
+						$("#lab1").attr("disabled", true);
+						$("#lab1_using").html(data.lab1);
+					}else{
+						$("#lab1").removeAttr("disabled", true);
+						$("#lab1_using").html("없음");
+					}	
+					
+					if(data.lab2 != ""){
+						$("#lab2").attr("disabled", true);
+						$("#lab2_using").html(data.lab2);
+					}else{
+						$("#lab2").removeAttr("disabled", true);
+						$("#lab2_using").html("없음");
+					}
+					
+					if(data.lab3 != ""){
+						$("#lab3").attr("disabled", true);
+						$("#lab3_using").html(data.lab3);
+					}else{
+						$("#lab3").removeAttr("disabled", true);
+						$("#lab3_using").html("없음");
+					}
+					
+					if(data.lab4 != ""){
+						$("#lab4").attr("disabled", true);
+						$("#lab4_using").html(data.lab4);
+					}else{
+						$("#lab4").removeAttr("disabled", true);
+						$("#lab4_using").html("없음");
+					}
+					
+					if(data.lab5 != ""){
+						$("#lab5").attr("disabled", true);
+						$("#lab5_using").html(data.lab5);
+					}else{
+						$("#lab5").removeAttr("disabled", true);
+						$("#lab5_using").html("없음");
+					}
+				}
+			},
+			error: function(data){
+				console.log(data);
+				alert("데이터베이스 연동 실패");
+			}
+		});
+	}
 	
 	// 단체인 경우 그룹테이블 동적생성 이벤트핸들러
 	// str로 모아서 안하고 각각 append로 넣어줄때는 왜 안되는지는 잘 모르겠음
@@ -298,12 +376,12 @@
 				<label id="lab5_person"></label><br/>
 			</div>
 			<div id="lab_using">
-				<p>실습실 사용가능여부</p>
-				<label id="lab1_using">가능</label><br/>
-				<label id="lab2_using">가능</label><br/>
-				<label id="lab3_using">가능</label><br/>
-				<label id="lab4_using">가능</label><br/>
-				<label id="lab5_using">가능</label><br/>
+				<p>실습실 특이사항</p>
+				<label id="lab1_using">없음</label><br/>
+				<label id="lab2_using">없음</label><br/>
+				<label id="lab3_using">없음</label><br/>
+				<label id="lab4_using">없음</label><br/>
+				<label id="lab5_using">없음</label><br/>
 			</div>
 
 		</div>
