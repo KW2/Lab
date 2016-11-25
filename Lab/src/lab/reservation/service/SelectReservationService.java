@@ -130,4 +130,53 @@ public class SelectReservationService {
 		
 		return duplicationFlag;
 	}
+	
+	public List<Reservation> getList(int pageNumber, Date StartDate, Date EndDate) {
+		Connection conn = null;
+		List<Reservation> dataList = new ArrayList<Reservation>();
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao messageDao = ReservationDao.getInstance();
+			int messageTotalCount = messageDao.selectCount(conn, StartDate, EndDate);	//헤당 날짜 사이의 위치하는 예약 내역 갯수 저장
+			int firstRow = 0;
+			int endRow = 0;  
+			if (messageTotalCount > 0) {
+				firstRow =
+						(pageNumber - 1) * COUNT_PER_PAGE + 1;	//1 -> 1, 2 -> 11, ...
+				endRow = firstRow + COUNT_PER_PAGE - 1;	//1 -> 10, 2 -> 20, ...
+				dataList = messageDao.selectDataList(conn, firstRow, endRow, StartDate, EndDate);	//firstRow와 endRow사이에 위치한 예약 내역 저장
+			} else {
+				dataList = Collections.emptyList();
+			}
+		} catch (SQLException e) {
+			
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return dataList;
+	}	//입력한 날짜와 현재 페이지에 대응하는 예약 내역 리턴
+	
+	public int getPageSize(Date StartDate, Date EndDate){
+		Connection conn = null;
+		int pageSize = 0;
+		try {
+			int dataSize = 0;
+			conn = ConnectionProvider.getConnection();
+			ReservationDao messageDao = ReservationDao.getInstance();
+			dataSize = messageDao.selectCount(conn, StartDate, EndDate);	//입력한 날짜들에 사이에 위치하는 날짜값을 가진 투플 수 저장
+			if (dataSize == 0) {
+				pageSize = 0;	//해당하는 데이터가 없으면 0 리턴
+			} else {
+				pageSize = dataSize / COUNT_PER_PAGE;
+				if (dataSize % COUNT_PER_PAGE > 0) {
+					pageSize++;
+				}
+			}
+		} catch(Exception e){
+		} finally{
+			JdbcUtil.close(conn);
+		}
+		return pageSize;
+	}	//입력한 날짜 사이의 포함되는 데이터의 전체 페이지의 수를 리턴
+	
 }

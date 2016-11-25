@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import jdbc.JdbcUtil;
@@ -340,6 +341,52 @@ public class ReservationDao {
 		}
 		return i;
 	}	//예약번호를 이용하여 실습실 데이터와 상태 데이터 변경
+	
+	public int selectCount(Connection conn, Date StartDate, Date EndDate) throws SQLException {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			stmt = conn.prepareStatement("select count(*) from reservation where startdate between ? and ?");
+			stmt.setDate(1, StartDate);
+			stmt.setDate(2, EndDate);
+			rs = stmt.executeQuery();
+			rs.next();
+			
+			return rs.getInt(1);
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(stmt);
+		}
+	}	//입력한 날짜들에 사이에 위치하는 날짜값을 가진 투플들의 수 리턴
+	
+	public List<Reservation> selectDataList(Connection conn, int firstRow, int endRow, Date StartDate, Date EndDate) 
+			throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(
+					"select * from reservation where startdate between ? and ?" + 
+					"ORDER BY startdate ASC , Labroom ASC limit ?, ?");
+			pstmt.setDate(1, StartDate);
+			pstmt.setDate(2, EndDate);
+			pstmt.setInt(3, firstRow - 1);
+			pstmt.setInt(4, endRow - firstRow + 1);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<Reservation> messageList = new ArrayList<Reservation>();
+				do {
+					messageList.add(makeReservationFromResultSet(rs));	
+					//ResultSet객체에 저장된 데이터를 Reservation으로 변환 시켜 리스트에 저장
+				} while (rs.next());
+				return messageList;
+			} else {
+				return Collections.emptyList();
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}	//입력한 날짜 사이에 위치한 날짜값을 가지고 있는 예약내역들 중 특정 위치에 해당하는 예약 내역 리스트를 리턴
 	
 
 }

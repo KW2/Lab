@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="lab.reservation.service.UpdateService" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="lab.reservation.service.UpdateReservationService" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	request.setCharacterEncoding("utf-8");
 	String[] sid = request.getParameterValues("checkbox");	//예약번호
 	
-	UpdateService service = UpdateService.getInstance();
+	UpdateReservationService service = UpdateReservationService.getInstance();
 	List<Integer> list = new ArrayList<Integer>();
 	
 	for(String id : sid){

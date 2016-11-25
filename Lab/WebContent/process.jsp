@@ -27,7 +27,7 @@
 	}	//파라미터로 전달된 현재 페이지 값을 int값으로 변환 시킴
 	
 	SelectReservationService service = SelectReservationService.getInstance();
-	List<Reservation> pageList = service.getList(pageNumber, start_date, end_date);
+	List<Reservation> pageList = service.getList(pageNumber, start_date, end_date); 
 	//시작 날짜, 끝 날짜, 현제 페이지 값을 매개변수로 사용하여 예약 리스트 리턴
 		
 %>
@@ -38,7 +38,7 @@
 		List<String> studentList = null;
 		Reservation item = pageList.get(i);
 		if(item.getGroupleader() != null){
-			studentList = service.getGroupStudentId(item.getGroupleader(), item.getStartdate());
+			studentList = service.getGroupSid(item.getGroupleader(), item.getStartdate(), item.getStarttime());
 		}	
 		JSONArray jArray = JSONArray.fromObject(studentList);	//학번 리스트를 JSONArray로 변환 [jar파일이 추가로 필요]
 		//service.getPageSize(start_date, end_date) : 입력한 날짜 사이의 포함되는 전체 페이지의 수를 이전 페이지로 전달 
@@ -49,7 +49,7 @@
 <%= "\"labroom\":" + "\"" + item.getLabroom() + "\"," %>
 <%= "\"reason\":" + "\"" + item.getPurpose() + "\"," %>
 <%= "\"sid\":" + "\"" + item.getSid() + "\"," %>
-<%= "\"size\":" + service.getPageSize(start_date, end_date) + "," %>
+<%= "\"size\":" + service.getPageSize(start_date, end_date) + "," %> 
 <%= "\"group\":" + jArray + "," %>
 <%= "\"startdate\":" + "\"" + item.getStartdate() + "\"," %>
 <%= "\"starttime\":" + "\"" + item.getStarttime() + "\"," %>
