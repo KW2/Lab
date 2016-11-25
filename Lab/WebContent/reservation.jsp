@@ -297,6 +297,14 @@
 				<label id="lab4_person"></label><br/>
 				<label id="lab5_person"></label><br/>
 			</div>
+			<div id="lab_using">
+				<p>실습실 사용가능여부</p>
+				<label id="lab1_using">가능</label><br/>
+				<label id="lab2_using">가능</label><br/>
+				<label id="lab3_using">가능</label><br/>
+				<label id="lab4_using">가능</label><br/>
+				<label id="lab5_using">가능</label><br/>
+			</div>
 
 		</div>
 		<div id="group">

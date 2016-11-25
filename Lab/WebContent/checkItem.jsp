@@ -201,7 +201,7 @@
 		problem += "사용시간 기입여부\n";
 	}
 	if(!purpose_text_check){
-		problem += "사용목적 기입여부\n";
+		problem += "사용목적 기입여부 및 글자수\n";
 	}
 	if(!problem.isEmpty()){
 		problem += "를 확인하십시오.\n";
