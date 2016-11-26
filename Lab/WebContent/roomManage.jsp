@@ -68,6 +68,7 @@
       	  <tbody id="result_body">
       	  </tbody>
 		</table>
+		<div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
 	</form> <!-- 문자 전송 폼 -->
 	<form id="sid_form" action="message.jsp" method="post" onsubmit="return false;">
 	</form>
@@ -85,6 +86,7 @@ function getInfo(page, reset) {
      //성공시 호출
      success: function(response) {
         var body = $('#result_body');
+        var pagebody = $('#count_body');
         body.empty();
         
         obj = JSON.parse(response).items;
@@ -164,12 +166,13 @@ function getInfo(page, reset) {
      		$('.page').remove();
      		$('.btn').remove();
         	for(var j = 1; j <= obj[0].size; j++){
-        		$('body').append($('<a href="#" class="page" onclick="getInfo(' + j + ', false)">[' + j + ']</a>'));
+        		pagebody.append($('<a href="#" class="page" onclick="getInfo(' + j + ', false)">[' + j + ']</a>'));
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
         	$('#sid_form').append($('<input type="button" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
         }
+        
         //페이지 이동 a태그 및 버튼 출력 구현
          $(".btn").attr('disabled', true);
      },

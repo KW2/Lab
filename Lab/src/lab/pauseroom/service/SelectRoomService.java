@@ -92,4 +92,26 @@ public class SelectRoomService {
 				
 	}
 	//입력 날짜에 포함되어 있는 데이터 리스트를 리턴
+	
+	public List<PauseRoom> SelectDuplicationDate(String labRoom, Date StartDate, Date EndDate){
+		Connection conn = null;
+		List<PauseRoom> reserRoomList = null;
+	
+		try {
+		
+			conn = ConnectionProvider.getConnection();
+			PauseRoomDao messageDao = PauseRoomDao.getInstance();
+			reserRoomList = messageDao.checkList(conn, labRoom, StartDate, EndDate);
+			
+			
+			return reserRoomList;
+		} catch(Exception e){
+			return null;
+		} finally{
+			JdbcUtil.close(conn);
+		}
+				
+	}
+	//입력 날짜에 포함되어 있는 데이터 리스트를 리턴
+	
 }

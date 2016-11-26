@@ -70,6 +70,45 @@ public class PauseRoomDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	
+	public List<PauseRoom> checkList(Connection conn, String labRoom, Date StartDate, Date EndDate) 
+			throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			if(EndDate == null){	//실습실 사용일이 다음 날을 넘어가지 않을 때
+				pstmt = conn.prepareStatement("select * from pauseroom where labroom = ? and pausestart <= ? and  pauseend >= ? ");
+				pstmt.setString(1, labRoom);
+				pstmt.setDate(2, StartDate);			
+				pstmt.setDate(3, StartDate);
+				
+			} else{		//실습실 사용일이 다음날을 넘어 갈때 
+				pstmt = conn.prepareStatement("select * from pauseroom where labroom = ? and pausestart <= ? and pauseend >= ?");
+				pstmt.setString(1, labRoom);
+				pstmt.setDate(2, StartDate);			
+				pstmt.setDate(3, StartDate);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				List<PauseRoom> checkList = new ArrayList<PauseRoom>();
+				do {
+					checkList.add(makeRoomMessageFromResultSet(rs));	
+				} while (rs.next());
+				//리스트 객체에 CheckRoom객체를 추가
+				
+				return checkList;
+				
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
 	public PauseRoom selectLabroom(Connection conn, String Labroom, Date StartDate, Date EndDate) 
 			throws SQLException {
 		PreparedStatement pstmt = null;
@@ -96,6 +135,7 @@ public class PauseRoomDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	
 	//실습실과 시작날짜 끝날짜를 이용해 쿼리를 수행한 후 조건에 맞는 CheckRoom 객체 리턴
 	public int insertCold(Connection conn, String LabRoom, Date StartDate, Date EndDate, String reason) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -212,4 +252,18 @@ public class PauseRoomDao {
 		}
 	}
 	//매개값으로 전달되는 날짜 데이터가 매개값으로 전달되는 실습실이 얼려진 날짜들 중에서 날짜가 중복되면 해당 투플들의 리스트 리턴
+	
+	public void delete(Connection conn, int pid) throws SQLException{
+		PreparedStatement stmt = null;
+
+		try {
+			stmt = conn.prepareStatement("delete from pauseroom where pid = ?");
+			stmt.setInt(1, pid);				
+			stmt.executeUpdate();
+			
+		} finally {
+			JdbcUtil.close(stmt);
+		}
+	}
+	
 }
