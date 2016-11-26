@@ -28,6 +28,9 @@
 <head>
 <title>실습실 예약 홈페이지</title>
 <style>
+
+
+	
 * {
 	margin: 0;
 	padding: 0;
@@ -51,7 +54,6 @@
 
 #article {
 	float: left;
-	height: 800px;
 }
 </style>
 </head>

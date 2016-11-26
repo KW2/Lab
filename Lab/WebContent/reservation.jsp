@@ -224,42 +224,47 @@
 					$("#lab5_using").html("없음");
 				}else{
 					if(data.lab1 != ""){
-						$("#lab1").attr("disabled", true);
+						$("#lab1").attr("disabled", true);	
+						$("#lab1").removeAttr("checked");
 						$("#lab1_using").html(data.lab1);
 					}else{
-						$("#lab1").removeAttr("disabled", true);
+						$("#lab1").removeAttr("disabled");
 						$("#lab1_using").html("없음");
 					}	
 					
 					if(data.lab2 != ""){
 						$("#lab2").attr("disabled", true);
+						$("#lab2").removeAttr("checked");
 						$("#lab2_using").html(data.lab2);
 					}else{
-						$("#lab2").removeAttr("disabled", true);
+						$("#lab2").removeAttr("disabled");
 						$("#lab2_using").html("없음");
 					}
 					
 					if(data.lab3 != ""){
 						$("#lab3").attr("disabled", true);
+						$("#lab3").removeAttr("checked");
 						$("#lab3_using").html(data.lab3);
 					}else{
-						$("#lab3").removeAttr("disabled", true);
+						$("#lab3").removeAttr("disabled");
 						$("#lab3_using").html("없음");
 					}
 					
 					if(data.lab4 != ""){
 						$("#lab4").attr("disabled", true);
+						$("#lab4").removeAttr("checked");
 						$("#lab4_using").html(data.lab4);
 					}else{
-						$("#lab4").removeAttr("disabled", true);
+						$("#lab4").removeAttr("disabled");
 						$("#lab4_using").html("없음");
 					}
 					
 					if(data.lab5 != ""){
 						$("#lab5").attr("disabled", true);
+						$("#lab5").removeAttr("checked");
 						$("#lab5_using").html(data.lab5);
 					}else{
-						$("#lab5").removeAttr("disabled", true);
+						$("#lab5").removeAttr("disabled");
 						$("#lab5_using").html("없음");
 					}
 				}

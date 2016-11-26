@@ -43,51 +43,51 @@
 			case "실습1실":
 				if(notUsingLabroom.get(i).getPausestart().equals(notUsingLabroom.get(i).getPauseend())){
 					lab1_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ "\n사유 : " + notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ "<br>사유 : " + notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}else{
 					lab1_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "\n사유 : " 
-							+ notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "<br>사유 : " 
+							+ notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}
 				break;
 			case "실습2실":
 				if(notUsingLabroom.get(i).getPausestart().equals(notUsingLabroom.get(i).getPauseend())){
 					lab2_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ "\n사유 : " + notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ "<br>사유 : " + notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}else{
 					lab2_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "\n사유 : " 
-							+ notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "<br>사유 : " 
+							+ notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}
 				break;
 			case "실습3실":
 				if(notUsingLabroom.get(i).getPausestart().equals(notUsingLabroom.get(i).getPauseend())){
 					lab3_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ "\n사유 : " + notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ "<br>사유 : " + notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}else{
 					lab3_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "\n사유 : " 
-							+ notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "<br>사유 : " 
+							+ notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}
 				break;
 			case "실습4실":
 				if(notUsingLabroom.get(i).getPausestart().equals(notUsingLabroom.get(i).getPauseend())){
 					lab4_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ "\n사유 : " + notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ "<br>사유 : " + notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}else{
 					lab4_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "\n사유 : " 
-							+ notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "<br>사유 : " 
+							+ notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}
 				break;
 			case "실습5실":
 				if(notUsingLabroom.get(i).getPausestart().equals(notUsingLabroom.get(i).getPauseend())){
 					lab5_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ "\n사유 : " + notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ "<br>사유 : " + notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}else{
 					lab5_status += "사용불가 기간 : " + notUsingLabroom.get(i).getPausestart().toString() 
-							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "\n사유 : " 
-							+ notUsingLabroom.get(i).getReason().toString() + "\n";
+							+ " ~ " + notUsingLabroom.get(i).getPauseend().toString()  + "<br>사유 : " 
+							+ notUsingLabroom.get(i).getReason().toString() + "<br>";
 				}
 				break;
 			}

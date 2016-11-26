@@ -219,6 +219,7 @@
 		Reservation reservationInfo = new Reservation(0, labroom, sid, date, time, usingtime, team, "승인대기", purpose, groupleader);	
 		SelectReservationService selectReservationService = SelectReservationService.getInstance();
 
+		// 중복체크
 		if(selectReservationService.isDuplicationReservation(reservationInfo) && !request.getParameter("updateCheck").equals("true")){
 			response.setStatus(308);
 			
