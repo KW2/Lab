@@ -103,6 +103,7 @@ public class ReservationDao {
 			JdbcUtil.close(pstmt);
 		}
 	}
+	//
 
 	public List<Reservation> select(Connection conn, String sid, Date startdate) throws SQLException {
 		PreparedStatement pstmt = null;
@@ -342,6 +343,97 @@ public class ReservationDao {
 		return i;
 	}	//예약번호를 이용하여 실습실 데이터와 상태 데이터 변경
 	
+	public int updateTeamPermisson(Connection conn, int sno, String labRoom,  boolean flag, Date date, Time time) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String status = "";
+		int i = 0;
+		String permisson;
+		String lab = null;
+		String teamLeader = null;
+		if(flag){
+			permisson ="예약승인";
+		} else {
+			permisson ="승인거절";
+		}	//flag 값이 true이면 상태값을 예약승인으로 false면 승인거절로 변경
+		try {
+			pstmt = conn.prepareStatement("select labroom from reservation where rid = ?");
+			pstmt.setInt(1, sno);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				lab = rs.getString("labroom");
+			}
+			pstmt = conn.prepareStatement("select groupleader from reservation where rid = ?");
+			pstmt.setInt(1, sno);
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				teamLeader = rs.getString("groupleader");
+			}
+			if(flag){					
+				pstmt = conn.prepareStatement(
+					"select approval from reservation where rid = ?");
+				pstmt.setInt(1, sno);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()){
+					status = rs.getString("approval");
+				}
+				//해당 예약번호에 해당하는 상태데이터 추출
+					
+				if(permisson.equals(status)){
+					throw new EqualStatusException("상태 중복 삽입");
+				}	//DB에 저장된 상태 데이터와 변경 시키려는 상태 값이 값으면 Exception 발생
+				
+				
+				pstmt = conn.prepareStatement(
+						"update reservation set approval = ? where groupleader = ? and startdate = ? and starttime = ?");
+				pstmt.setString(1, permisson);
+				pstmt.setString(2, teamLeader);
+				pstmt.setDate(3, date);
+				pstmt.setTime(4, time);
+				
+				pstmt.executeUpdate();	//예약 번호를 이용하여 상태 데이터를 예약승인으로 변경
+					
+				pstmt = conn.prepareStatement(
+						"update reservation set LabRoom = ? where groupleader = ? and startdate = ? and starttime = ?");
+				pstmt.setString(1, labRoom);
+				pstmt.setString(2, teamLeader);
+				pstmt.setDate(3, date);
+				pstmt.setTime(4, time);
+				//예약 번호를 이용하여 실습실 값 변경
+			} else {
+				pstmt = conn.prepareStatement(
+						"select approval from reservation where groupleader = ? and startdate = ? and starttime = ?");
+				pstmt.setString(1, teamLeader);
+				pstmt.setDate(2, date);
+				pstmt.setTime(3, time);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()){
+					status = rs.getString("approval");
+				}
+				//해당 예약번호에 해당하는 상태데이터 추출
+				if(permisson.equals(status)){
+					throw new EqualStatusException("상태 중복 삽입");
+				}	//DB에 저장된 상태 데이터와 변경 시키려는 상태 값이 값으면 Exception 발생
+				pstmt = conn.prepareStatement(
+						"update reservation set approval = ? where groupleader = ? and startdate = ? and starttime = ?");
+				pstmt.setString(1, permisson);
+				pstmt.setString(2, teamLeader);
+				pstmt.setDate(3, date);
+				pstmt.setTime(4, time);
+				//예약 번호를 이용하여 상태 데이터를 예약승인으로 변경
+			}
+			i += pstmt.executeUpdate();	//변경된 투플의 개수가 i에 저장	
+		} catch(Exception e) {
+			throw new EqualStatusException("상태 중복 삽입");
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+		return i;
+	}	//예약번호를 이용하여 실습실 데이터와 상태 데이터 변경
+	
 	public int selectCount(Connection conn, Date StartDate, Date EndDate) throws SQLException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -388,5 +480,105 @@ public class ReservationDao {
 		}
 	}	//입력한 날짜 사이에 위치한 날짜값을 가지고 있는 예약내역들 중 특정 위치에 해당하는 예약 내역 리스트를 리턴
 	
+	public String selectLabRoom(Connection conn, int rId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select labroom from reservation where rid = ?");
+			pstmt.setInt(1, rId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("labroom");
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public String selectGroupLeader(Connection conn, int rId) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select groupleader from reservation where rid = ?");
+			pstmt.setInt(1, rId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("groupleader");
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+		
+	public List<String> selectGroupSid(Connection conn, Date startdate, String groupleader) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ?");
+			pstmt.setString(1, groupleader);
+			pstmt.setDate(2, startdate);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<String> groupInfo = new ArrayList<String>();
+				do {
+					groupInfo.add(makeReservationFromResultSet(rs).getSid());
+				} while (rs.next());
+				return groupInfo;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public List<Integer> selectRid(Connection conn, String sid, Date date, Time time) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ? and starttime = ?");
+			pstmt.setString(1, sid);
+			pstmt.setDate(2, date);
+			pstmt.setTime(3, time);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<Integer> groupInfo = new ArrayList<Integer>();
+				do {
+					groupInfo.add(rs.getInt("rid"));
+				} while (rs.next());
+				return groupInfo;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public boolean selectIsTeam(Connection conn, int rid) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select team from reservation where rid = ?");
+			pstmt.setInt(1, rid);
+
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				return rs.getBoolean("team");
+			} else {
+				return false;
+			}
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+	}
 
 }

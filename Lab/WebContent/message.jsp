@@ -15,7 +15,7 @@
 	for(int i = 0; i < sid.length; i++){
 		String id = sid[i];
 		String stat = status[i];
-		if(stat.equals("승인대기")){
+		if(stat.equals("승인대기") || stat.equals("승인거절")){
 			throw new WaitingStatusException("승인대기 학생"); //(변)
 		} 
 		phoneList.add(service.selectPhoneNumber(id));	//학번을 이용해 DB에서 추출한 전화번호를 리스트에 저장

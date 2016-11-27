@@ -74,6 +74,7 @@
 	</form>
 <script>
 var obj;
+var Object;
 
 function getInfo(page, reset) {
    var form = $("#info_form"); 
@@ -96,9 +97,9 @@ function getInfo(page, reset) {
            var lab = '#' + obj[i].labroom + i;	//데이터 베이스에 저장된 실습실 값 출력시 사용
            var newTr = $('<tr></tr>');	//행 태그 생성
            
-           var newTd0 = $('<td><input type="checkbox" id="checkbox' + i + '" name="checkbox" value="' + obj[i].rid +'" onclick="check(' + i + ', this)"/></td>');
+           var newTd0 = $('<td><input type="checkbox" id="checkbox' + i + '" onclick="check(' + i + ', this)"/></td>');
            var newTd1 = $('<td></td>');
-           var newTd2 = $('<td><select id="select' + i + '"><option id="실습1실' + i + '">실습1실</option><option id="실습2실' + i + '">실습2실</option><option id="실습3실' + i + '">실습3실</option><option id="실습4실' + i + '">실습4실</option><option id="실습5실' + i + '">실습5실</option></select></td>');
+           var newTd2 = $('<td><select id="select' + i + '" onchange="lab(' + i + ')"><option id="실습1실' + i + '">실습1실</option><option id="실습2실' + i + '">실습2실</option><option id="실습3실' + i + '">실습3실</option><option id="실습4실' + i + '">실습4실</option><option id="실습5실' + i + '">실습5실</option></select></td>');
            var newTd3 = $('<td id="sid' + i + '"></td>');
            var newTd4 = $('<td id="date' + i + '" value="'+ obj[i].startdate + '"></td>');
            var newTd5 = $('<td></td>');
@@ -139,6 +140,9 @@ function getInfo(page, reset) {
         	   for(var x = 0; x < obj[i].group.length; x++){
         		   $('#list' + i).append("<li>" + obj[i].group[x] + "</li>");
         	   }
+        	   $('#select' + i).attr('group', obj[i].rid);
+        	   $('#status' + i).attr('group', obj[i].rid);
+        	   $('#checkbox' + i).attr('teamcheck', obj[i].startdate + obj[i].starttime + obj[i].leader);
            } else {
 	       	   newTd7.text("X");
            }
@@ -175,11 +179,15 @@ function getInfo(page, reset) {
         
         //페이지 이동 a태그 및 버튼 출력 구현
          $(".btn").attr('disabled', true);
+         $("input[type=hidden]").remove();
      },
      error : function(jqXHR, textStatus, errorThrown) { 	//실패시 대화상자 출력
        	alert('날짜 입력 오류');
      }
    });
+}
+function lab(no){
+	$('.hidden6' + no).attr('value', $('#select' + no).val());
 }
 
 $.datepicker.setDefaults({
@@ -200,19 +208,32 @@ $.datepicker.setDefaults({
   });
   
   function check(i, checkbox){
+	  var teamCheck = '.' + obj[i].startdate + obj[i].starttime + obj[i].leader;
 	  if(checkbox.checked == true){
-		 $("#select" + i).attr('name', 'select');
 	 	 $("#status" + i).attr('class', 'change');	//상태 데이터를 바로 갱신 시키기 위해 사용
 	 	 $("#sid_form").append($('<input type="hidden" class="hidden1' + i + '" name="sid" value="' + obj[i].sid + '"/>'));
 	 	 $("#sid_form").append($('<input type="hidden" class="hidden2' + i + '" name="status" value="' + obj[i].status + '"/>'));
+	 	$("#table_form").append($('<input type="hidden" class="hidden3' + i + '" name="startdate" value="' + obj[i].startdate + '"/>'));
+	 	 $("#table_form").append($('<input type="hidden" class="hidden4' + i + '" name="time" value="' + obj[i].starttime + '"/>'));
+	 	 $("#table_form").append($('<input type="hidden" class="hidden5' + i + '" name="rid" value="' + obj[i].rid + '"/>'));
+	 	 $("#table_form").append($('<input type="hidden" class="hidden6' + i + '" name="select" value="' + $('#select' + i).val() + '"/>'));
 	 	 $(".btn").attr('disabled', false);
+	 	$("#date" + i).attr('class', 'date');
 	  } else {
 		  $("#select" + i).removeAttr('name');
 		  $(".hidden1" + i).remove();
 		  $(".hidden2" + i).remove();
+		  $(".hidden3" + i).remove();
+		  $(".hidden4" + i).remove();
+		  $(".hidden5" + i).remove();
+		  $(".hidden6" + i).remove();
 		  $("#status" + i).removeAttr('class');
+		  $("#date" + i).removeAttr('class');
 		  if($(".change").length == 0){
 		  	$(".btn").attr('disabled', true);
+		  }
+		  if($('#checkbox' + i).attr('teamcheck') == obj[i].startdate + obj[i].starttime + obj[i].leader){
+			  $("input[teamcheck='" + obj[i].startdate + obj[i].starttime + obj[i].leader + "']").attr('disabled', false);
 		  }
 	  }
   }
@@ -230,7 +251,14 @@ $.datepicker.setDefaults({
 		     url: $("#table_form").attr("action"),
 		     data: $("#table_form").serialize(),
 		     success: function(response) {
+		    	 Object = JSON.parse(response).items;
 		    	 alert('승인완료!');
+		    	 for(var i = 0; i < Object.length; i++){
+		    		 for(var j = 0; j < Object[i].rid.length; j++){
+		    		 	$("td[group='" + Object[i].rid[j] + "']").text("예약승인");
+		    		 	 $("select[group='" + Object[i].rid[j] + "']").val(Object[i].labroom).attr("selected", "selected");
+		    		 }
+		    	 }
 		    	 $(".change").text("예약승인");	//성공과 동시에 상태값 걍신
 		    	 for(var i = 0; i < 10; i++){
 			    	 $(".hidden2" + i).attr("value", "예약승인");
@@ -251,6 +279,12 @@ $.datepicker.setDefaults({
 		     url: "refuse.jsp",
 		     data: $("#table_form").serialize(),
 		     success: function(response) {
+		    	 Object = JSON.parse(response).items;
+		    	 for(var i = 0; i < Object.length; i++){
+		    		 for(var j = 0; j < Object[i].rid.length; j++){
+		    		 	$("td[group='" + Object[i].rid[j] + "']").text("승인거절");
+		    		 }
+		    	 }
 		    	 alert('승인거절!');
 		    	 $(".change").text("승인거절");	//성공과 동시에 상태값 걍신
 		    	 for(var i = 0; i < 9; i++){

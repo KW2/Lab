@@ -139,8 +139,7 @@ $.datepicker.setDefaults({
            //두번쨰 테이블 tbody 태그에 행태그 삽입
            	console.log(obj[0].size);
            
-             if(reset){
-               	 
+             if(reset){              	 
                  $('.1').remove();
                  for(var j = 1; j <= obj[0].size; j++){
                 	 pagebody.append($('<a href="#" class="1" onclick="getInfo(' + j + ', false)">[' + j + ']</a>'));

@@ -179,4 +179,60 @@ public class SelectReservationService {
 		return pageSize;
 	}	//입력한 날짜 사이의 포함되는 데이터의 전체 페이지의 수를 리턴
 	
+	public String getLabroom(int rid) {						// rid를 통한 특정 예약 정보 리턴
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			return reservationDao.selectLabRoom(conn, rid);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
+	}
+	
+	public String getGroupLeader(int rid) {						// rid를 통한 특정 예약 정보 리턴
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			return reservationDao.selectGroupLeader(conn, rid);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
+	}
+	
+	public List<Integer> getRid(String sid, Date date, Time time) {						// rid를 통한 특정 예약 정보 리턴
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			return reservationDao.selectRid(conn, sid, date, time);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
+	}
+	
+	public List<String> getGroupStudentId(String groupleader, Date startdate) {			// 단체원 리스트 출력에 사용
+		Connection conn = null;														// groupleader, startdate 로 단체예약에 대한 sid들 리턴
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			return reservationDao.selectGroupSid(conn, startdate, groupleader);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
+	}
+	
 }
