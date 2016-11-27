@@ -12,8 +12,8 @@
 <%
 	request.setCharacterEncoding("utf-8");
 
-	String startDate = request.getParameter("start_date");	//시작 날짜
-	String endDate = request.getParameter("end_date");		//끝 날짜
+	String startDate = request.getParameter("start_date1");	//시작 날짜
+	String endDate = request.getParameter("end_date1");		//끝 날짜
 	Date start_date = Date.valueOf(startDate);
 	Date end_date = Date.valueOf(endDate);
 

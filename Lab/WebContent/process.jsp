@@ -11,6 +11,14 @@
 	request.setCharacterEncoding("utf-8");
 	String startDate = request.getParameter("start_date");	//시작날짜
 	String endDate = request.getParameter("end_date");	//끝날짜
+	
+	if (startDate == null || startDate.equals("")) {
+		startDate = "2016-11-01";
+	}
+	if (endDate == null || endDate.equals("")) {
+		endDate = "2030-12-31";
+	}
+	
 	Date start_date = Date.valueOf(startDate);
 	Date end_date = Date.valueOf(endDate);
 	//파라미터로 전달된 문자열 형식의 날짜 데이터를 Date타입으로 변환

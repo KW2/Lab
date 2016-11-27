@@ -17,12 +17,38 @@
 <body>
    <form id="info_form" action="roomProcess.jsp" method="post" onsubmit="return false;"> <!-- 하나의 폼태그로 구성 -->
       	<p>조회기간:
-      	 <input type="text" id="datepicker1" name="start_date" onchange="JavaScript:reversetime()"> ~
-      	 <input type="text" id="datepicker2" name="end_date" onchange="JavaScript:reversetime()">
+      	 <input type="text" id="datepicker1" name="start_date1" onchange="JavaScript:reversetime()"> ~
+      	 <input type="text" id="datepicker2" name="end_date1" onchange="JavaScript:reversetime()">
       	</p>
       	<input type='button' value='조회' onclick="getInfo(1, true)"/>
       	<!-- 조회날짜 입력 폼 -->
+      	
+      	<h3>얼린 실습실 현황</h3>
+	 	<table border="1" id="checktable">
+	      <tr>
+   	   	 	<th>삭제</th>
+         	<th>실습실</th>
+         	<th>StartDate</th>
+         	<th>EndDate</th>
+         	<th>용도</th>         
+      	</tr>
+      	<tbody id="result_body">
+      	</tbody>
+		</table>
+		<!-- 조회한 날짜에 따른 얼린 실습실 데이터 출력 테이블 -->
+		<div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
+      	
    		<h3>실습실 얼리기 녹이기</h3>
+   		<p>사용제한 기간
+   		 <input type="text" id="datepicker3" name="start_date2" onchange="JavaScript:reversetime()"> ~
+      	 <input type="text" id="datepicker4" name="end_date2" onchange="JavaScript:reversetime()">
+      	 </p>
+      	 
+		<p>용도를 기입해주세요
+			<input type='text' name='reason'/>
+			<input type='button' id='coldbutton' value='얼리기' disabled="true" onclick="cold(1, true)"/>
+		</p>
+		<!-- 실습실 사용금지 사유 작성 폼과 얼리기 버튼 -->
    		<table border="1" id="rservationtable">
       		<tr>
          		<th>체크박스</th>
@@ -50,26 +76,6 @@
         	</tr>
 		</table>
 		<!-- 얼릴 실습실을 설정할 테이블 -->
-		<h3>용도를 기입해주세요.</h3>
-		<p/>
-		<input type='text' name='reason'/>
-		<input type='button' id='coldbutton' value='얼리기' disabled="true" onclick="cold(1, true)"/>
-		<p/>
-		<!-- 실습실 사용금지 사유 작성 폼과 얼리기 버튼 -->
-		<h3>얼린 실습실 현황</h3>
-	 	<table border="1" id="checktable">
-	      <tr>
-   	   	 	<th>삭제</th>
-         	<th>실습실</th>
-         	<th>StartDate</th>
-         	<th>EndDate</th>
-         	<th>용도</th>         
-      	</tr>
-      	<tbody id="result_body">
-      	</tbody>
-		</table>
-		<!-- 조회한 날짜에 따른 얼린 실습실 데이터 출력 테이블 -->
-		<div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
 	</form>
 </body>
 <script>
@@ -88,7 +94,7 @@ $.datepicker.setDefaults({
   });
 
   $(function() {
-    $("#datepicker1, #datepicker2").datepicker();
+    $("#datepicker1, #datepicker2, #datepicker3, #datepicker4").datepicker();
   });
   
   var obj;
@@ -229,8 +235,8 @@ function melt(page, reset){
 
 function reversetime(){
 	if($(".date").length >= 0){
-		var startDate = $("#datepicker1").val();
-		var endDate = $("#datepicker2").val();
+		var startDate = $("#datepicker3").val();
+		var endDate = $("#datepicker4").val();
 		var startDateArr = startDate.split('-');
 		var endDateArr = endDate.split('-');
 		

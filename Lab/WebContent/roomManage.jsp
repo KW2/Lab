@@ -49,7 +49,7 @@
        <input type="text" id="datepicker1" name="start_date"> ~
        <input type="text" id="datepicker2" name="end_date">
       </p>
-      <input type='button' value='조회' onclick="getInfo(1, true)"/>
+      <input type='button' value='조회' onclick="getInfo(1, true, false)"/>
    </form>
    <form id="table_form" action="permisson.jsp" method="post" onsubmit="return false;"> <!-- 테이블 출력 및 예약 승인 및 거절 폼 -->
    		<table border="1" id="table">
@@ -76,8 +76,17 @@
 var obj;
 var Object;
 
-function getInfo(page, reset) {
+function getInfo(page, reset, init) {
    var form = $("#info_form"); 
+   
+   if(!init){
+	   var startDate = $('#datepicker1').val();
+	   var endDate = $('#datepicker2').val();
+	   if(startDate == "" || endDate == ""){
+		   alert("날짜 입력 오류");
+		   return null;
+	   }
+   }
    
    //ajax를 이용하여 파라미터 전송 (날짜[post], 현재 페이지[get])
    $.ajax({
@@ -86,6 +95,8 @@ function getInfo(page, reset) {
      data: $("#info_form").serialize(),
      //성공시 호출
      success: function(response) {
+    	 
+    	 
         var body = $('#result_body');
         var pagebody = $('#count_body');
         body.empty();
@@ -182,7 +193,7 @@ function getInfo(page, reset) {
          $("input[type=hidden]").remove();
      },
      error : function(jqXHR, textStatus, errorThrown) { 	//실패시 대화상자 출력
-       	alert('날짜 입력 오류');
+       	alert('오류');
      }
    });
 }
@@ -331,6 +342,8 @@ $.datepicker.setDefaults({
 		}
 		//현재 날짜 이전 예약 내역의 체크박스를 비황성화
 	}
+	
+	window.onload = getInfo(1, true, true);
 </script>
 
 </body>
