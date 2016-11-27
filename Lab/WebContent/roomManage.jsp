@@ -55,7 +55,6 @@
    		<table border="1" id="table">
       		<tr>
         	 <th>체크박스</th>
-        	 <th>예약번호</th>
          	 <th>실습실</th>
          	 <th>학번</th>
          	 <th>날짜</th>
@@ -63,6 +62,7 @@
          	 <th>이용시간</th>
          	 <th>용도</th>
          	 <th>단체여부</th>
+         	 <th>단체장</th>
          	 <th>상태</th>
       	  </tr>
       	  <tbody id="result_body">
@@ -109,18 +109,19 @@ function getInfo(page, reset, init) {
            var newTr = $('<tr></tr>');	//행 태그 생성
            
            var newTd0 = $('<td><input type="checkbox" id="checkbox' + i + '" onclick="check(' + i + ', this)"/></td>');
-           var newTd1 = $('<td></td>');
+          /*  var newTd1 = $('<td></td>'); */
            var newTd2 = $('<td><select id="select' + i + '" onchange="lab(' + i + ')"><option id="실습1실' + i + '">실습1실</option><option id="실습2실' + i + '">실습2실</option><option id="실습3실' + i + '">실습3실</option><option id="실습4실' + i + '">실습4실</option><option id="실습5실' + i + '">실습5실</option></select></td>');
            var newTd3 = $('<td id="sid' + i + '"></td>');
            var newTd4 = $('<td id="date' + i + '" value="'+ obj[i].startdate + '"></td>');
            var newTd5 = $('<td></td>');
            var newTd6 = $('<td></td>');
            var newTd7 = $('<td id="team' + i + '"></td>');
+           var td = $('<td></td>');
            var newTd8 = $('<td id="status' + i + '"></td>');
            var newTd9 = $('<td></td>');
            //해당 행태그 안에 위치할 열 태그 생성
                           
-           newTd1.text(obj[i].rid);
+          /*  newTd1.text(obj[i].rid); */
            newTd3.text(obj[i].sid);
            newTd4.text(obj[i].startdate);
            newTd5.text(obj[i].starttime);
@@ -131,7 +132,7 @@ function getInfo(page, reset, init) {
            
         
            newTr.append(newTd0);
-           newTr.append(newTd1);
+           /* newTr.append(newTd1); */
            newTr.append(newTd2);
            newTr.append(newTd3);
            newTr.append(newTd4);
@@ -139,6 +140,7 @@ function getInfo(page, reset, init) {
            newTr.append(newTd6);
            newTr.append(newTd9);
            newTr.append(newTd7);
+           newTr.append(td);
            newTr.append(newTd8);
    		   //행태그에 열태그 삽입
         
@@ -146,8 +148,9 @@ function getInfo(page, reset, init) {
    		   //tbody 태그에 행태그 삽입
            
            if(obj[i].team == 'true'){
-        	   newTd7.text(obj[i].leader);
-        	   newTd7.append('<ul id="list' + i + '"></ul>');
+        	   newTd7.text("O");
+        	   td.text(obj[i].leader);
+        	   td.append('<ul id="list' + i + '"></ul>');
         	   for(var x = 0; x < obj[i].group.length; x++){
         		   $('#list' + i).append("<li>" + obj[i].group[x] + "</li>");
         	   }
@@ -181,7 +184,7 @@ function getInfo(page, reset, init) {
      		$('.page').remove();
      		$('.btn').remove();
         	for(var j = 1; j <= obj[0].size; j++){
-        		pagebody.append($('<a href="#" class="page" onclick="getInfo(' + j + ', false)">[' + j + ']</a>'));
+        		pagebody.append($('<a href="#" class="page" onclick="getInfo(' + j + ', false, true)">[' + j + ']</a>'));
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
@@ -224,12 +227,17 @@ $.datepicker.setDefaults({
 	 	 $("#status" + i).attr('class', 'change');	//상태 데이터를 바로 갱신 시키기 위해 사용
 	 	 $("#sid_form").append($('<input type="hidden" class="hidden1' + i + '" name="sid" value="' + obj[i].sid + '"/>'));
 	 	 $("#sid_form").append($('<input type="hidden" class="hidden2' + i + '" name="status" value="' + obj[i].status + '"/>'));
-	 	$("#table_form").append($('<input type="hidden" class="hidden3' + i + '" name="startdate" value="' + obj[i].startdate + '"/>'));
+	 	 $("#table_form").append($('<input type="hidden" class="hidden3' + i + '" name="startdate" value="' + obj[i].startdate + '"/>'));
 	 	 $("#table_form").append($('<input type="hidden" class="hidden4' + i + '" name="time" value="' + obj[i].starttime + '"/>'));
 	 	 $("#table_form").append($('<input type="hidden" class="hidden5' + i + '" name="rid" value="' + obj[i].rid + '"/>'));
 	 	 $("#table_form").append($('<input type="hidden" class="hidden6' + i + '" name="select" value="' + $('#select' + i).val() + '"/>'));
+	 	 $("#sid_form").append($('<input type="hidden" class="hidden7' + i + '" name="rid" value="' + obj[i].rid + '"/>'));
 	 	 $(".btn").attr('disabled', false);
 	 	$("#date" + i).attr('class', 'date');
+	 	if($('#checkbox' + i).attr('teamcheck') == obj[i].startdate + obj[i].starttime + obj[i].leader){
+	 		 $("input[teamcheck='" + obj[i].startdate + obj[i].starttime + obj[i].leader + "']").attr('disabled', true);
+	 		$('#checkbox' + i).attr('disabled', false);
+	 	 }
 	  } else {
 		  $("#select" + i).removeAttr('name');
 		  $(".hidden1" + i).remove();
@@ -238,6 +246,7 @@ $.datepicker.setDefaults({
 		  $(".hidden4" + i).remove();
 		  $(".hidden5" + i).remove();
 		  $(".hidden6" + i).remove();
+		  $(".hidden7" + i).remove();
 		  $("#status" + i).removeAttr('class');
 		  $("#date" + i).removeAttr('class');
 		  if($(".change").length == 0){

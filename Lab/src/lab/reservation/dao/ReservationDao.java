@@ -563,6 +563,30 @@ public class ReservationDao {
 		}
 	}
 	
+	public List<String> selectSid(Connection conn, String sid, Date date, Time time) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where groupleader = ? and startdate = ? and starttime = ?");
+			pstmt.setString(1, sid);
+			pstmt.setDate(2, date);
+			pstmt.setTime(3, time);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<String> groupInfo = new ArrayList<String>();
+				do {
+					groupInfo.add(rs.getString("sid"));
+				} while (rs.next());
+				return groupInfo;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
 	public boolean selectIsTeam(Connection conn, int rid) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

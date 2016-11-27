@@ -114,16 +114,11 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			System.out.println("1");
 			pstmt = conn.prepareStatement(
-					"select phone from user where id = ?");
-			System.out.println("2");
+					"select phone from user where sid = ?");
 			pstmt.setString(1, sid);
-			System.out.println("3");
 			rs = pstmt.executeQuery();
-			System.out.println("4");
 			if (rs.next()) {
-				System.out.println("5");
 				return rs.getString("phone");
 			} else {
 				return null;

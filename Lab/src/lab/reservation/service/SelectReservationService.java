@@ -221,6 +221,20 @@ public class SelectReservationService {
 
 	}
 	
+	public List<String> getSid(String sid, Date date, Time time) {						// rid를 통한 특정 예약 정보 리턴
+		Connection conn = null;
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			return reservationDao.selectSid(conn, sid, date, time);
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+
+	}
+	
 	public List<String> getGroupStudentId(String groupleader, Date startdate) {			// 단체원 리스트 출력에 사용
 		Connection conn = null;														// groupleader, startdate 로 단체예약에 대한 sid들 리턴
 		try {
