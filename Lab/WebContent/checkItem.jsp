@@ -219,28 +219,53 @@
 		Reservation reservationInfo = new Reservation(0, labroom, sid, date, time, usingtime, team, "승인대기", purpose, groupleader);	
 		SelectReservationService selectReservationService = SelectReservationService.getInstance();
 
-		// 중복체크
-		if(selectReservationService.isDuplicationReservation(reservationInfo) && !request.getParameter("updateCheck").equals("true")){
-			response.setStatus(308);
-			
-			JSONObject jsonMain = new JSONObject();
-			jsonMain.put("informProblem", "중복된 예약입니다.\n다시 확인해 주십시오");
-			out.println(jsonMain.toJSONString());
-		}
-		else{
-			request.setAttribute("reservationInfo", reservationInfo);
-			
-			if(team){
-				List<String> checkGroupIds = new ArrayList<String>();
-				for(int i = 0; i < groupIds.length; i++){
-					if(groupIds[i] != ""){
-						checkGroupIds.add(groupIds[i]);
+		// 수정으로 페이지 접속시와 아닐때 두 경우의 중복체크
+		if(!request.getParameter("updateCheck").equals("true")){
+			// 수정아닐시 중복체크, 모든 예약사항과 중복 체크를 한다.
+			if(selectReservationService.isDuplicationReservation(reservationInfo)){
+				response.setStatus(308);
+				
+				JSONObject jsonMain = new JSONObject();
+				jsonMain.put("informProblem", "중복된 예약입니다.\n다시 확인해 주십시오");
+				out.println(jsonMain.toJSONString());
+			}else{
+				request.setAttribute("reservationInfo", reservationInfo);
+				
+				if(team){
+					List<String> checkGroupIds = new ArrayList<String>();
+					for(int i = 0; i < groupIds.length; i++){
+						if(groupIds[i] != ""){
+							checkGroupIds.add(groupIds[i]);
+						}
 					}
+					request.setAttribute("checkGroupIds", checkGroupIds);
 				}
-				request.setAttribute("checkGroupIds", checkGroupIds);
+				pageContext.forward("./insertReservation.jsp");	
 			}
-			pageContext.forward("./insertReservation.jsp");	
-		}		
+		}else{
+			// 수정일시 중복체크, 수정항목을 제외하고 중복 체크를 한다.
+			if(selectReservationService.isUpdateDuplicationReservation(reservationInfo, Integer.parseInt(request.getParameter("updateRid")))){
+				response.setStatus(308);
+				
+				JSONObject jsonMain = new JSONObject();
+				jsonMain.put("informProblem", "중복된 예약입니다.\n다시 확인해 주십시오");
+				out.println(jsonMain.toJSONString());
+			}else{
+				request.setAttribute("reservationInfo", reservationInfo);
+				
+				if(team){
+					List<String> checkGroupIds = new ArrayList<String>();
+					for(int i = 0; i < groupIds.length; i++){
+						if(groupIds[i] != ""){
+							checkGroupIds.add(groupIds[i]);
+						}
+					}
+					request.setAttribute("checkGroupIds", checkGroupIds);
+				}
+				pageContext.forward("./insertReservation.jsp");	
+			}
+		}
+		
 	}else{
 		
 		// 따로 에러가 발생안하는경우 성공이라고 판단을 하게되서, 일부러 해당경우를 에러라고 하기위해

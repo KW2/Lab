@@ -7,6 +7,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import jdbc.JdbcUtil;
 import jdbc.connection.ConnectionProvider;
@@ -98,7 +99,7 @@ public class SelectReservationService {
 
 	}
 	
-	// 해당 예약정보와 중복되는 예약이 있는지 검색
+	// 일반예약시 해당 예약정보와 중복되는 예약이 있는지 검색
 	public Boolean isDuplicationReservation(Reservation reservation){
 		List<Reservation> dayResevationInfo = new ArrayList<Reservation>();		
 		Connection conn = null;
@@ -108,6 +109,50 @@ public class SelectReservationService {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();
 			dayResevationInfo = reservationDao.select(conn, reservation.getSid(), reservation.getStartdate());
+			
+			if(dayResevationInfo != null){
+				for(int i = 0; i < dayResevationInfo.size(); i++){
+					int lStartTime = Integer.parseInt(reservation.getStarttime().toString().split(":")[0]);
+					int lEndTime = lStartTime + reservation.getUsingtime();
+					int rStartTime = Integer.parseInt(dayResevationInfo.get(i).getStarttime().toString().split(":")[0]);
+					int rEndTime = rStartTime + dayResevationInfo.get(i).getUsingtime();
+					
+					if(lStartTime < rEndTime && lEndTime > rStartTime){
+						duplicationFlag = true;
+					}
+				}
+			}
+			
+		} catch (SQLException e) {
+			throw new ServiceException("해당 아이디가 존재하지 않습니다:" + e.getMessage(), e);
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		
+		return duplicationFlag;
+	}
+	
+	// 수정예약시 해당 예약정보와 중복되는 예약이 있는지 검색
+	public Boolean isUpdateDuplicationReservation(Reservation reservation, int rid){
+		List<Reservation> dayResevationInfo = new ArrayList<Reservation>();		
+		Connection conn = null;
+		boolean duplicationFlag = false;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			dayResevationInfo = reservationDao.select(conn, reservation.getSid(), reservation.getStartdate());
+			
+			dayResevationInfo.removeIf(new Predicate<Reservation>() {
+				@Override
+				public boolean test(Reservation t) {
+					// TODO Auto-generated method stub
+					if(t.getRid() == rid){
+						return false;
+					}
+					return true;
+				}				
+			});
 			
 			if(dayResevationInfo != null){
 				for(int i = 0; i < dayResevationInfo.size(); i++){
