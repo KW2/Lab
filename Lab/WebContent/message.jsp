@@ -14,6 +14,8 @@
 	List<String> phoneList = new ArrayList<String>();
 	SelectUserService service = SelectUserService.getInstance();
 	SelectReservationService selectService = SelectReservationService.getInstance();
+	String phoneNumber = "";
+	String phoneNum = "";
 	
 	for(int i = 0; i < sids.length; i++){
 		int rid = Integer.parseInt(rids[i]);
@@ -31,9 +33,13 @@
 			phoneList.add(service.selectPhoneNumber(sid));	//학번을 이용해 DB에서 추출한 전화번호를 리스트에 저장
 		}
 	}
-	for(String phone : phoneList){
-		System.out.println(service.selectPhoneNumber(phone));
-		//학번에 해당하는 전화번호와 상태값 출력
+	List<String> phones = new ArrayList<String>(new HashSet<String>(phoneList));
+	for(int j = 0; j < phones.size(); j++){
+		phoneNum = phones.get(j);
+		phoneNumber = phoneNumber + phoneNum;
+		if(j != phones.size()-1){
+			phoneNumber = phoneNumber + ",";
+		}
 	}
 %>
 <html>
@@ -42,6 +48,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form name="phone" action="ms_send.jsp" method="post">
+		<input type="hidden" name="phoneNumber" value="<%=phoneNumber%>">
+		<input type="submit" > 
+	</form>
 
+	 <script>document.phone.submit();</script>
 </body>
 </html>

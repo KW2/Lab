@@ -70,7 +70,7 @@
 		</table>
 		<div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
 	</form> <!-- 문자 전송 폼 -->
-	<form id="sid_form" action="message.jsp" method="post" onsubmit="return false;">
+	<form id="sid_form" action="message.jsp" method="post">
 	</form>
 <script>
 var obj;
@@ -188,7 +188,7 @@ function getInfo(page, reset, init) {
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
-        	$('#sid_form').append($('<input type="button" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
+        	$('#sid_form').append($('<input type="submit" class="btn" value="문자전송" disabled="true"/>'));
         }
         
         //페이지 이동 a태그 및 버튼 출력 구현
