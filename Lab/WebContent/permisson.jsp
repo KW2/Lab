@@ -46,7 +46,7 @@
 	for(String labroom : lab){
 		labList.add(labroom);	
 	}	//파라미터 값으로 넘어온 실습실 값들을 하나의 리스트에 저장
-	service.UpdateStatus(list, labList, true);	
+	service.UpdateStatus(list, labList, true,  dateList, timeList);	
 	commaNum = teamNum - 1;
 	//두개의 리스트와 boolean값을 매개변수로 전달 하여 데이터베이스 값 변경(true : 예약승인)	
 	
