@@ -148,9 +148,9 @@ public class SelectReservationService {
 				public boolean test(Reservation t) {
 					// TODO Auto-generated method stub
 					if(t.getRid() == rid){
-						return false;
+						return true;
 					}
-					return true;
+					return false;
 				}				
 			});
 			

@@ -188,7 +188,7 @@ function getInfo(page, reset, init) {
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
-        	$('#sid_form').append($('<input type="submit" class="btn" value="문자전송" disabled="true"/>'));
+        	$('#sid_form').append($('<input type="submit" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
         }
         
         //페이지 이동 a태그 및 버튼 출력 구현
@@ -319,18 +319,7 @@ $.datepicker.setDefaults({
 	
 	function message(){
 		
-		//학번과 상태 값을 파라미터로 전송
-		$.ajax({
-		     type: "POST",
-		     url: $("#sid_form").attr("action"),
-		     data: $("#sid_form").serialize(),
-		     success: function(response) {
-		    	 alert('까톡');
-		     },
-		     error : function() {
-		        alert('승인대기중인 학생입니다')
-		     }
-		   });
+		alert("123");
 	}	//문자 전송 버튼을 눌렀을때 호출
 	
 	function compare(check){
