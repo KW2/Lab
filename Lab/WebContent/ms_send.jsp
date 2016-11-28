@@ -24,6 +24,17 @@
 	int num = cal.get(Calendar.DAY_OF_WEEK)-1; 
 	String week = weekDay[num]; 
 %>
+<c:set var="week" value="<%= week %>"/>
+
+<script src="./static/js/jquery.js"></script>
+<script>
+	$(document).ready(function(){
+		if("${week}" == "금요일"){
+			$("#contents").html("당일 및 주말예약이 완료되었습니다.");
+		}
+	});
+</script>
+
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 <body>
@@ -125,7 +136,7 @@
     <td>전송내용</td>
     <td>
       <!-- [필수] 전송할 문자 내용 -->
-      <textarea name="contents" cols="45" rows="5">당일 예약이 완료되었습니다.</textarea>
+      <textarea id="contents" name="contents" cols="45" rows="5">당일 예약이 완료되었습니다.</textarea>
       <!-- = ----------------------------------------------------------------------------------------- = -->
       <!-- =    * MMS(이미지 포함 문자 발송)기능도 사용하실 수 있습니다.                               = -->
       <!-- =    전송할 이미지를 먼저 모아샷 FTP 서버에 전송한 후 전송한 화일명을 전달하시면 됩니다.    = -->

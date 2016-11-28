@@ -13,6 +13,8 @@
 			pageContent="roomManage.jsp";					// 예약하기 페이지 (1조 페이지 명)
 		}else if(content.equals("roomPause")){
 			pageContent="roomPause.jsp";						// 예약 현향 확인 하기 페이지
+		}else if(content.equals("phoneMessage")){
+			pageContent="ms_send.jsp";
 		}
 	}
 	
