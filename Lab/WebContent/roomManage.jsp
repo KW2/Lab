@@ -196,6 +196,7 @@ function getInfo(page, reset, init) {
         //페이지 이동 a태그 및 버튼 출력 구현
          $(".btn").attr('disabled', true);
          $("input[type=hidden]").remove();
+         message();
      },
      error : function(jqXHR, textStatus, errorThrown) { 	//실패시 대화상자 출력
        	alert('오류');

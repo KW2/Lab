@@ -1,12 +1,61 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="lab.reservation.service.SelectReservationService"%>
+<%@page import="java.sql.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=euc-kr"
     pageEncoding="euc-kr"%>
+<%@page import="java.util.List"%>
+<%@page import="lab.reservation.model.Reservation"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	String phoneNumber = request.getParameter("phoneNumber");
+	SelectReservationService selectService = SelectReservationService.getInstance();
+	java.util.Date current = new java.util.Date();
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	String date = format.format(current);
+
+	Date today = Date.valueOf(date);
+
+	List<Reservation> items = selectService.getListMsg(today);
+	
+	String[] weekDay = { "일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일" };     
+	Calendar cal = Calendar.getInstance(); 
+	int num = cal.get(Calendar.DAY_OF_WEEK)-1; 
+	String week = weekDay[num]; 
 %>
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 <body>
+
+<!-- table 자리 -->
+<table border="1" id="table">
+	<tr>
+        <th>실습실</th>
+        <th>학번</th>
+        <th>날짜</th>
+        <th>시작시간</th>
+        <th>이용시간</th>
+        <th>용도</th>
+        <th>단체여부</th>
+        <th>단체장</th>
+        <th>상태</th>
+    </tr>
+    <c:set var="items" value="<%=items%>"></c:set>
+	<c:forEach items="${items}" var="item">
+	<tr>
+			<td>${item.labroom}</td>
+			<td>${item.sid}</td>
+			<td>${item.startdate}</td>
+			<td>${item.starttime}</td>
+			<td>${item.usingtime}</td>
+			<td>${item.purpose}</td>
+			<td>${item.team}</td>
+			<td>${item.groupleader}</td>
+			<td>${item.approval}</td>
+	</tr>
+	</c:forEach>		
+</table>
 
 <!-- table 자리 -->
 
@@ -76,7 +125,7 @@
     <td>전송내용</td>
     <td>
       <!-- [필수] 전송할 문자 내용 -->
-      <textarea name="contents" cols="45" rows="5">Test 샘플입니다!</textarea>
+      <textarea name="contents" cols="45" rows="5">당일 예약이 완료되었습니다.</textarea>
       <!-- = ----------------------------------------------------------------------------------------- = -->
       <!-- =    * MMS(이미지 포함 문자 발송)기능도 사용하실 수 있습니다.                               = -->
       <!-- =    전송할 이미지를 먼저 모아샷 FTP 서버에 전송한 후 전송한 화일명을 전달하시면 됩니다.    = -->

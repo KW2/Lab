@@ -74,7 +74,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body> 
  	<form name="phone" action="ms_send.jsp" method="post">
 		<input type="hidden" name="phoneNumber" value="<%=phoneNumber%>">
 		<input type="submit" > 
