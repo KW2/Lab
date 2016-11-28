@@ -1,9 +1,9 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,6 +14,7 @@
    <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
 <style>
 	td:hover ul{
 		display:block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
@@ -108,7 +109,7 @@ function getInfo(page, reset, init) {
            var lab = '#' + obj[i].labroom + i;	//데이터 베이스에 저장된 실습실 값 출력시 사용
            var newTr = $('<tr></tr>');	//행 태그 생성
            
-           var newTd0 = $('<td><input type="checkbox" id="checkbox' + i + '" onclick="check(' + i + ', this)"/></td>');
+           var newTd0 = $('<td><input type="checkbox" class="checkbox" id="checkbox' + i + '" onclick="check(' + i + ', this)"/></td>');
           /*  var newTd1 = $('<td></td>'); */
            var newTd2 = $('<td><select id="select' + i + '" onchange="lab(' + i + ')"><option id="실습1실' + i + '">실습1실</option><option id="실습2실' + i + '">실습2실</option><option id="실습3실' + i + '">실습3실</option><option id="실습4실' + i + '">실습4실</option><option id="실습5실' + i + '">실습5실</option></select></td>');
            var newTd3 = $('<td id="sid' + i + '"></td>');
@@ -183,12 +184,13 @@ function getInfo(page, reset, init) {
          if(reset){
      		$('.page').remove();
      		$('.btn').remove();
+     		$('#sendMsg').remove();
         	for(var j = 1; j <= obj[0].size; j++){
         		pagebody.append($('<a href="#" class="page" onclick="getInfo(' + j + ', false, true)">[' + j + ']</a>'));
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
-        	$('#sid_form').append($('<input type="submit" id="sendMsg" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
+        	$('#sid_form').append($('<input type="submit" id="sendMsg" value="문자전송"disabled="false"/>'));
         }
         
         //페이지 이동 a태그 및 버튼 출력 구현
@@ -283,11 +285,13 @@ $.datepicker.setDefaults({
 		    	 for(var i = 0; i < 10; i++){
 			    	 $(".hidden2" + i).attr("value", "예약승인");
 			     }
+		    	 message();
 		     },
 		     error : function() {
 		    	 alert('이미 승인되어 있는 학생입니다');	//이미 예약승인 되어진 학생을 또 승인 했을시 대화 상자 출력
 		     }
 		   });
+	  
   }	//예약 승인 버튼을 눌렀을때 호출
 		
 	
@@ -310,15 +314,16 @@ $.datepicker.setDefaults({
 		    	 for(var i = 0; i < 9; i++){
 		    	 	$(".hidden2" + i).attr("value", "승인거절");
 		    	 }
+		    	 message();
 		     },
 		     error : function() {
 		    	 alert('이미 거절되어 있는 학생입니다');	//이미 예약승인 되어진 학생을 또 승인 했을시 대화 상자 출력
 		     }
 		   });
+		
 	}	//예약 거절 버튼을 눌렀을때 호출
 	
 	function message(){
-		
 		var day = new Date();
 		var dayOfWeek = day.getDay();
 		
@@ -339,6 +344,8 @@ $.datepicker.setDefaults({
 		case 3:
 		case 4:
 		case 5:
+			
+			
 			$.ajax({
 				url:'./returnApproval.jsp',
 				type: 'POST',
@@ -346,20 +353,21 @@ $.datepicker.setDefaults({
 				data: {"res_date": today},
 				success: function(data){
 					var flag = false;
-					var size = paserInt(data.resApprovalLength);
+					var size = parseInt(data.resApprovalLength);
 					for(var i = 0; i < size; i++){
 						var compareValue = "resApproval" + i;
 						if(data[compareValue] == "승인대기"){
 							flag = true;
 							break;
 						}
-					}
-					
+						
+					} 
 					if(flag){
 						$("#sendMsg").attr("disabled", "true");
 						
 					}else{
 						$("#sendMsg").removeAttr("disabled");
+						$(".checkbox").attr('checked', false);						
 					}
 				},
 				error: function(){
@@ -373,7 +381,6 @@ $.datepicker.setDefaults({
 			break;
 		
 		}
-		
 		
 	}	//문자 전송 버튼을 눌렀을때 호출
 	

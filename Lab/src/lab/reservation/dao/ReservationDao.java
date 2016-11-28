@@ -109,6 +109,30 @@ public class ReservationDao {
 		}
 	}
 	
+	public List<Reservation> selectMsg(Connection conn, Date startdate) throws SQLException{
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where startdate = ? and approval = '예약승인' ");
+			pstmt.setDate(1, startdate);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<Reservation> dateList = new ArrayList<Reservation>();
+				do {
+					dateList.add(makeReservationFromResultSet(rs));
+				} while (rs.next());
+				return dateList;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	
 	public Reservation select(Connection conn, int rId) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

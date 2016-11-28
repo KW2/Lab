@@ -191,6 +191,21 @@ public class SelectReservationService {
 		return dataList;
 	}
 	
+	public List<Reservation> getListMsg(Date startDate){
+		Connection conn = null;
+		List<Reservation> dataList = new ArrayList<Reservation>();
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			
+			dataList = reservationDao.selectMsg(conn, startDate);
+		} catch (SQLException e) {		
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return dataList;
+	}
+	
 	public List<Reservation> getList(int pageNumber, Date StartDate, Date EndDate) {
 		Connection conn = null;
 		List<Reservation> dataList = new ArrayList<Reservation>();
