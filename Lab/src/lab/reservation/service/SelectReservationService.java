@@ -154,7 +154,7 @@ public class SelectReservationService {
 						return false;
 					}				
 				});
-				 
+				  
 				for(int i = 0; i < dayResevationInfo.size(); i++){
 					int lStartTime = Integer.parseInt(reservation.getStarttime().toString().split(":")[0]);
 					int lEndTime = lStartTime + reservation.getUsingtime();
