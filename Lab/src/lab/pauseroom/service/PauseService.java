@@ -32,13 +32,13 @@ public class PauseService {
 			PauseRoomDao messageDao = PauseRoomDao.getInstance();
 			conn.setAutoCommit(false);
 			for(String lab : LabRoom){
-				if((messageDao.selectLabroom(conn, lab, StartDate, EndDate) == null) && 
-					(messageDao.selectDuplicate(conn, lab, StartDate, EndDate).isEmpty())){
+//				if((messageDao.selectLabroom(conn, lab, StartDate, EndDate) == null)
+//				&& (messageDao.selectDuplicate(conn, lab, StartDate, EndDate).isEmpty())){
 					messageDao.insertCold(conn,lab,StartDate,EndDate, reason);
 					//날짜가 중복 되는지 확인 후 중복 되는 날짜가 없으면 데이터 삽입
-				} else {
-					throw new DuplicateException("얼린 날짜 중복");
-				}
+//				} else {
+//					throw new DuplicateException("얼린 날짜 중복");
+//				}
 			}
 			conn.commit();
 		}catch(Exception e){
