@@ -374,6 +374,7 @@ $.datepicker.setDefaults({
 		
 		}
 		
+		
 	}	//문자 전송 버튼을 눌렀을때 호출
 	
 	function compare(check){
