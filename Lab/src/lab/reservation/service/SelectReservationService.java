@@ -142,19 +142,19 @@ public class SelectReservationService {
 			conn = ConnectionProvider.getConnection();
 			ReservationDao reservationDao = ReservationDao.getInstance();
 			dayResevationInfo = reservationDao.select(conn, reservation.getSid(), reservation.getStartdate());
-			
-			dayResevationInfo.removeIf(new Predicate<Reservation>() {
-				@Override
-				public boolean test(Reservation t) {
-					// TODO Auto-generated method stub
-					if(t.getRid() == rid){
-						return true;
-					}
-					return false;
-				}				
-			});
-			
+						
 			if(dayResevationInfo != null){
+				dayResevationInfo.removeIf(new Predicate<Reservation>() {
+					@Override
+					public boolean test(Reservation t) {
+						// TODO Auto-generated method stub
+						if(t.getRid() == rid){
+							return true;
+						}
+						return false;
+					}				
+				});
+				
 				for(int i = 0; i < dayResevationInfo.size(); i++){
 					int lStartTime = Integer.parseInt(reservation.getStarttime().toString().split(":")[0]);
 					int lEndTime = lStartTime + reservation.getUsingtime();
@@ -174,6 +174,21 @@ public class SelectReservationService {
 		}
 		
 		return duplicationFlag;
+	}
+	
+	public List<Reservation> getList(Date startDate){
+		Connection conn = null;
+		List<Reservation> dataList = new ArrayList<Reservation>();
+		try {
+			conn = ConnectionProvider.getConnection();
+			ReservationDao reservationDao = ReservationDao.getInstance();
+			
+			dataList = reservationDao.select(conn, startDate);
+		} catch (SQLException e) {		
+		} finally {
+			JdbcUtil.close(conn);
+		}
+		return dataList;
 	}
 	
 	public List<Reservation> getList(int pageNumber, Date StartDate, Date EndDate) {

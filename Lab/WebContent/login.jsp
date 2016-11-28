@@ -1,13 +1,6 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%
-	Date date = new Date();
-
-	System.out.println(
-			date.getDay());
-%> 
-   
 <html>
 <head>
 <title>실습실 예약 페이지 로그인</title>

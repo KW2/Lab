@@ -112,12 +112,12 @@ function getInfo(page, reset, init) {
           /*  var newTd1 = $('<td></td>'); */
            var newTd2 = $('<td><select id="select' + i + '" onchange="lab(' + i + ')"><option id="실습1실' + i + '">실습1실</option><option id="실습2실' + i + '">실습2실</option><option id="실습3실' + i + '">실습3실</option><option id="실습4실' + i + '">실습4실</option><option id="실습5실' + i + '">실습5실</option></select></td>');
            var newTd3 = $('<td id="sid' + i + '"></td>');
-           var newTd4 = $('<td id="date' + i + '" value="'+ obj[i].startdate + '"></td>');
+           var newTd4 = $('<td class="date" id="date' + i + '" value="'+ obj[i].startdate + '"></td>');
            var newTd5 = $('<td></td>');
            var newTd6 = $('<td></td>');
            var newTd7 = $('<td id="team' + i + '"></td>');
            var td = $('<td></td>');
-           var newTd8 = $('<td id="status' + i + '"></td>');
+           var newTd8 = $('<td class="status" id="status' + i + '"></td>');
            var newTd9 = $('<td></td>');
            //해당 행태그 안에 위치할 열 태그 생성
                           
@@ -188,7 +188,7 @@ function getInfo(page, reset, init) {
         	}
         	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
         	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
-        	$('#sid_form').append($('<input type="submit" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
+        	$('#sid_form').append($('<input type="submit" id="sendMsg" class="btn" value="문자전송" onclick="message()" disabled="true"/>'));
         }
         
         //페이지 이동 a태그 및 버튼 출력 구현
@@ -319,7 +319,98 @@ $.datepicker.setDefaults({
 	
 	function message(){
 		
-		alert("123");
+		var day = new Date();
+		var dayOfWeek = day.getDay();
+		
+		var dd = day.getDate();
+		var mm = day.getMonth()+1; //January is 0!
+		var yyyy = day.getFullYear();
+			if(dd<10) {
+			    dd='0'+dd
+			} 
+			if(mm<10) {
+			    mm='0'+mm
+			} 
+		today = yyyy + '-' + mm + '-' + dd;
+		
+		var days = $(".date");
+		var status = $(".status");
+		for(var i=0; i<days.length; i++){
+			if($(days[i]).html() == today){
+				
+			}
+		}
+		
+		switch(dayOfWeek){
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			$.ajax({
+				url:'./returnApproval.jsp',
+				type: 'POST',
+				dataType:'JSON',
+				data: {"res_date": today},
+				success: function(data){
+					var flag = false;
+					var size = paserInt(data.resApprovalLength);
+					for(var i = 0; i < size; i++){
+						var compareValue = "resApproval" + i;
+						if(data[compareValue] == "승인대기"){
+							flag = true;
+							break;
+						}
+					}
+					
+					if(flag){
+						$("#sendMsg").attr("disabled", "true");
+						
+					}else{
+						$("#sendMsg").removeAttr("disabled");
+					}
+				},
+				error: function(){
+					alert("데이터베이스 연동 실패");
+				}
+			});
+			break;
+		case 5:
+			// 금, 토, 일 싹다
+			$.ajax({
+				url:'./returnApproval.jsp',
+				type: 'POST',
+				dataType:'JSON',
+				data: {"res_date": today},
+				success: function(data){
+					var flag = false;
+					var size = paserInt(data.resApprovalLength);
+					for(var i = 0; i < size; i++){
+						var compareValue = "resApproval" + i;
+						if(data[compareValue] == "승인대기"){
+							flag = true;
+							break;
+						}
+					}
+					
+					if(flag){
+						$("#sendMsg").attr("disabled", "true");
+						
+					}else{
+						$("#sendMsg").removeAttr("disabled");
+					}
+				},
+				error: function(){
+					alert("데이터베이스 연동 실패");
+				}
+			});
+			break;
+		case 6:
+		case 0:
+			$("#sendMsg").attr("disabled", "true");
+			break;
+		
+		}
+		
 	}	//문자 전송 버튼을 눌렀을때 호출
 	
 	function compare(check){
