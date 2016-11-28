@@ -83,10 +83,12 @@ public class PauseRoomDao {
 				pstmt.setDate(3, StartDate);
 				
 			} else{		//실습실 사용일이 다음날을 넘어 갈때 
-				pstmt = conn.prepareStatement("select * from pauseroom where labroom = ? and pausestart <= ? and pauseend >= ?");
+				pstmt = conn.prepareStatement("select * from pauseroom where labroom = ? and (pausestart between ? and ? or pauseend between ? and ?)");
 				pstmt.setString(1, labRoom);
 				pstmt.setDate(2, StartDate);			
-				pstmt.setDate(3, StartDate);
+				pstmt.setDate(3, EndDate);
+				pstmt.setDate(4, StartDate);			
+				pstmt.setDate(5, EndDate);
 			}
 			
 			rs = pstmt.executeQuery();
