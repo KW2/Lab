@@ -333,49 +333,12 @@ $.datepicker.setDefaults({
 			} 
 		today = yyyy + '-' + mm + '-' + dd;
 		
-		var days = $(".date");
-		var status = $(".status");
-		for(var i=0; i<days.length; i++){
-			if($(days[i]).html() == today){
-				
-			}
-		}
-		
 		switch(dayOfWeek){
 		case 1:
 		case 2:
 		case 3:
 		case 4:
-			$.ajax({
-				url:'./returnApproval.jsp',
-				type: 'POST',
-				dataType:'JSON',
-				data: {"res_date": today},
-				success: function(data){
-					var flag = false;
-					var size = paserInt(data.resApprovalLength);
-					for(var i = 0; i < size; i++){
-						var compareValue = "resApproval" + i;
-						if(data[compareValue] == "승인대기"){
-							flag = true;
-							break;
-						}
-					}
-					
-					if(flag){
-						$("#sendMsg").attr("disabled", "true");
-						
-					}else{
-						$("#sendMsg").removeAttr("disabled");
-					}
-				},
-				error: function(){
-					alert("데이터베이스 연동 실패");
-				}
-			});
-			break;
 		case 5:
-			// 금, 토, 일 싹다
 			$.ajax({
 				url:'./returnApproval.jsp',
 				type: 'POST',
