@@ -525,11 +525,11 @@
 				<tr> 
 					<td>퇴실 시 캡스 세트 합니다. 꼭 합니다.</td>
 				</tr>
-				<tr>
+				<tr >
 					<td>캡스 키/열쇠 분실 주의</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check2"></td>
 				</tr>
-					<tr>
+				<tr>
 					<td><strong>캡스 경보 울리지 않도록 주의 합니다.</strong></td>
 
 				</tr>
