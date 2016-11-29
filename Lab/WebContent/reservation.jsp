@@ -347,7 +347,7 @@
 <title>실습실 예약 페이지</title>
 </head>
 <body>
-	<form id="resForm" action="./checkItem.jsp" method="post" >
+	<form id="resForm" action="./checkItem.jsp" method="post">
 	<table class="table table-bordered table-condensed table-hover" border="1" id="table"
 				white-space="nonwrap">
 			<tr>
@@ -506,16 +506,40 @@
 		<table id="caution_table">
 			<tbody>
 				<tr>
-					<td>읽었습니다.</td>
+					<td>캡스 해제 후 입실합니다. 해제 확인! 두 번 확인!</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check1"></td>
 				</tr>
 				<tr>
-					<td>지키겠습니다.</td>
+					<td>해제 하지 않고 입실하면 경보가 울립니다. 경보가 울려 캡스 출동 시 과태료가 부가되오니, 꼭! 유의하세요.</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check2"></td>
 				</tr>
 				<tr>
-					<td>공부열심히하겠습니다.</td>
+					<td>모든 컴퓨터 전원 끄고 정리하기</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check3"></td>
+				</tr>
+				<tr>
+					<td>무단속 철저히 (특히 주말)</td>
+					<td><input type="checkbox" name="caution_check" id="caution_check4"></td>
+				</tr>
+				<tr>
+					<td>퇴실 시 캡스 세트 합니다. 꼭 합니다.</td>
+					<td><input type="checkbox" name="caution_check" id="caution_check5"></td>
+				</tr>
+				<tr>
+					<td>캡스 키/열쇠 분실 주의</td>
+					<td><input type="checkbox" name="caution_check" id="caution_check6"></td>
+				</tr>
+					<tr>
+					<td><strong>캡스 경보 울리지 않도록 주의 합니다.</strong></td>
+					<td><input type="checkbox" name="caution_check" id="caution_check7"></td>
+				</tr>
+				<tr>
+					<td><strong>부주의로 일어난 모든 책임은 본인(빌리는 사람)에게 있습니다.</strong></td>
+					<td><input type="checkbox" name="caution_check" id="caution_check8"></td>
+				</tr>
+				<tr>
+					<td>다른 사람에게 열쇠를 넘기더라도 빌려간 사람에게 책임을 묻습니다.</td>
+					<td><input type="checkbox" name="caution_check" id="caution_check9"></td>
 				</tr>
 			</tbody>
 		</table>
