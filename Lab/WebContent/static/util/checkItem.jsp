@@ -79,10 +79,23 @@
 		for(int i = 0; i < groupIds.length; i++){
 			if(!groupIds[i].equals("")){
 				user = selectUserService.getUserInfo(groupIds[i]);
+				int duplicationNumber = 0;
+				
 				if(user == null || groupIds[i].equals(sid)){				
 					falseGroupId.put(i + 1, groupIds[i]);
 				}else{
 					correctGroupIds++;
+				}
+				
+				// 한 아이디 중복 입력시
+				for(String groupId : groupIds){
+					if(groupId.equals(groupIds[i])){
+						duplicationNumber++;
+					}
+				}
+				if(duplicationNumber > 1 && !falseGroupId.containsKey(i + 1)){
+					falseGroupId.put(i + 1, groupIds[i]);
+					correctGroupIds--;
 				}
 			}
 		}
