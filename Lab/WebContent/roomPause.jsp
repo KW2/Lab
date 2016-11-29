@@ -431,7 +431,7 @@ $.datepicker.setDefaults({
      //ajax를 이용하여 파라미터 전송(시작 날짜 끝 날짜[post], 현재 페이지[get])
      $.ajax({
        type: "POST",
-       url: "roomProcess.jsp?page=" + page,
+       url: "./static/ajax/roomProcess.jsp?page=" + page,
        data: form.serialize(),
        success: function(response) {
           var body = $('#result_body');
@@ -523,12 +523,12 @@ $.datepicker.setDefaults({
       //ajax를 이용하여 파라미터 전송(시작 날짜, 끝 날짜, 제한 목적[post], 현재 페이지[get])
       $.ajax({
           type: "POST",
-          url: "pauseProcess.jsp?page=" + page,
+          url: "./static/ajax/pauseProcess.jsp?page=" + page,
           data: form.serialize(),
           success: function(response) {
              alert('얼리기 완료');
              getInfo(1, true);
-           //성공시 대화상자 출력후 페이지 갱신
+           //성공시 대화상자 출력후 페이지 갱신 
           },            
           error : function(){               
                 alert('중복된 실습실 얼리기 방지');
@@ -542,7 +542,7 @@ function melt(page, reset){
     //ajax를 이용하여 파라미터 전송(시작 날짜, 끝 날짜, 제한 목적[post], 현재 페이지[get])
     $.ajax({
           type: "POST",
-          url: "resumeProcess.jsp?page=" + page,
+          url: "./static/ajax/resumeProcess.jsp?page=" + page,
           data: form.serialize(),
           success: function(response) {
              alert('녹이기 완료');
