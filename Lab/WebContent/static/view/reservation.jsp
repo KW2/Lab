@@ -624,6 +624,6 @@ max-width : none !important;
 	<input type="hidden" name="updateCheck" value="${updateCheck}">
 	<input type="hidden" name="updateRid" value="${updateRid}">
 	</form>
-
+</div>
 </body>
 </html>
