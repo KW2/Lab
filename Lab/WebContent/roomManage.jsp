@@ -8,7 +8,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
    <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="css/bootstrap.min.css">
    <title>현재 예약 현황 확인</title>
    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
    <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -30,10 +33,8 @@
 		width:100px;
 		z-index:200;
 		
-		/*top:1em;
-		/*left:0;*/
 	}
-	li {
+	.won {
 		background: rgb(255,255,255);
 		display:block;
 		float:none;
@@ -45,32 +46,42 @@
 
 </head>
 <body> <!-- 세개의 폼태그로 구성 -->
-   <form id="info_form" action="process.jsp" method="post" onsubmit="return false;"> <!-- 날짜 입력폼 -->
-      <p>조회기간:
-       <input type="text" id="datepicker1" name="start_date"> ~
-       <input type="text" id="datepicker2" name="end_date">
-      </p>
-      <input type='button' value='조회' onclick="getInfo(1, true, false)"/>
+   <form class="form-inline" id="info_form" action="process.jsp" method="post" onsubmit="return false;"> <!-- 날짜 입력폼 -->
+   
+       <div class="form-group">
+    <label for="datepicker1">조회 기간 : </label>
+    <input type="text" class="form-control" name="start_date" id="datepicker1" placeholder="조회기간">
+  </div>
+  
+  <div class="form-group">
+    <label for="datepicker2"> ~ </label>
+    <input type="text" class="form-control" id="datepicker2" name="end_date" placeholder="조회종료">
+  </div>
+  <input type="button" value='조회' class="btn btn-default" onclick="getInfo(1, true, false)"/>
    </form>
-   <form id="table_form" action="permisson.jsp" method="post" onsubmit="return false;"> <!-- 테이블 출력 및 예약 승인 및 거절 폼 -->
-   		<table border="1" id="table">
-      		<tr>
-        	 <th>체크박스</th>
-         	 <th>실습실</th>
-         	 <th>학번</th>
-         	 <th>날짜</th>
-         	 <th>시작시간</th>
-         	 <th>이용시간</th>
-         	 <th>용도</th>
-         	 <th>단체여부</th>
-         	 <th>단체장</th>
-         	 <th>상태</th>
-      	  </tr>
-      	  <tbody id="result_body">
-      	  </tbody>
-		</table>
-		<div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
-	</form> <!-- 문자 전송 폼 -->
+    <br/>
+  <br/>
+  <br/>
+ 
+ <form id="table_form" action="permisson.jsp" method="post" onsubmit="return false;"> <!-- 테이블 출력 및 예약 승인 및 거절 폼 -->
+         <table class="table table-bordered" border="1" id="table">
+            <tr>
+            <th>체크박스</th>
+            <th>예약번호</th>
+             <th>실습실</th>
+             <th>학번</th>
+             <th>날짜</th>
+             <th>시작시간</th>
+             <th>이용시간</th>
+             <th>용도</th>
+             <th>단체여부</th>
+             <th>상태</th>
+           </tr>
+           <tbody id="result_body">
+           </tbody>
+      </table>
+      <div id="count_body"></div>  <!-- 페이지번호, 삭제버튼 -->
+   </form> <!-- 문자 전송 폼 -->
 	<form id="sid_form" action="message.jsp" method="post">
 	</form>
 <script>
@@ -183,18 +194,18 @@ function getInfo(page, reset, init) {
         
          if(reset){
      		$('.page').remove();
-     		$('.btn').remove();
+    		$('.btnn').remove(); 
      		$('#sendMsg').remove();
         	for(var j = 1; j <= obj[0].size; j++){
         		pagebody.append($('<a href="#" class="page" onclick="getInfo(' + j + ', false, true)">[' + j + ']</a>'));
         	}
-        	$('#table_form').append($('<input type="button" id="btn" class="btn" value="예약승인" onclick="permisson()" disabled="true"/>'));
-        	$('#table_form').append($('<input type="button" class="btn" value="예약거절" onclick="refuse()" disabled="true"/>'));
-        	$('#sid_form').append($('<input type="submit" id="sendMsg" value="문자전송"disabled="false"/>'));
+        	$('#table_form').append($('<input type="button" class="btnn btn btn-default" value="예약승인" onclick="permisson()" disabled="true"/>'));
+        	$('#table_form').append($('<input type="button" class="btnn btn btn-default" value="예약거절" onclick="refuse()" disabled="true"/>'));
+        	$('#sid_form').append($('<input type="submit"  class="btnn btn btn-default" id="sendMsg" value="문자전송"disabled="false"/>'));
         }
         
         //페이지 이동 a태그 및 버튼 출력 구현
-         $(".btn").attr('disabled', true);
+         $(".btnn").attr('disabled', true);
          $("input[type=hidden]").remove();
          message();
      },
@@ -235,7 +246,7 @@ $.datepicker.setDefaults({
 	 	 $("#table_form").append($('<input type="hidden" class="hidden5' + i + '" name="rid" value="' + obj[i].rid + '"/>'));
 	 	 $("#table_form").append($('<input type="hidden" class="hidden6' + i + '" name="select" value="' + $('#select' + i).val() + '"/>'));
 	 	 $("#sid_form").append($('<input type="hidden" class="hidden7' + i + '" name="rid" value="' + obj[i].rid + '"/>'));
-	 	 $(".btn").attr('disabled', false);
+	 	 $(".btnn").attr('disabled', false);
 	 	$("#date" + i).attr('class', 'date');
 	 	if($('#checkbox' + i).attr('teamcheck') == obj[i].startdate + obj[i].starttime + obj[i].leader){
 	 		 $("input[teamcheck='" + obj[i].startdate + obj[i].starttime + obj[i].leader + "']").attr('disabled', true);
@@ -253,7 +264,7 @@ $.datepicker.setDefaults({
 		  $("#status" + i).removeAttr('class');
 		  $("#date" + i).removeAttr('class');
 		  if($(".change").length == 0){
-		  	$(".btn").attr('disabled', true);
+		  	$(".btnn").attr('disabled', true);
 		  }
 		  if($('#checkbox' + i).attr('teamcheck') == obj[i].startdate + obj[i].starttime + obj[i].leader){
 			  $("input[teamcheck='" + obj[i].startdate + obj[i].starttime + obj[i].leader + "']").attr('disabled', false);

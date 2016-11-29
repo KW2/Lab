@@ -347,71 +347,87 @@
 <title>실습실 예약 페이지</title>
 </head>
 <body>
-	<form id="resForm" action="./checkItem.jsp" method="post">
-	<div>
-		<div id="lab">
-			<div id="lab_information">
-				<p>실습실</p>
-				<input id="lab1" type="radio" name="lab_radio" value="실습1실">
-				<label for="lab1">실습실1</label>
-				<br/> 
+	<form id="resForm" action="./checkItem.jsp" method="post" >
+	<table class="table table-bordered table-condensed table-hover" border="1" id="table"
+				white-space="nonwrap">
+			<tr>
+				<td>
+					01. 실습실 선택하기
+				</td>
+				<td>
+					실습실 선택
+					<br/>			
+					<input id="lab1" type="radio" name="lab_radio" value="실습1실">
+					<label for="lab1">실습실1</label>
+					<br/> 
+					
+					<input id="lab2" type="radio" name="lab_radio" value="실습2실">
+					<label for="lab2">실습실2</label>
+					<br/>
+					
+					<input id="lab3" type="radio" name="lab_radio" value="실습3실">
+					<label for="lab3">실습실3</label>
+					<br/>
+					
+					<input id="lab4" type="radio" name="lab_radio" value="실습4실">
+					<label for="lab4">실습실4</label>
+					<br/>
 				
-				<input id="lab2" type="radio" name="lab_radio" value="실습2실">
-				<label for="lab2">실습실2</label>
-				<br/>
+					<input id="lab5" type="radio" name="lab_radio" value="실습5실">
+					<label for="lab5">실습실5</label>
+					<br/>
+				</td>
+				<td>
+					<p>현재 예약인원</p>
+					<label id="lab1_person"></label><br/>
+					<label id="lab2_person"></label><br/>
+					<label id="lab3_person"></label><br/>
+					<label id="lab4_person"></label><br/>
+					<label id="lab5_person"></label><br/>
+				</td>
+				<td>
+					<p>실습실 특이사항</p>
+					<label id="lab1_using">없음</label><br/>
+					<label id="lab2_using">없음</label><br/>
+					<label id="lab3_using">없음</label><br/>
+					<label id="lab4_using">없음</label><br/>
+					<label id="lab5_using">없음</label><br/>
+				</td>
+			</tr>
+			<tr>
+				<td> 02. 개인/단체 선택</td>
+				<td>
+					<input id="individual" type="radio" name="group_radio" value="false">
+					<label for="individual">개인</label><br/>
 				
-				<input id="lab3" type="radio" name="lab_radio" value="실습3실">
-				<label for="lab3">실습실3</label>
-				<br/>
-				
-				<input id="lab4" type="radio" name="lab_radio" value="실습4실">
-				<label for="lab4">실습실4</label>
-				<br/>
-			
-				<input id="lab5" type="radio" name="lab_radio" value="실습5실">
-				<label for="lab5">실습실5</label>
-				<br/>
-			</div>
-			<div id="lab_reservation">
-				<p>현재 예약인원</p>
-				<label id="lab1_person"></label><br/>
-				<label id="lab2_person"></label><br/>
-				<label id="lab3_person"></label><br/>
-				<label id="lab4_person"></label><br/>
-				<label id="lab5_person"></label><br/>
-			</div>
-			<div id="lab_using">
-				<p>실습실 특이사항</p>
-				<label id="lab1_using">없음</label><br/>
-				<label id="lab2_using">없음</label><br/>
-				<label id="lab3_using">없음</label><br/>
-				<label id="lab4_using">없음</label><br/>
-				<label id="lab5_using">없음</label><br/>
-			</div>
-
-		</div>
-		<div id="group">
-			<div id="group_check">
-				<p>개인단체여부</p>
-				<input id="individual" type="radio" name="group_radio" value="false">
-				<label for="individual">개인</label><br/>
-			
-				<input id="group" type="radio" name="group_radio" value="true">
-				<label for="group">단체</label><br/>
-			</div>
-			<div id="group_field" style="overflow-y:scroll; width:220px; height:100px; padding:4px;">
-			</div>
-		</div>
-	</div>
-	<div>
-		<div id="date">
-			<p>날짜입력</p>
-			<input type="text" name="res_date" id="res_date">
-		</div>
-		<div id="time">
-			<p>시간입력</p>
+					<input id="group" type="radio" name="group_radio" value="true">
+					<label for="group">단체</label><br/>
+				<div id="group_field" style="overflow-y:scroll; width:220px; height:100px; padding:4px;"></div>
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					03. 날짜입력
+				</td>
+				<td>
+				<input type="text" name="res_date" id="res_date" class="form-control">
+				</td>
+				<td>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+			<td>
+			 04. 시간입력
+			 </td>
+			 <td>
 			<label for="start_time">시작시간</label>
-			<select name="start_time" id="start_time">
+			<select name="start_time" id="start_time" class="form-control">
       			<option>00:00</option>
       			<option>01:00</option>
       			<option>02:00</option>
@@ -437,9 +453,10 @@
       			<option>22:00</option>
       			<option>23:00</option>
     		</select>
-			
+			</td>
+			<td>
 			<label for="using_time">사용시간</label>
-			<select name="using_time" id="using_time">
+			<select name="using_time" id="using_time" class="form-control">
       			<option>1</option>
       			<option>2</option>
       			<option>3</option>
@@ -465,39 +482,48 @@
       			<option>23</option>
       			<option>24</option>
     		</select>
-		</div>
-	</div> 
-
-	<div id="purpose">
-		<p>사용용도</p>
-		<input type="text" id="purpose_text" name="purpose_text">
-	</div>
-	
+    		</td>
+    		<td>
+				</td>
+    		</tr>
+			<tr>
+			<td>
+			 	05. 사용용도 입력
+			</td>
+			<td>
+				<input type="text" id="purpose_text" name="purpose_text" class="form-control">
+			</td>
+			<td>
+			</td>
+			<td>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<br>
 	<div id="caution">
-		<p>주의사항</p>
+		<h3><p>주의사항</p></h3>
 		<table id="caution_table">
 			<tbody>
 				<tr>
-					<td>11111111111111</td>
+					<td>읽었습니다.</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check1"></td>
 				</tr>
 				<tr>
-					<td>222222222222222</td>
+					<td>지키겠습니다.</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check2"></td>
 				</tr>
 				<tr>
-					<td>33333333333333333</td>
+					<td>공부열심히하겠습니다.</td>
 					<td><input type="checkbox" name="caution_check" id="caution_check3"></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	
-	<input type="hidden" name="updateCheck" value="${updateCheck}">
-	<input type="hidden" name="updateRid" value="${updateRid}">
-	
+	<br>
 	<div id="ok">
-		<input type="submit" id="ok_submit" name="ok_submit" value="제출" disabled="true">
+		<input type="submit" id="ok_submit" class="btn btn-success btn-sm"
+			 name="ok_submit" value="제출" disabled="true">
 	</div>
 	</form>
 </body>

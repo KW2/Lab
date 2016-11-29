@@ -26,35 +26,88 @@
 <c:set var="content" value="<%= pageContent %>" />
 <html>
 <head>
+<img src="img/logo_ov.png"  height="70px">
+<style>
+body{
+background-size:auto;
+background-image:url('img/top.jpg');
+background-repeat:no-repeat;
+}
+</style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
 <title>실습실 예약 홈페이지</title>
+<link rel="stylesheet" href="css/bootstrap.min.css">
 <style>
 
-
-	
 * {
 	margin: 0;
 	padding: 0;
 }
-
-#header {
-	border-bottom: 1px solid black;
-	height: 100px;
-}
-
 #content {
 	overflow: hidden;
+	
 }
 
 #aside {
 	float: left;
-	width: 200px;
-	height: 800px;
-	border-right: 1px solid black;
+	width: 400px;
+/* 	padding-left: 50px; */
+
+ 	height: 800px;
+	 border-right: 1px solid #c5bebe; 
+}
+
+#header {
+   border-bottom: 1px solid white;
+   height: 180px;
 }
 
 #article {
 	float: left;
+	height: 1800px;
+	padding: 30px;
+	padding-left: 100px;
+}/*중앙*/
+
+
+div.container{
+	overflow:hidden;
 }
+
+div.item{
+	float: right;
+	margin: 0 3px;
+	padding: 10px;
+}
+
+.menu-list {
+	margin : 0px;
+	padding : 0px;
+}
+
+.menu-item {
+	list-style: none;
+	margin: 0px;
+	padding-left: 180px;
+	text-align: center;
+	margin-top : 10px;
+	padding-right: 50px;
+}/*메뉴*/
+
+.menu-item a {
+	color: default;
+	font-size: 18px;
+/* 	font-family: 'Delius Unicase', 'Abril Fatface', 'PT Serif', serif; */
+}
+
+.menu-item a:hover {
+	color: gray;
+	font-style: none;
+	text-decoration : none;
+}
+
 </style>
 </head>
 <body>
@@ -64,31 +117,45 @@
 		<script> location.href = "login.jsp" ;</script>
 	</c:if>
 
-	<header id="header"> <a href="index.jsp">실습실홈페이지</a>
-	<br />
-	<a href="logout.jsp">[로그아웃]</a> 
-	</header>
+<div id="wrap">
+	<div class="header" id="header">
+		<div class="container">
+  			<div class="item" ><h4><a href="logout.jsp" class="btn btn-success">로그아웃</a></h4></div>
+  			<div class="item" ><h4><a href="index.jsp" class="btn btn-warning">홈페이지</a></h4></div>
+		</div>
+	</div>
 
 	<nav> <!--  상단 탭 기능 없음 --> </nav>
-
+	<section>
+	<div class="sub_main">
+	</div>
 	<div id="content">
-
 		<!-- 본문 좌측 -->
-		<aside id="aside"> <!--  좌측 탭 메뉴 -->
-		<div class="Student_menu" id="menu_1">
-			<a href="index.jsp?pageContent=reservation">예약 하기</a>
-		</div>
-		<div class="Student_menu" id="menu_2">
-			<a href="index.jsp?pageContent=list">내 예약 현황 확인</a>
-		</div>
+		<aside id="aside" > 
+			<div class="list-group">
+			<ul class="menu-list">
+				<li class="menu-item">
+  				<a href="index.jsp?pageContent=reservation" class="list-group-item ">예약하기</a>
+   				</li>
+			</ul>
+			<ul class="menu-list" class="affix">
+				<li class="menu-item">
+ 				 <a href="index.jsp?pageContent=list" class="list-group-item">내 예약현황 확인</a>
+ 				 </li>
+			</ul>
+			</div>
 		</aside>
 
 		<!-- 본문 우측 -->
-		<article id="article"> <jsp:include page="${content}" flush="true" /> 
+
+</style>
+		<article id="article" > <jsp:include page="${content}" flush="true" /> 
 		</article>
 
 	</div>
+	</section>
 	
 	<footer> <!-- 푸터 기능 없음 --> </footer>
+</div>
 </body>
 </html>

@@ -25,70 +25,158 @@
 	    }
 
 %>
+
 <c:set var="content" value="<%= pageContent %>" />
 <html>
 <head>
+<img src="img/logo_ov.png"  height="70px">
+<style>
+body{
+background-size:auto;
+background-image:url('img/top.jpg');
+background-repeat:no-repeat;
+}
+</style>
 <title>실습실 예약 홈페이지</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
 <style>
 * {
-	margin: 0;
-	padding: 0;
+   margin: 0;
+   padding: 0;
 }
 
 #header {
-	border-bottom: 1px solid black;
-	height: 100px;
+   border-bottom: 1px solid white;
+   height: 180px;
 }
 
 #content {
-	overflow: hidden;
+   overflow: hidden;
 }
 
 #aside {
-	float: left;
-	width: 200px;
-	height: 800px;
-	border-right: 1px solid black;
+   float: left;
+   width: 400px;
+   height: 800px;
+   border-right: 1px solid #c5bebe;
 }
 
 #article {
-	float: left;
-	height: 800px;
+   float: left;
+   height: 1800px;
+   padding: 30px;
+   padding-left: 100px;   
 }
+
+
+div.container{
+   overflow:hidden;
+}
+
+div.item{
+   float: right;
+   margin: 0 3px;
+   padding: 10px;
+}
+
+.Student_menu {
+   margin : 0px;
+   padding : 0px;
+}
+
+.menu-item {
+   list-style: none;
+   margin: 0px;
+   padding-left: 180px;
+   text-align: center;
+   margin-top : 10px;
+   padding-right: 50px;
+}/*메뉴*/
+
+.menu-item a {
+   color: default;
+   font-size: 18px;
+/*    font-family: 'Delius Unicase', 'Abril Fatface', 'PT Serif', serif; */
+}
+
+.menu-item a:hover {
+   color: gray;
+   font-style: none;
+   text-decoration : none;
+}
+
 </style>
 </head>
 <body>
-	<!-- 현재 로그인 상태 확인 -->
-	<c:if test="<%=check %>">
-		<script> alert("로그인 오류 !"); </script>
-		<script> location.href = "login.jsp" ;</script>
-	</c:if>
+   <!-- 현재 로그인 상태 확인 -->
+   <c:if test="<%=check %>">
+      <script> alert("로그인 오류 !"); </script>
+      <script> location.href = "login.jsp" ;</script>
+   </c:if>
 
-	<header id="header"> <a href="indexManager.jsp">실습실홈페이지</a>
-	<br />
-	<a href="logout.jsp">[로그아웃]</a> 
-	</header>
-
-	<nav> <!--  상단 탭 기능 없음 --> </nav>
-
-	<div id="content">
-
-		<!-- 본문 좌측 -->
-		<aside id="aside"> <!--  좌측 탭 메뉴 -->
-		<div class="Student_menu" id="menu_1">
-			<a href="indexManager.jsp?pageContent=roomManage">실습실 예약 현황</a>
+   
+   <!-- <header id="header">
+       <a href="indexManager.jsp">실습실홈페이지</a>
+   <br />
+      <a href="logout.jsp">[로그아웃]</a> 
+   </header>
+ -->
+<div id="wrap">
+	<div class="header" id="header">
+		<div class="container">
+  			<div class="item" ><h4><a href="indexManager.jsp" class="btn btn-success">홈페이지</a></h4></div>
+  			<div class="item" ><h4><a href="logout.jsp" class="btn btn-warning">로그아웃</a></h4></div>
 		</div>
-		<div class="Student_menu" id="menu_2">
-			<a href="indexManager.jsp?pageContent=roomPause">실습실 사용 제한</a>
-		</div>
-		</aside>
-
-		<!-- 본문 우측 -->
-		<article id="article"> <jsp:include page="${content}" flush="true" /> 
-		</article>
-
 	</div>
-	
-	<footer> <!-- 푸터 기능 없음 --> </footer>
+ 
+   <nav> <!--  상단 탭 기능 없음 --> </nav>
+
+   <section>
+   <div id="content">
+
+   <aside id="aside"> 
+      <div class="list-group">
+         <ul class="menu-list">
+            <li class="menu-item">
+              <a href="indexManager.jsp?pageContent=roomManage" class="list-group-item ">실습실 예약 현황</a>
+               </li>
+         </ul>
+         <ul class="menu-list">
+            <li class="menu-item">
+              <a href="indexManager.jsp?pageContent=roomPause" class="list-group-item">실습실 사용 제한</a>
+              </li>
+         </ul>
+
+
+
+      <!-- 본문 좌측 -->
+      
+      <!-- <aside id="aside">  좌측 탭 메뉴
+      <div class="Student_menu" id="menu_1">
+         <a href="indexManager.jsp?pageContent=roomManage">실습실 예약 현황</a>
+      </div>
+      <div class="Student_menu" id="menu_2">
+         <a href="indexManager.jsp?pageContent=roomPause">실습실 사용 제한</a>
+       -->
+      
+      
+      
+      </div>
+      </aside>
+
+
+
+
+
+      <!-- 본문 우측 -->
+      <article id="article"> <jsp:include page="${content}" flush="true" /> 
+      </article>
+
+      </div>
+      </section>
+   <footer> <!-- 푸터 기능 없음 --> </footer>
+   </div>
 </body>
 </html>

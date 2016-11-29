@@ -13,16 +13,31 @@
 %>
 <html>
 <head>
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
 <style>
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
 #notion{
 	margin: 0 0 0 20px;
 }
+li.nanum{font-family: 'Nanum Pen Script', serif; font-size: 20px;}
+ul.jeju{font-family: 'Nanum Pen Script', serif; font-size: 25px;}
+ol.jeju{font-family: 'Nanum Pen Script', serif; font-size: 44px;}
+table.tbfont{font-family: 'Nanum Pen Script', serif; font-size: 28px;}
 </style>
 </head>
-<body>
+<body background="img/maincover.png">
+
 <!-- index 첫 페이지  -->
-<table >
+<div  id="resPeople">
+	<ul class="jeju">예약 현황</ul>
+
+<table class="tbfont">
 	<tr>
 		<td colspan="2">
 			<%= todayFormat.format(date) %> 예약 인원
@@ -49,9 +64,11 @@
 		<td><%=labReservationCoun.getLab5() %></td>
 	</tr>
 </table>
-
+</div>
+<br>
+<br>
 <div id="notion">
-	<ul>주의사항
+	<ul class="jeju">주의사항
 		<li>캡스 해제 후 입실합니다. 해제 확인! 두 번 확인!</li>
 		<li>해제 하지 않고 입실하면 경보가 울립니다. 경보가 울려 캡스 출동 시 과태료가 부가되오니, 꼭! 유의하세요.</li>
 		<li>모든 컴퓨터 전원 끄고 정리하기</li>
@@ -63,5 +80,7 @@
 		<li>다른 사람에게 열쇠를 넘기더라도 빌려간 사람에게 책임을 묻습니다.</li>	
 	</ul>
 </div>
+<div>
 </body>
+
 </html>
