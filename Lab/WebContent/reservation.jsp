@@ -23,7 +23,7 @@
 		reservationInfo = selectReservationService.getReservation(Integer.parseInt(rid));
 		updateCheck = true;
 	}
-	if(groupleader!=null){
+	if(groupleader!=null){ 
 		 groupInfo = selectReservationService.getGroupSid(groupleader, reservationInfo.getStartdate(), reservationInfo.getStarttime());
 	}
 	

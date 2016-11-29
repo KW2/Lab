@@ -20,7 +20,7 @@
 	String id = (String)session.getAttribute("UserId");
 	  if(id == null){
 	    	 check = true;
-	    }
+	}
 
 %>
 <c:set var="content" value="<%= pageContent %>" />
