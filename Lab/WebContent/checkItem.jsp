@@ -221,6 +221,8 @@
 
 		// 수정으로 페이지 접속시와 아닐때 두 경우의 중복체크
 		if(!request.getParameter("updateCheck").equals("true")){
+			
+			System.out.println("??");
 			// 수정아닐시 중복체크, 모든 예약사항과 중복 체크를 한다.
 			if(selectReservationService.isDuplicationReservation(reservationInfo)){
 				response.setStatus(308);

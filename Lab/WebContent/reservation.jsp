@@ -549,6 +549,9 @@
 		<input type="submit" id="ok_submit" class="btn btn-success btn-sm"
 			 name="ok_submit" value="제출" disabled="true">
 	</div>
+	
+	<input type="hidden" name="updateCheck" value="${updateCheck}">
+	<input type="hidden" name="updateRid" value="${updateRid}">
 	</form>
 </body>
 </html>
