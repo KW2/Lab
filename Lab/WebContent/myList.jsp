@@ -175,7 +175,7 @@ function getInfo(page) {
 	
 	   $.ajax({
 	     type: "POST",
-	     url: "searchReservation.jsp?page=" + page,
+	     url: "./static/ajax/searchReservation.jsp?page=" + page,
 	     data: form.serialize(),
 	     success: function(response) {
 	        var body = $('#result_body');

@@ -38,7 +38,7 @@
 		alert("로그인 오류 !");
 	</script>
 	<script>
-		location.href = "login.jsp";
+		location.href = "../../login.jsp";
 	</script>
 </c:if>
 { "items" : [
