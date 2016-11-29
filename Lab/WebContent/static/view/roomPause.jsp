@@ -200,11 +200,18 @@ $.datepicker.setDefaults({
         
        $("#coldbutton").attr("disabled", false);
        $("#LabRoom" + no).attr("che", "che");
+       for(var i = 1; i < 6; i++){
+    	   $("#LabRoom" + i).attr('disabled', true);
+       }
+       $("#LabRoom" + no).attr('disabled', false);
      } else {
         $("#LabRoom" + no).removeAttr("che");
            if($("input[che]").length == 0){
               $("#coldbutton").attr('disabled', true);
         }
+           for(var i = 1; i < 6; i++){
+        	   $("#LabRoom" + i).attr('disabled', false);
+           }
      }
   }
   //얼릴 실습실 설정 테이블에 있는 체크박스를 누를 떄 호출 (얼리기 버튼 활성화/비활성화)
@@ -217,6 +224,7 @@ $.datepicker.setDefaults({
           url: "./static/ajax/pauseProcess.jsp?page=" + page,
           data: form.serialize(),
           success: function(response) {
+        	  $(".check").attr('checked', false);
              alert('얼리기 완료');
              getInfo(1, true);
            //성공시 대화상자 출력후 페이지 갱신 

@@ -64,7 +64,7 @@
 				} else if (start_date.before(pauseRoom.getPauseend())
 						|| start_date.equals(pauseRoom.getPauseend())) {
 					deleteRoomService.deleteRoom(pauseRoom.getPid());
-					pauseService.InsertColdRoom(checkbox, pauseRoom.getPausestart(), end_date, reason);
+					pauseService.InsertColdRoom(checkbox, pauseRoom.getPausestart(), pauseRoom.getPauseend(), reason);
 				} else {
 
 					pauseService.InsertColdRoom(checkbox, start_date, end_date, reason); //얼린 실습실 DB에 데이터 삽입 */
