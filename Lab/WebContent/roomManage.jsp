@@ -377,7 +377,7 @@ $.datepicker.setDefaults({
 			
 			
 			$.ajax({
-				url:'./returnApproval.jsp',
+				url:'./static/ajax/returnApproval.jsp',
 				type: 'POST',
 				dataType:'JSON',
 				data: {"res_date": today},

@@ -179,7 +179,7 @@
 		}
 
 		$.ajax({
-			url:'./returnPerson.jsp',
+			url:'./static/ajax/returnPerson.jsp',
 			type: 'POST',
 			dataType:'JSON',
 			data: {"res_date": res_date},
@@ -205,7 +205,7 @@
 		var using_time = $("#using_time").val();
 		
 		$.ajax({
-			url:'./returnLabroomStatus.jsp',
+			url:'./static/ajax/returnLabroomStatus.jsp',
 			type: 'POST',
 			dataType:'JSON',
 			data: {"res_date": res_date, "start_time": start_time, "using_time": using_time},

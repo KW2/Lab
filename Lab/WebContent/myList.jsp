@@ -39,7 +39,7 @@
 	</c:if>
 
 
-	<form class="form-inline"  id="info_form" action="searchReservation.jsp" method="post" onsubmit="return false;" >
+	<form class="form-inline"  id="info_form" method="post" onsubmit="return false;" >
 		<div class="form-group">
    			 <label for="datepicker1">조회 기간 : </label>
    			 <input type="text" class="form-control" name="start_date" id="start_date" placeholder="조회기간">
