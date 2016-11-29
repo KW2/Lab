@@ -10,7 +10,8 @@
    <head>
    <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+
 	<link rel="stylesheet" href="./static/css/bootstrap.min.css">
    <title>현재 예약 현황 확인</title>
    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -19,6 +20,11 @@
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <style>
+.container{
+width:980px;
+max-width : none !important;
+
+}
 	td:hover ul{
 		display:block; /* 마우스 커서 올리면 드랍메뉴 보이게 하기 */
 	}
@@ -46,7 +52,9 @@
 
 </head>
 <body> <!-- 세개의 폼태그로 구성 -->
-<div>
+
+<div class="container col-lg-12"  style="overflow: auto; position: absolute;">
+
       <form class="form-inline" id="info_form" 
          method="post" onsubmit="return false;"
          style="overflow: auto; position: absolute;">
@@ -68,7 +76,7 @@
       </form>
       <br /> <br /> <br />
 
-      <form id="table_form" action="./static/ajax/permisson.jsp" style="overflow: auto; position: absolute;" method="post" onsubmit="return false;">
+      <form id="table_form" action="./static/ajax/permisson.jsp"onsubmit="return false;">
          <!-- 테이블 출력 및 예약 승인 및 거절 폼 -->
          <table class="table table-bordered" border="1" id="table">
             <tr>
@@ -93,14 +101,16 @@
          <input type="button" class="btnn btn btn-default" value="예약거절" onclick="refuse()" disabled="true" /> 
          
          <br>
-       </form>
-       <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-    
-       <form id="sid_form" action="./static/util/message.jsp" style="overflow: auto; position: absolute; float: bottom;  bottom: 110px;"method="post">
-            <input type="submit" class="btn btn-default" id="sendMsg"
-               value="문자전송" disabled="false" /> <label id="disable_reason"></label>
+       </form>   
+
+
+       <form id="sid_form" action="./static/util/message.jsp" method="post">
+            <input type="submit" class="btnn btn btn-default" id="sendMsg"  value="문자전송" disabled="false" /> 
+
+            <label id="disable_reason"></label>
          </form>
-    
+
+     
    </div>
 <script>
 var obj;
@@ -378,6 +388,7 @@ $.datepicker.setDefaults({
 		case 4:
 		case 5:
 			
+
 			$.ajax({
 				url:'./static/ajax/returnApproval.jsp',
 				type: 'POST',
@@ -415,12 +426,28 @@ $.datepicker.setDefaults({
 								$("#disable_reason").html("승인된 당일 예약이 없습니다.");	
 							}
 						}
+
+
+
+
+
+
+
+
+
+
+
+
 					}else{
+
+
 						$(".checkbox").attr('checked', false);						
 						$("input[type=hidden]").remove();
 						$(".btnn").attr('disabled', true);
 						$("#disable_reason").html("당일 예약이 없습니다.");	
 					}				
+
+
 				},
 				error: function(){
 					alert("데이터베이스 연동 실패");

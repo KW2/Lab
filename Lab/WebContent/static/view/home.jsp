@@ -29,9 +29,16 @@ li.nanum{font-family: 'Nanum Pen Script', serif; font-size: 20px;}
 ul.jeju{font-family: 'Nanum Pen Script', serif; font-size: 25px;}
 ol.jeju{font-family: 'Nanum Pen Script', serif; font-size: 44px;}
 table.tbfont{font-family: 'Nanum Pen Script', serif; font-size: 28px;}
+ .container{
+width:700px;
+
+max-width : none !important;
+
+}
 </style>
 </head>
 <body background="./static/images/maincover.png">
+<div class="container"style="overflow: auto; position: absolute;">
 
 <!-- index 첫 페이지  -->
 <div  id="resPeople">

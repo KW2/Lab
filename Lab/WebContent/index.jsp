@@ -36,10 +36,16 @@ background-repeat:no-repeat;
 </style>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
 <title>실습실 예약 홈페이지</title>
 <link rel="stylesheet" href="./static/css/bootstrap.min.css">
 <style>
+ .ncontainer{
+width:700px;
+height:600px;
+max-width : none !important;
+
+}
 
 * {
 	margin: 0;
@@ -55,7 +61,7 @@ background-repeat:no-repeat;
 	width: 400px;
 /* 	padding-left: 50px; */
 
- 	height: 800px;
+ 	height: 1100px;
 	 border-right: 1px solid #c5bebe; 
 }
 
@@ -66,7 +72,7 @@ background-repeat:no-repeat;
 
 #article {
 	float: left;
-	height: 1800px;
+	height: auto;
 	padding: 30px;
 	padding-left: 100px;
 }/*중앙*/
@@ -149,13 +155,23 @@ div.item{
 		<!-- 본문 우측 -->
 
 </style>
+
+
+
+
+
 		<article id="article" > <jsp:include page="${content}" flush="true" /> 
+
+
 		</article>
+
+
 
 	</div>
 	</section>
 	
 	<footer> <!-- 푸터 기능 없음 --> </footer>
 </div>
+
 </body>
 </html>

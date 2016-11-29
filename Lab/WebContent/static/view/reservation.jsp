@@ -345,8 +345,19 @@
 <html>
 <head>
 <title>실습실 예약 페이지</title>
+<style>
+#none{
+margin: 0px 0px 0px 0px ;
+}
+ .container{
+width:700px;
+max-width : none !important;
+
+}
+</style>
 </head>
 <body>
+<div class="container"  style="overflow: auto; position: absolute;">
 	<form id="resForm" action="./static/util/checkItem.jsp" method="post">
 	<table class="table table-bordered table-condensed table-hover" border="1" id="table"
 				white-space="nonwrap">
@@ -354,45 +365,105 @@
 				<td>
 					01. 실습실 선택하기
 				</td>
+
+
 				<td>
+	<table class="table table-bordered" id="none">
+				<tr>
+				<td >
 					실습실 선택
-					<br/>			
+					</td>
+					
+					<td >
+					현재 예약인원
+					</td>
+					
+					<td >
+					실습실 특이사항
+					</td>
+					</tr>
+	
+					<tr>
+					<td>						
+
 					<input id="lab1" type="radio" name="lab_radio" value="실습1실">
 					<label for="lab1">실습실1</label>
-					<br/> 
+					</td>
+					<td>
+					<label id="lab1_person"></label>
+					</td>
+
+					<td>
+					<label id="lab1_using">없음</label>
+					</td>
 					
+
+					</tr>
+					
+					<tr>
+					<td>
 					<input id="lab2" type="radio" name="lab_radio" value="실습2실">
 					<label for="lab2">실습실2</label>
-					<br/>
+					</td>
 					
+						<td>
+						<label id="lab2_person"></label>
+					</td>
+		
+					<td>
+					<label id="lab2_using">없음</label>
+					</td>
+					</tr>
+					
+					<tr>
+					<td>
 					<input id="lab3" type="radio" name="lab_radio" value="실습3실">
 					<label for="lab3">실습실3</label>
-					<br/>
+				
+						</td>
+						<td>
+					<label id="lab3_person"></label>
+					</td>
+		
+					<td>
+					<label id="lab3_using">없음</label>
+					</td>
+					</tr>
 					
+					<tr>
+					<td>
 					<input id="lab4" type="radio" name="lab_radio" value="실습4실">
 					<label for="lab4">실습실4</label>
-					<br/>
+					</td>
+						<td>
+					<label id="lab4_person"></label>
+					</td>
+		
+					<td>
+					<label id="lab4_using">없음</label>
+					</td>
+					</tr>
 				
+					<tr>
+					<td>
 					<input id="lab5" type="radio" name="lab_radio" value="실습5실">
 					<label for="lab5">실습실5</label>
-					<br/>
 				</td>
-				<td>
-					<p>현재 예약인원</p>
-					<label id="lab1_person"></label><br/>
-					<label id="lab2_person"></label><br/>
-					<label id="lab3_person"></label><br/>
-					<label id="lab4_person"></label><br/>
+						<td>
+					
 					<label id="lab5_person"></label><br/>
 				</td>
-				<td>
-					<p>실습실 특이사항</p>
-					<label id="lab1_using">없음</label><br/>
-					<label id="lab2_using">없음</label><br/>
-					<label id="lab3_using">없음</label><br/>
-					<label id="lab4_using">없음</label><br/>
-					<label id="lab5_using">없음</label><br/>
+		
+					<td>
+					<label id="lab5_using">없음</label>
+					</td>
+					</tr>
+					</table>
 				</td>
+				<td>
+
+				</td>
+
 			</tr>
 			<tr>
 				<td> 02. 개인/단체 선택</td>
@@ -406,8 +477,7 @@
 				</td>
 				<td>
 				</td>
-				<td>
-				</td>
+
 			</tr>
 			<tr>
 				<td>
@@ -418,8 +488,7 @@
 				</td>
 				<td>
 				</td>
-				<td>
-				</td>
+
 			</tr>
 			<tr>
 			<td>
@@ -483,8 +552,7 @@
       			<option>24</option>
     		</select>
     		</td>
-    		<td>
-				</td>
+
     		</tr>
 			<tr>
 			<td>
@@ -495,8 +563,7 @@
 			</td>
 			<td>
 			</td>
-			<td>
-				</td>
+
 			</tr>
 	</table>
 	<br>
@@ -517,6 +584,9 @@
 				</tr>
 				<tr>
 					<td style="margin-right:100pt;">모든 컴퓨터 전원 끄고 정리하기</td>
+					<td style="color:white">클릭-></td>
+					
+					
 					<td><input type="checkbox" name="caution_check" id="caution_check1"></td>
 				</tr>
 				<tr>
@@ -527,6 +597,7 @@
 				</tr>
 				<tr >
 					<td>캡스 키/열쇠 분실 주의</td>
+					<td style="color:white">클릭-></td>
 					<td><input type="checkbox" name="caution_check" id="caution_check2"></td>
 				</tr>
 				<tr>
@@ -538,6 +609,7 @@
 				</tr>
 				<tr>
 					<td>다른 사람에게 열쇠를 넘기더라도 빌려간 사람에게 책임을 묻습니다.</td>
+					<td style="color:white">클릭-></td>
 					<td><input type="checkbox" name="caution_check" id="caution_check3"></td>
 				</tr>
 			</tbody>
@@ -552,5 +624,6 @@
 	<input type="hidden" name="updateCheck" value="${updateCheck}">
 	<input type="hidden" name="updateRid" value="${updateRid}">
 	</form>
+
 </body>
 </html>

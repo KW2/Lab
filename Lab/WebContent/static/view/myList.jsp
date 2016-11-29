@@ -17,19 +17,28 @@
 <html>
 <head>
  <meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	
 	<title>현재 예약 현황 확인</title>
 	
 	<link rel="stylesheet" href="./static/css/bootstrap.min.css"/>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-  	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+<link href="./static/css/jquery-ui.min.css" rel="stylesheet">
+<style>
+ .container{
+width:800px;
+max-width : none !important;
+}
+</style>
 
 </head>
 
 <body>
+<div class="container" style="overflow: auto; position: absolute;">
 	<!-- 비로그인시, 로그인 폼 이동 -->
 	<c:if test="<%=check %>">
 		<script> alert("로그인 오류 !"); </script>
@@ -46,7 +55,7 @@
     		<label for="datepicker2"> ~ </label>
     		<input type="text" class="form-control" id="end_date" name="end_date" placeholder="조회종료">
   		</div>
-  	 <input type='button' value='조회' onclick="getInfo(1, true)"/>
+  	 <input type='button' value='조회' onclick="getInfo(1, true)" class="btn btn-default"/>
 	</form>
 	
 	
@@ -123,8 +132,10 @@ function reservation_modify(){														// 수정 하기 버튼 클릭 이�
 	
 		if(groupleader == '${UserId}'){												// 수정 하는 예약이 단체장의 단체예약인지 확인
 			location.href = "./index.jsp?pageContent=reservation&rid="+rid+"&groupleader="+groupleader;	// 단체장의 단체예약 수정 시, rid와 groupleader를 보내준다.
+
 		}else{
 			location.href = "./index.jsp?pageContent=reservation&rid="+rid;								// 단체 예약 수정이 아니면 rid 값만 보내준다.
+
 		}
 		
 	}
@@ -259,6 +270,9 @@ $.datepicker.setDefaults({
   
   // 처음 페이지 출력시에도 default 값으로 검색.
   window.onload = getInfo(1);
-</script>   
+</script>
+</div>     
+
+
 </body>
 </html>

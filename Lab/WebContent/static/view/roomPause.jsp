@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
@@ -12,6 +13,7 @@
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+
    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
    <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
@@ -22,13 +24,21 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
 ul.jeju{font-family: 'Nanum Pen Script', serif; font-size: 25px;}
+ .container{
+width:700px;
+max-width : none !important;
+
+}
 
 </style>
 
 </head>
+
 <body>
+
+<div class="container"  style="overflow: auto; position: absolute;">
    <form id="info_form" action="roomProcess.jsp" method="post" onsubmit="return false;"
-   style="overflow: auto; position: absolute;" class="form-inline"> <!-- 하나의 폼태그로 구성 -->
+   class="form-inline"> <!-- 하나의 폼태그로 구성 -->
          <p>조회기간:
           <input type="text" id="datepicker1" class="form-control" name="start_date1" onchange="JavaScript:reversetime()"> ~
           <input type="text" id="datepicker2" class="form-control" name="end_date1" onchange="JavaScript:reversetime()">
@@ -91,6 +101,7 @@ ul.jeju{font-family: 'Nanum Pen Script', serif; font-size: 25px;}
   
       <!-- 얼릴 실습실을 설정할 테이블 -->
    </form>
+	</div>
 </body>
 <script>
 
