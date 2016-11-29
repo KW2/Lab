@@ -20,11 +20,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<title>현재 예약 현황 확인</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+	
+	<link rel="stylesheet" href="./static/css/bootstrap.min.css"/>
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+  	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 </head>
 

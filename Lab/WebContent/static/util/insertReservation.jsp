@@ -32,9 +32,15 @@
 		updateRid = Integer.parseInt(strupdateRid);
 	}
 	
+	
 	// 수정일 경우
 	if(updateCheck){
 		Reservation checkInfo = selectReservationService.getReservation(updateRid);
+		if(!checkInfo.isTeam()){
+			
+		}else{
+			
+		}
 		// 수정하는 인원이 그룹리더가 아닌경우
 		if(!reservationInfo.getSid().equals(checkInfo.getGroupleader())){
 			deleteReservationService.deleteReservation(updateRid);
@@ -45,10 +51,11 @@
 					insertReservationService.insert(reservationInfo);
 				}
 			}
-			
+			System.out.println("1");
 			// 단체원들이 단체장을 제외하고 모두 수정을 통해 단체에서 빠져나가는 경우, 단체장을 개인으로 바꿔준다.
 			List<String> beforeGroupRid = selectReservationService.getGroupRid(checkInfo.getGroupleader()
 					, checkInfo.getStartdate(), checkInfo.getStarttime());
+			System.out.println(beforeGroupRid.size());
 			if(beforeGroupRid.size() == 1){
 				Reservation groupLeaderResInfo = selectReservationService.getReservation(Integer.parseInt(beforeGroupRid.get(0)));
 				groupLeaderResInfo.setTeam(false);

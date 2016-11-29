@@ -26,7 +26,7 @@
 %>
 <c:set var="week" value="<%= week %>"/>
 
-<script src="../js/jquery.js"></script>
+<script src="./static/js/jquery.js"></script>
 
 <script>
    $(document).ready(function(){
@@ -41,7 +41,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="./static/css/bootstrap.min.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
 

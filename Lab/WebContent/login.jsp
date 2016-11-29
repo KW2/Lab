@@ -3,10 +3,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<img src="img/logo_ov.png"  height="70px">
+<img src="./static/images/logo_ov.png"  height="70px">
 <style>
 body{
-background:url('img/background.jpg') no-repeat center center fixed;
+background:url('./static/images/background.jpg') no-repeat center center fixed;
 -webkit-background-size:cover;
 -moz-background-size:cover;
 -o-background-size:cover;
@@ -18,7 +18,7 @@ background-size:cover;
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
 <title>실습실 예약 페이지 로그인</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="./static/css/bootstrap.min.css">
 </head>
 <body>
  <div class="col-xs-8 col-xs-offset-2" style="margin-top: 250px;">

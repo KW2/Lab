@@ -17,7 +17,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="./static/css/bootstrap.min.css">
 <style>
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 @import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
@@ -31,7 +31,7 @@ ol.jeju{font-family: 'Nanum Pen Script', serif; font-size: 44px;}
 table.tbfont{font-family: 'Nanum Pen Script', serif; font-size: 28px;}
 </style>
 </head>
-<body background="img/maincover.png">
+<body background="./static/images/maincover.png">
 
 <!-- index 첫 페이지  -->
 <div  id="resPeople">

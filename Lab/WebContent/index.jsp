@@ -6,7 +6,7 @@
 	request.setCharacterEncoding("utf-8");
     String content = request.getParameter("pageContent");   // 파라미터로 받은 값에 따라 본문내용 페이지를 변경한다.
 	
-    String pageContent = "home.jsp";					// 처음 로그인 했을 때 뜨는 페이지 ( 수정 필요 )
+    String pageContent = "./static/view/home.jsp";					// 처음 로그인 했을 때 뜨는 페이지 ( 수정 필요 )
 	
     if(content != null){
 		if(content.equals("reservation")){
@@ -26,11 +26,11 @@
 <c:set var="content" value="<%= pageContent %>" />
 <html>
 <head>
-<img src="img/logo_ov.png"  height="70px">
+<img src="./static/images/logo_ov.png"  height="70px">
 <style>
 body{
 background-size:auto;
-background-image:url('img/top.jpg');
+background-image:url('./static/images/top.jpg');
 background-repeat:no-repeat;
 }
 </style>
@@ -38,7 +38,7 @@ background-repeat:no-repeat;
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <title>실습실 예약 홈페이지</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="./static/css/bootstrap.min.css">
 <style>
 
 * {
