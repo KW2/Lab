@@ -47,7 +47,7 @@
 </head>
 <body> <!-- 세개의 폼태그로 구성 -->
 <div>
-      <form class="form-inline" id="info_form" action="process.jsp"
+      <form class="form-inline" id="info_form" 
          method="post" onsubmit="return false;"
          style="overflow: auto; position: absolute;">
          <!-- 날짜 입력폼 -->
@@ -68,7 +68,7 @@
       </form>
       <br /> <br /> <br />
 
-      <form id="table_form" action="permisson.jsp" style="overflow: auto; position: absolute;" method="post" onsubmit="return false;">
+      <form id="table_form" action="./static/ajax/permisson.jsp" style="overflow: auto; position: absolute;" method="post" onsubmit="return false;">
          <!-- 테이블 출력 및 예약 승인 및 거절 폼 -->
          <table class="table table-bordered" border="1" id="table">
             <tr>
@@ -94,12 +94,13 @@
          
          <br>
        </form>
-     
+       <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+    
        <form id="sid_form" action="message.jsp" style="overflow: auto; position: absolute; float: bottom;  bottom: 110px;"method="post">
-            <input type="submit" class="btnn btn btn-default" id="sendMsg"  value="문자전송" disabled="false" /> 
-            <label id="disable_reason"></label>
+            <input type="submit" class="btnn btn btn-default" id="sendMsg"
+               value="문자전송" disabled="false" /> <label id="disable_reason"></label>
          </form>
-     
+    
    </div>
 <script>
 var obj;
@@ -120,7 +121,7 @@ function getInfo(page, reset, init) {
    //ajax를 이용하여 파라미터 전송 (날짜[post], 현재 페이지[get])
    $.ajax({
      type: "POST",
-     url: "process.jsp?page=" + page,
+     url: "./static/ajax/process.jsp?page=" + page,
      data: $("#info_form").serialize(),
      //성공시 호출
      success: function(response) {
@@ -318,6 +319,7 @@ $.datepicker.setDefaults({
 		     },
 		     error : function() {
 		    	 alert('이미 승인되어 있는 학생입니다');	//이미 예약승인 되어진 학생을 또 승인 했을시 대화 상자 출력
+		    	 message();
 		     }
 		   });
 	  
@@ -329,7 +331,7 @@ $.datepicker.setDefaults({
 	  //예약번호와 실습실 값을 파라미터로 전송
 		$.ajax({
 		     type: "POST",
-		     url: "refuse.jsp",
+		     url: "./static/ajax/refuse.jsp",
 		     data: $("#table_form").serialize(),
 		     success: function(response) {
 		    	 Object = JSON.parse(response).items;
@@ -347,6 +349,7 @@ $.datepicker.setDefaults({
 		     },
 		     error : function() {
 		    	 alert('이미 거절되어 있는 학생입니다');	//이미 예약승인 되어진 학생을 또 승인 했을시 대화 상자 출력
+		    	 message();
 		     }
 		   });
 		
@@ -397,8 +400,10 @@ $.datepicker.setDefaults({
 						$("#disable_reason").html("당일 승인대기 예약이 있습니다.");
 						
 					}else{
+						$(".checkbox").attr('checked', false);						
+						$("input[type=hidden]").remove();
+						$(".btnn").attr('disabled', true);
 						$("#sendMsg").removeAttr("disabled");
-						$(".checkbox").attr('checked', false);
 						$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
 					}
 				},
@@ -410,6 +415,7 @@ $.datepicker.setDefaults({
 		case 6:
 		case 0:
 			$("#sendMsg").attr("disabled", "true");
+			$("#disable_reason").html("주말에는 문자를 발송하지 않습니다.");
 			break;
 		
 		}
