@@ -386,12 +386,16 @@ $.datepicker.setDefaults({
 				data: {"res_date": today},
 				success: function(data){
 					var flag = false;
+					var reject = 0;
 					var size = parseInt(data.resApprovalLength);
 					for(var i = 0; i < size; i++){
 						var compareValue = "resApproval" + i;
 						if(data[compareValue] == "승인대기"){
 							flag = true;
 							break;
+						}
+						if(data[compareValue] == "예약승인"){
+							reject++;
 						}
 						
 					} 
@@ -403,8 +407,12 @@ $.datepicker.setDefaults({
 						$(".checkbox").attr('checked', false);						
 						$("input[type=hidden]").remove();
 						$(".btnn").attr('disabled', true);
-						$("#sendMsg").removeAttr("disabled");
-						$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
+						if(reject != 0){
+							$("#sendMsg").removeAttr("disabled");
+							$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
+						}else{
+							$("#disable_reason").html("승인된 당일 예약이 없습니다.");	
+						}
 					}
 				},
 				error: function(){

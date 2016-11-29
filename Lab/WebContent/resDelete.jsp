@@ -18,7 +18,7 @@
 	 List<String> groupRid;
 	 Reservation reservation;
 	 String sid;
-	 if(array != null || arrayG != null || arrayGG != null){
+ 	 if(array != null || arrayG != null || arrayGG != null){
 	     String[] rids = array.split(",");
 	     String[] ridG = arrayG.split(",");
 	     String[] ridGG = arrayGG.split(",");
@@ -27,6 +27,7 @@
 		         rsdeleteService.deleteReservation(Integer.parseInt(rids[x]));
 		     }
 	     }
+ 	 
 	     if(arrayG != ""){
 		     for(int y=0; y<ridG.length; y++){
 		    	 reservation = rsselectService.getReservation(Integer.parseInt(ridG[y]));
@@ -34,7 +35,7 @@
 		    	 groupRid = rsselectService.getGroupRid(reservation.getGroupleader(), reservation.getStartdate(), reservation.getStarttime());
 		    	 
 		    	 
-		    	 if(groupInfo.size()==2){
+		    	 if(groupInfo != null && groupInfo.size() == 2){
 			    	 sid = " ";
 			    	 for(String updateId : groupRid){
 			    		reservation = rsselectService.getReservation(Integer.parseInt(updateId)); 
@@ -44,22 +45,24 @@
 		    	 rsdeleteService.deleteReservation(Integer.parseInt(ridG[y]));
 		     }
 	     }
+ 	 
 	     if(arrayGG != ""){
 		     for(int z=0; z<ridGG.length; z++){
 		    	 reservation = rsselectService.getReservation(Integer.parseInt(ridGG[z]));
 		    	 groupInfo = rsselectService.getGroupSid(groupleader, reservation.getStartdate(), reservation.getStarttime());
 		    	 groupRid = rsselectService.getGroupRid(groupleader, reservation.getStartdate(), reservation.getStarttime());
 		    	 
-		    	 
-		    	 if(groupInfo.size()==2){
-			    	 sid = " ";
-		    	 }else{
-		    		 if(reservation.getSid().equals(groupInfo.get(0))){
-			    	  	 sid = groupInfo.get(1); 
-			    	 }else{
-			    		 sid = groupInfo.get(0); 
-			    	 }
-		    	 }
+		    	
+			    if(groupInfo.size()==2){
+				     sid = " ";
+			    }else{
+			    	if(reservation.getSid().equals(groupInfo.get(0))){
+				    	sid = groupInfo.get(1); 
+				    }else{
+				    	sid = groupInfo.get(0); 
+				    }
+			    }
+		    	
 		    	 
 		    	 for(String updateId : groupRid){
 		    		reservation = rsselectService.getReservation(Integer.parseInt(updateId)); 
@@ -69,7 +72,7 @@
 		     }
 	     }
 	 }else{
-		reservation = rsselectService.getReservation(Integer.parseInt(rid));
+	 	reservation = rsselectService.getReservation(Integer.parseInt(rid));
 		groupInfo = rsselectService.getGroupRid(groupleader, reservation.getStartdate(), reservation.getStarttime());
 		for(String deleteId : groupInfo){
 			rsdeleteService.deleteReservation(Integer.parseInt(deleteId));
@@ -85,6 +88,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>alert("취소가 완료되었습니다!"); window.history.back();</script>
+<!-- <script>alert("취소가 완료되었습니다!"); window.history.back();</script> -->
 </body>
 </html>
