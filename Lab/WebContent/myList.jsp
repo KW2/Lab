@@ -37,7 +37,7 @@
 		<script> alert("로그인 오류 !"); </script>
 		<script> location.href = "login.jsp" ;</script>
 	</c:if>
-
+ 
 
 	<form class="form-inline"  id="info_form" method="post" onsubmit="return false;" >
 		<div class="form-group">
