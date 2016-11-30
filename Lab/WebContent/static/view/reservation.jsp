@@ -12,13 +12,16 @@
 	Reservation reservationInfo = null;
 	List<String> groupInfo = null;
 	
+
 	String groupInfoStr = "";
 	
+
 	String rid = request.getParameter("rid");
 	String groupleader = request.getParameter("groupleader");
 	SelectReservationService selectReservationService = SelectReservationService.getInstance();
 	boolean updateCheck = false;
 	
+
 	if(rid != null){
 		reservationInfo = selectReservationService.getReservation(Integer.parseInt(rid));
 		updateCheck = true;
@@ -27,9 +30,11 @@
 		 groupInfo = selectReservationService.getGroupSid(groupleader, reservationInfo.getStartdate(), reservationInfo.getStarttime());
 	}
 	
+
 	if(groupInfo != null){
 		String sid = (String)session.getAttribute("UserId");
 		
+
 		for(int i = 0; i < groupInfo.size(); i++){
 			if(!sid.equals(groupInfo.get(i))){
 				if(i == 0){
@@ -41,6 +46,9 @@
 				}	
 			}
 		}
+
+
+
 	}
 %>
 <c:set var="reservationInfo" value="<%= reservationInfo %>"/>
@@ -62,6 +70,7 @@
 	var current_date_str = current_date.getFullYear().toString() + "-" 
 				+ (current_date.getMonth() + 1).toString() + "-" + current_date.getDate().toString();
 	
+
 	// 예약날짜 달력
 	$.datepicker.setDefaults({
 		dateFormat: 'yy-mm-dd',
@@ -79,17 +88,20 @@
 		$( "#res_date" ).datepicker();
 		});
 	
+
 	// 예약시간 리스트
     $( "#start_time" ).selectmenu();
     
 	// 사용시간 리스트
     $( "#using_time" ).selectmenu();
 	
+
 	// 핸들러 메서드 초기화 영역
 	$(document).ready(function(){		
 		// 수정을 위해 페이지 접속을 한경우, 이전 값들로 초기화 시킨다.
 		if("${reservationInfo}"){
 			
+
 			// 실습실 초기화
 			for(var i = 0; i < $("input[name='lab_radio']").size(); i++){
 				var convertLabroom = "${reservationInfo.labroom}".replace("실습실", "lab");
@@ -99,6 +111,9 @@
 				}
 			}
 			
+
+
+
 			// 단체여부 초기화
 			for(var i = 0; i < $("input[name='group_radio']").size(); i++){
  				if($("input[name='group_radio']")[i].value == "${reservationInfo.team}"){
@@ -110,19 +125,25 @@
 							$("input[name='group_id']")[k].value = groupInfo[k];
 						}
 					}
+
+
 					break;
 				} 
 			}
+
+
 
 			// 예약날짜 초기화
 			// 문자열을 yyyy-mm-dd 형태로 주면 val()의 매개값으로 주면 된다.
 			$("#res_date").val("${reservationInfo.startdate}");
 			updateInformation();
 			
+
 			// 예약시간 초기화
 			$("#start_time").val(convertTimeForm("${reservationInfo.starttime}"));
 			$("#using_time").val("${reservationInfo.usingtime}");
 			
+
 			// 사용용도 초기화
 			$("#purpose_text").val("${reservationInfo.purpose}");
 		}else{
@@ -131,52 +152,69 @@
 			// 초기값으로 단체여부 개인으로 표시
 			
 			
+
+
 			for(var i = 0; i < $("input[name='group_radio']").size(); i++){
  				if($("input[name='group_radio']")[i].value == "false"){
 					$("input[name='group_radio']")[i].checked = true;
 					break;
 				} 
 			}
+
+
 			$("#res_date").val(current_date_str);
 			updateInformation();
 			
 		}
 		
+
+
+
 		// 해당 날짜의 예약인원 표시 및 실습실 상태 확인 이벤트핸들러 등록
 		$("#res_date").change(updateInformation);
 		$("#start_time").change(searchPossibleLabroom);
 		$("#using_time").change(searchPossibleLabroom);
 		
+
 		// 단체 기입리스트 추가 이벤트핸들러 등록
 		$("input[name='group_radio']").change(groupTableShow);
 		
+
 		// 주의사항 모든 체크확인시 submit 버튼 활성화 이벤트핸들러 등록
 		for(var i = 0; i < $("input[name='caution_check']").size(); i++){
 			$($("input[name='caution_check']")[i]).click(submitAble);
 		}
 		
 		
+
+
+
 	});
 	
+
 	// 단체 id 문자열 배열로 변환 메서드
 	var convertGroupInfo = function(groupInfoStr){
 		return groupInfoStr.split(",");
 	};
 	
+
 	// hh:mm:ss -> hh:mm 변환 메서드
 	var convertTimeForm = function(time){
 		return time.split(":")[0] + ":" +  time.split(":")[1];
 	};
 	
+
 	// 예약 인원 카운팅 및 현재 실습실 상태 확인 이벤트핸들러
 	// 악의적으로 값을 지우는 경우 현재 날짜로 초기화
 	var updateInformation = function(){
 		var res_date = $("#res_date").val();
 		
+
 		if(res_date == ""){
 			$("#res_date").val(current_date_str);
 			res_date = current_date_str;
 		}
+
 
 		$.ajax({
 			url:'./static/ajax/returnPerson.jsp',
@@ -193,17 +231,21 @@
 			error: function(){
 				alert("데이터베이스 연동 실패");
 			}
+
 		});
 		
+
 		searchPossibleLabroom();
 	};
 	
+
 	// 현재 실습실 상태 확인
 	var searchPossibleLabroom = function(){
 		var res_date = $("#res_date").val();
 		var start_time = $("#start_time").val(); 
 		var using_time = $("#using_time").val();
 		
+
 		$.ajax({
 			url:'./static/ajax/returnLabroomStatus.jsp',
 			type: 'POST',
@@ -217,6 +259,7 @@
 					$("#lab4").removeAttr("disabled", true);
 					$("#lab5").removeAttr("disabled", true);
 					
+
 					$("#lab1_using").html("없음");
 					$("#lab2_using").html("없음");
 					$("#lab3_using").html("없음");
@@ -232,6 +275,8 @@
 						$("#lab1_using").html("없음");
 					}	
 					
+
+
 					if(data.lab2 != ""){
 						$("#lab2").attr("disabled", true);
 						$("#lab2").removeAttr("checked");
@@ -241,6 +286,8 @@
 						$("#lab2_using").html("없음");
 					}
 					
+
+
 					if(data.lab3 != ""){
 						$("#lab3").attr("disabled", true);
 						$("#lab3").removeAttr("checked");
@@ -250,6 +297,8 @@
 						$("#lab3_using").html("없음");
 					}
 					
+
+
 					if(data.lab4 != ""){
 						$("#lab4").attr("disabled", true);
 						$("#lab4").removeAttr("checked");
@@ -259,6 +308,8 @@
 						$("#lab4_using").html("없음");
 					}
 					
+
+
 					if(data.lab5 != ""){
 						$("#lab5").attr("disabled", true);
 						$("#lab5").removeAttr("checked");
@@ -268,14 +319,18 @@
 						$("#lab5_using").html("없음");
 					}
 				}
+
+
 			},
 			error: function(data){
 				console.log(data);
 				alert("데이터베이스 연동 실패");
 			}
+
 		});
 	}
 	
+
 	// 단체인 경우 그룹테이블 동적생성 이벤트핸들러
 	// str로 모아서 안하고 각각 append로 넣어줄때는 왜 안되는지는 잘 모르겠음
 	// groupCheck를 비교할때 groupCheck가 그룹라디오 버튼에서 값을 가져오면 문자열로 감싸져서 true, false 가 리턴되므로 "true", "false" 와 같이 비교한다.
@@ -291,9 +346,11 @@
 				str += "<td>" + "<input type='text' name='group_id' id=\'field" + i + "\'>" + "</td>";
 				str += "</tr>";
 			}
+
 			str += "</tbody>" + "</table>";
 			$("#group_field").append(str);
 			
+
 			// $("input[name='group_id']") 을 하면 각각의 텍스트 필드를 가지고 있는 객체를 리턴한다.
 			// console.log($("input[name='group_id']")); 을 확인해보면 0:input#field ... 20:input#field 의 형태로 구성되어 있고
 			// $("input[name='group_id']")[0] 은 DOM 객체로 변환되기전 태그이다. 실제로 다음과 같은 값이 리턴된다. <input type="text" name="group_id" id="field1">
@@ -303,8 +360,10 @@
 		}else{
 			$("#group_field").html("");
 		}
+
 	};
 	
+
 	// 주의사항 체크여부 조사
 	var cautionChecking = function(){
 		for(var i = 0; i < $("input[name='caution_check']").size(); i++){
@@ -312,9 +371,12 @@
 				return false;
 			}
 		}		
+
+
 		return true;
 	};
 	
+
 	// submit 버튼 활성화 이벤트핸들러
 	var submitAble = function(){
 		var cautionCheck = cautionChecking();
@@ -323,8 +385,10 @@
 		}else{
 			$("#ok_submit").attr("disabled", true);
 		}
+
 	}
 	
+
 	// ajaxForm 사용
 	// action 페이지를 ajax로 처리하여 그 결과를 받는다. 
 	$("#resForm").ajaxForm({
@@ -339,6 +403,7 @@
 			var obj = $.parseJSON(data.responseText);
 			alert(obj.informProblem);
 		}
+
 	});
 </script>
 
@@ -350,10 +415,12 @@
 margin: 0px 0px 0px 0px ;
 }
  .container{
-width:700px;
+width:1100px;
 max-width : none !important;
 
 }
+
+
 </style>
 </head>
 <body>
@@ -367,24 +434,38 @@ max-width : none !important;
 				</td>
 
 
+
+
+
+
+
 				<td>
+
+
+
+
+
 	<table class="table table-bordered" id="none">
 				<tr>
 				<td >
 					실습실 선택
 					</td>
 					
+
 					<td >
 					현재 예약인원
 					</td>
 					
+
 					<td >
 					실습실 특이사항
 					</td>
 					</tr>
 	
+
 					<tr>
 					<td>						
+
 
 					<input id="lab1" type="radio" name="lab_radio" value="실습1실">
 					<label for="lab1">실습실1</label>
@@ -393,28 +474,34 @@ max-width : none !important;
 					<label id="lab1_person"></label>
 					</td>
 
+
 					<td>
 					<label id="lab1_using">없음</label>
 					</td>
 					
 
+
 					</tr>
 					
+
 					<tr>
 					<td>
 					<input id="lab2" type="radio" name="lab_radio" value="실습2실">
 					<label for="lab2">실습실2</label>
 					</td>
 					
+
 						<td>
 						<label id="lab2_person"></label>
 					</td>
 		
+
 					<td>
 					<label id="lab2_using">없음</label>
 					</td>
 					</tr>
 					
+
 					<tr>
 					<td>
 					<input id="lab3" type="radio" name="lab_radio" value="실습3실">
@@ -425,11 +512,13 @@ max-width : none !important;
 					<label id="lab3_person"></label>
 					</td>
 		
+
 					<td>
 					<label id="lab3_using">없음</label>
 					</td>
 					</tr>
 					
+
 					<tr>
 					<td>
 					<input id="lab4" type="radio" name="lab_radio" value="실습4실">
@@ -439,11 +528,13 @@ max-width : none !important;
 					<label id="lab4_person"></label>
 					</td>
 		
+
 					<td>
 					<label id="lab4_using">없음</label>
 					</td>
 					</tr>
 				
+
 					<tr>
 					<td>
 					<input id="lab5" type="radio" name="lab_radio" value="실습5실">
@@ -454,6 +545,7 @@ max-width : none !important;
 					<label id="lab5_person"></label><br/>
 				</td>
 		
+
 					<td>
 					<label id="lab5_using">없음</label>
 					</td>
@@ -464,6 +556,7 @@ max-width : none !important;
 
 				</td>
 
+
 			</tr>
 			<tr>
 				<td> 02. 개인/단체 선택</td>
@@ -471,12 +564,14 @@ max-width : none !important;
 					<input id="individual" type="radio" name="group_radio" value="false">
 					<label for="individual">개인</label><br/>
 				
+
 					<input id="group" type="radio" name="group_radio" value="true">
 					<label for="group">단체</label><br/>
 				<div id="group_field" style="overflow-y:scroll; width:220px; height:100px; padding:4px;"></div>
 				</td>
 				<td>
 				</td>
+
 
 			</tr>
 			<tr>
@@ -488,6 +583,7 @@ max-width : none !important;
 				</td>
 				<td>
 				</td>
+
 
 			</tr>
 			<tr>
@@ -553,6 +649,7 @@ max-width : none !important;
     		</select>
     		</td>
 
+
     		</tr>
 			<tr>
 			<td>
@@ -563,6 +660,7 @@ max-width : none !important;
 			</td>
 			<td>
 			</td>
+
 
 			</tr>
 	</table>
@@ -575,6 +673,7 @@ max-width : none !important;
 				<tr>
 					<td>캡스 해제 후 입실합니다. 해제 확인! 두 번 확인!</td>
 					
+
 				</tr>
 				<tr>
 					<td>해제 하지 않고 입실하면 경보가 울립니다.</td>
@@ -587,6 +686,8 @@ max-width : none !important;
 					<td style="color:white">클릭-></td>
 					
 					
+
+
 					<td><input type="checkbox" name="caution_check" id="caution_check1"></td>
 				</tr>
 				<tr>
@@ -621,6 +722,7 @@ max-width : none !important;
 			 name="ok_submit" value="제출" disabled="true">
 	</div>
 	
+
 	<input type="hidden" name="updateCheck" value="${updateCheck}">
 	<input type="hidden" name="updateRid" value="${updateRid}">
 	</form>
