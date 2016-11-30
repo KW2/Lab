@@ -342,7 +342,8 @@
 			str += "<table>" + "<tbody>";
 			for(var i = 1; i <= textNumber; i++){
 				str += "<tr>";
-				str += "<td>" + i + "</td>";
+				str += "<td>" + i +  "</td>";
+				str += "<td style='width: 10px'/>"
 				str += "<td>" + "<input type='text' name='group_id' id=\'field" + i + "\'>" + "</td>";
 				str += "</tr>";
 			}
@@ -562,7 +563,7 @@ max-width : none !important;
 
 					<input id="group" type="radio" name="group_radio" value="true">
 					<label for="group">단체</label><br/>
-				<div id="group_field" style="overflow-y:scroll; width:220px; height:100px; padding:4px;"></div>
+				<div id="group_field" style="overflow-y:scroll; width:270px; height:115px; padding:4px;"></div>
 				</td>
 			</tr>
 			<tr>
