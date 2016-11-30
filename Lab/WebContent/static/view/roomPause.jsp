@@ -229,6 +229,7 @@ $.datepicker.setDefaults({
   }
   //얼릴 실습실 설정 테이블에 있는 체크박스를 누를 떄 호출 (얼리기 버튼 활성화/비활성화)
 
+  
   function cold(page, reset){
       var form = $("#info_form");
       
