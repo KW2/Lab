@@ -179,7 +179,9 @@ $.datepicker.setDefaults({
              }
            //데이터 삭제 버튼 a태그 구현
           }
-          $(".check").attr('disabled', true); 
+         if($("#datepicker3").val() == "" || $("#datepicker4").val() == ""){
+          	$(".check").attr('disabled', true); 
+         }
           //체크박스 활성화
           $('#datepicker1').attr('class', 'date');
           $('#datepicker2').attr('class', 'date');
@@ -229,17 +231,26 @@ $.datepicker.setDefaults({
 
   function cold(page, reset){
       var form = $("#info_form");
+      
       //ajax를 이용하여 파라미터 전송(시작 날짜, 끝 날짜, 제한 목적[post], 현재 페이지[get])
       $.ajax({
           type: "POST",
           url: "./static/ajax/pauseProcess.jsp?page=" + page,
           data: form.serialize(),
           success: function(response) {
+        	  var startDate = $("#datepicker1").val();
+              var endDate = $("#datepicker2").val();
+              var startDateArr = startDate.split('-');
+              var endDateArr = endDate.split('-');
+              
+              var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+              var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+              
         	  $(".check").attr('checked', false);
         	  $(".check").attr('disabled', false);
         	  $("#coldbutton").attr('disabled', true);
              alert('얼리기 완료');
-             if($("#datepicker1").val() != "" && $("#datepicker2").val() != ""){
+             if((startDate != "" && endDate != "") && (startDateCompare < endDateCompare)){
   	           getInfo(1, true);
              }
            //성공시 대화상자 출력후 페이지 갱신 
