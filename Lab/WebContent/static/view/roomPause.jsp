@@ -179,7 +179,7 @@ $.datepicker.setDefaults({
              }
            //데이터 삭제 버튼 a태그 구현
           }
-          $(".check").attr('disabled', false); 
+          $(".check").attr('disabled', true); 
           //체크박스 활성화
           $('#datepicker1').attr('class', 'date');
           $('#datepicker2').attr('class', 'date');
