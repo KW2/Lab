@@ -236,8 +236,12 @@ $.datepicker.setDefaults({
           data: form.serialize(),
           success: function(response) {
         	  $(".check").attr('checked', false);
+        	  $(".check").attr('disabled', false);
+        	  $("#coldbutton").attr('disabled', true);
              alert('얼리기 완료');
-             getInfo(1, true);
+             if($("#datepicker1").val() != "" && $("#datepicker2").val() != ""){
+  	           getInfo(1, true);
+             }
            //성공시 대화상자 출력후 페이지 갱신 
           },            
           error : function(){               
