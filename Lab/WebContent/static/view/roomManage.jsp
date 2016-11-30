@@ -105,7 +105,7 @@ max-width : none !important;
 
 
        <form id="sid_form" action="./static/util/message.jsp" method="post">
-            <input type="submit" class="btnn btn btn-default" id="sendMsg"  value="문자전송" disabled="false" /> 
+            <input type="submit" class="btn btn-default" id="sendMsg"  value="문자전송" disabled="false" /> 
 
             <label id="disable_reason"></label>
          </form>
@@ -419,6 +419,7 @@ $.datepicker.setDefaults({
 							$(".checkbox").attr('checked', false);						
 							$("input[type=hidden]").remove();
 							$(".btnn").attr('disabled', true);
+							$("#sendMsg").attr("disabled", "true");
 							if(reject != 0){
 								$("#sendMsg").removeAttr("disabled");
 								$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
@@ -444,6 +445,7 @@ $.datepicker.setDefaults({
 						$(".checkbox").attr('checked', false);						
 						$("input[type=hidden]").remove();
 						$(".btnn").attr('disabled', true);
+						$("#sendMsg").attr("disabled", "true");
 						$("#disable_reason").html("당일 예약이 없습니다.");	
 					}				
 
