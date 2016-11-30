@@ -342,7 +342,8 @@
 			str += "<table>" + "<tbody>";
 			for(var i = 1; i <= textNumber; i++){
 				str += "<tr>";
-				str += "<td>" + i + "</td>";
+				str += "<td>" + i +  "</td>";
+				str += "<td style='width: 10px'/>"
 				str += "<td>" + "<input type='text' name='group_id' id=\'field" + i + "\'>" + "</td>";
 				str += "</tr>";
 			}
@@ -552,11 +553,6 @@ max-width : none !important;
 					</tr>
 					</table>
 				</td>
-				<td>
-
-				</td>
-
-
 			</tr>
 			<tr>
 				<td> 02. 개인/단체 선택</td>
@@ -567,24 +563,16 @@ max-width : none !important;
 
 					<input id="group" type="radio" name="group_radio" value="true">
 					<label for="group">단체</label><br/>
-				<div id="group_field" style="overflow-y:scroll; width:220px; height:100px; padding:4px;"></div>
+				<div id="group_field" style="overflow-y:scroll; width:270px; height:115px; padding:4px;"></div>
 				</td>
-				<td>
-				</td>
-
-
 			</tr>
 			<tr>
 				<td>
 					03. 날짜입력
 				</td>
 				<td>
-				<input type="text" name="res_date" id="res_date" class="form-control">
+				<input type="text" name="res_date" id="res_date" class="form-control" style="width: 200px">
 				</td>
-				<td>
-				</td>
-
-
 			</tr>
 			<tr>
 			<td>
@@ -592,7 +580,7 @@ max-width : none !important;
 			 </td>
 			 <td>
 			<label for="start_time">시작시간</label>
-			<select name="start_time" id="start_time" class="form-control">
+			<select name="start_time" id="start_time" class="form-control" style="width: 200px">
       			<option>00:00</option>
       			<option>01:00</option>
       			<option>02:00</option>
@@ -618,10 +606,8 @@ max-width : none !important;
       			<option>22:00</option>
       			<option>23:00</option>
     		</select>
-			</td>
-			<td>
-			<label for="using_time">사용시간</label>
-			<select name="using_time" id="using_time" class="form-control">
+    		<label for="using_time">사용시간</label>
+			<select name="using_time" id="using_time" class="form-control" style="width: 200px">
       			<option>1</option>
       			<option>2</option>
       			<option>3</option>
@@ -647,21 +633,15 @@ max-width : none !important;
       			<option>23</option>
       			<option>24</option>
     		</select>
-    		</td>
-
-
+			</td>
     		</tr>
 			<tr>
 			<td>
 			 	05. 사용용도 입력
 			</td>
 			<td>
-				<input type="text" id="purpose_text" name="purpose_text" class="form-control">
+				<input type="text" id="purpose_text" name="purpose_text" class="form-control" maxlength="40" style="width: 500px">
 			</td>
-			<td>
-			</td>
-
-
 			</tr>
 	</table>
 	<br>
@@ -721,8 +701,7 @@ max-width : none !important;
 		<input type="submit" id="ok_submit" class="btn btn-success btn-sm"
 			 name="ok_submit" value="제출" disabled="true">
 	</div>
-	
-
+	 
 	<input type="hidden" name="updateCheck" value="${updateCheck}">
 	<input type="hidden" name="updateRid" value="${updateRid}">
 	</form>
