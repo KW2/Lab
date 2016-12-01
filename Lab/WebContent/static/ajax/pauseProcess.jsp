@@ -36,42 +36,62 @@
 		checkList = selectRoomService.SelectDuplicationDate(checkbox[i], start_date, end_date);
 
 		if (checkList != null) {
-			for (PauseRoom pauseRoom : checkList) {
+			for (PauseRoom pauseRoom : checkList) {             // 기존 값 ES, EE (pauseRoom.--)  새로운 값 NS, NE (start_date, end_date)
 	
 				if (start_date.before(pauseRoom.getPausestart())
-						&& end_date.before(pauseRoom.getPausestart())) {
+						&& end_date.before(pauseRoom.getPausestart())) {   //    NS  <  NE   <  ES   < EE   중복 내용 없음 
+					System.out.println("111");
 					pauseService.InsertColdRoom(checkbox, start_date, end_date, reason);
-				} else if (start_date.after(pauseRoom.getPauseend())) {
+					
+				} else if (start_date.after(pauseRoom.getPauseend())) {    //    ES <  EE < NS < NE    중복 내용 없음
+					System.out.println("222");
 					pauseService.InsertColdRoom(checkbox, start_date, end_date, reason);
+					
 				} else if (start_date.before(pauseRoom.getPausestart())
-						&& end_date.equals(pauseRoom.getPausestart())) {
+						&& end_date.equals(pauseRoom.getPausestart())) {   //    NS < ES = NE <  EE    ns 부터 ee 까지 
+					System.out.println("333");
 					deleteRoomService.deleteRoom(pauseRoom.getPid());
 					pauseService.InsertColdRoom(checkbox, start_date, pauseRoom.getPausestart(), reason);
+					
 				} else if ((start_date.before(pauseRoom.getPausestart())
 						|| start_date.equals(pauseRoom.getPausestart()))
 						&& (end_date.before(pauseRoom.getPauseend())
 								|| end_date.equals(pauseRoom.getPauseend()))
-						&& end_date.after(pauseRoom.getPausestart())) {
+						&& end_date.after(pauseRoom.getPausestart())) {    //  NS <= ES  < NE <= EE    ns 부터 ee 까지       
+					System.out.println("444");
 					deleteRoomService.deleteRoom(pauseRoom.getPid());
 					pauseService.InsertColdRoom(checkbox, start_date, pauseRoom.getPauseend(), reason);
-				} else if ((start_date.before(pauseRoom.getPausestart())
+					
+				} else if ((start_date.after(pauseRoom.getPausestart())
 						|| start_date.equals(pauseRoom.getPausestart()))
-						&& start_date.after(pauseRoom.getPauseend())
-						&& (end_date.before(pauseRoom.getPauseend())
-								|| end_date.equals(pauseRoom.getPauseend()))) {
+						&& start_date.before(pauseRoom.getPauseend())
+						&& (end_date.after(pauseRoom.getPauseend())				
+								|| end_date.equals(pauseRoom.getPauseend()))) {    // ES < NS < EE <= NE   es 부터 ne 까지
+					System.out.println("555");
 					deleteRoomService.deleteRoom(pauseRoom.getPid());
 					pauseService.InsertColdRoom(checkbox, pauseRoom.getPausestart(), end_date, reason);
-				} else if (start_date.before(pauseRoom.getPauseend())
-						|| start_date.equals(pauseRoom.getPauseend())) {
+					
+				} else if (start_date.after(pauseRoom.getPausestart())			
+						&& end_date.before(pauseRoom.getPauseend())) {	    // ES < NS < NE < EE   es 부터 ee 까지
+					System.out.println("666");
 					deleteRoomService.deleteRoom(pauseRoom.getPid());
 					pauseService.InsertColdRoom(checkbox, pauseRoom.getPausestart(), pauseRoom.getPauseend(), reason);
-				} else {
-
+					
+				} else if (start_date.before(pauseRoom.getPausestart()) 
+						&& end_date.after(pauseRoom.getPauseend())){                   // NS < ES < EE < NE
+					System.out.println("999");
+					deleteRoomService.deleteRoom(pauseRoom.getPid());
+					pauseService.InsertColdRoom(checkbox, start_date, end_date, reason);
+					
+				}else {
+					System.out.println("777");
 					pauseService.InsertColdRoom(checkbox, start_date, end_date, reason); //얼린 실습실 DB에 데이터 삽입 */
 				}
 			}
 		}else{
+			System.out.println("888");
 			pauseService.InsertColdRoom(checkbox,start_date,end_date, reason);	//얼린 실습실 DB에 데이터 삽입 */
+			
 		}
 
 	}

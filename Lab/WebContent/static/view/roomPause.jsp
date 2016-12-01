@@ -257,7 +257,7 @@ $.datepicker.setDefaults({
            //성공시 대화상자 출력후 페이지 갱신 
           },            
           error : function(){               
-                alert('중복된 실습실 얼리기 방지');
+                alert('실숩실을 선택하세요.');
           }
           //실패시 대화상자 출력
          });      

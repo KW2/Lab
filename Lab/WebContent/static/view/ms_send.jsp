@@ -192,7 +192,7 @@
 <!-- = ----------------------------------------------------------------------------------------------- = -->
 <!--<input name="nType에" type="hidden" value="3" />-->
 <!--<input name="indexCode" type="hidden" value="고객사에서 사용하는 고유값" />-->
-<input class="form-control" name="returnUrl" type="hidden" value="http://localhost:8080/Lab/indexManager.jsp" />
+<input class="form-control" name="returnUrl" type="hidden" value="http://220.66.111.79:8080/Lab/indexManager.jsp" />
 <!-- = ----------------------------------------------------------------------------------------------- = -->
 <!-- = 4. 전송결과 처리 방식 입력 END                                                                  = -->
 <!-- =================================================================================================== -->
@@ -206,7 +206,7 @@
 <!-- =                 2를 넣는 경우 redirectUrl에 입력한 경로로 이동합니다.                           = -->
 <!-- = ----------------------------------------------------------------------------------------------- = -->
 <input class="form-control" name="returnType" type="hidden" value="2" />
-<input class="form-control" name="redirectUrl" type="hidden" value="http://localhost:8080/Lab/indexManager.jsp" />
+<input class="form-control" name="redirectUrl" type="hidden" value="http://220.66.111.79:8080/Lab/indexManager.jsp" />
 <!-- = ----------------------------------------------------------------------------------------------- = -->
 <!-- = 5. 전송후 처리 방식 입력 END                                                                    = -->
 <!-- =================================================================================================== -->
