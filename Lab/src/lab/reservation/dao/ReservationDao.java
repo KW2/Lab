@@ -175,6 +175,30 @@ public class ReservationDao {
 		}
 	}
 	
+	public List<Reservation> select(Connection conn, Date startdate, String labroom) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement("select * from reservation where startDate = ? and labroom = ?");
+			pstmt.setDate(1, startdate);
+			pstmt.setString(2, labroom);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				List<Reservation> dateList = new ArrayList<Reservation>();
+				do {
+					dateList.add(makeReservationFromResultSet(rs));
+				} while (rs.next());
+				return dateList;
+			} else {
+				return null;
+			}
+		} finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
 	public List<String> selectGroupSid(Connection conn, Date startdate, String groupleader, Time starttime) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
