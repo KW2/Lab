@@ -42,13 +42,13 @@
 	<c:if test="<%= check %>">
 		<c:choose>
 			<c:when test="${loginUser == 'student'}">
-				<script> location.href = "index.jsp" ;</script>
+				<script> location.href = "../../index.jsp" ;</script>
 			</c:when>
 			<c:when test="${loginUser == 'manager'}">
-				<script> location.href = "indexManager.jsp" ;</script>
+				<script> location.href = "../../indexManager.jsp" ;</script>
 			</c:when>
 			<c:when test="${loginUser == 'admin'}">
-				<script> location.href = "indexAdmin.jsp" ;</script>
+				<script> location.href = "../../indexAdmin.jsp" ;</script>
 			</c:when>
 		</c:choose>		
 	</c:if>

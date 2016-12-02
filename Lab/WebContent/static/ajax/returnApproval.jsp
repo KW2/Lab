@@ -12,8 +12,10 @@
 %>
 <%
 	Date date = Date.valueOf(request.getParameter("res_date"));
+	String[] splitDate = request.getParameter("res_date").split("-");
+
 	Calendar calendar = Calendar.getInstance();	
-	calendar.set(date.getYear(), date.getMonth() + 1, date.getDate());
+	calendar.set(Integer.parseInt(splitDate[0]), Integer.parseInt(splitDate[1]) - 1, Integer.parseInt(splitDate[2]));
 	
 	List<Reservation> dateList = new ArrayList<>();
 	List<Reservation> tempList = new ArrayList<>();
@@ -29,7 +31,10 @@
 		break;
 	case 6:
 		for(int i = 0; i < 3; i++){
-			tempList = selectReservationService.getList(Date.valueOf(calendar.toString()));
+			String formedDate = "";
+			formedDate = String.valueOf(calendar.get(Calendar.YEAR)) + "-" + String.valueOf(calendar.get(Calendar.MONTH) + 1)+
+					"-" + String.valueOf(calendar.get(Calendar.DATE));
+			tempList = selectReservationService.getList(Date.valueOf(formedDate));
 			if(tempList != null){
 				for(Reservation r : tempList){
 					dateList.add(r);	
@@ -46,12 +51,19 @@
 	
 	JSONObject jsonMain = new JSONObject();
 	
-	for(int i = 0; i < dateList.size(); i++){
-		String resApproval = "resApproval";
-		resApproval += i;
-		jsonMain.put(resApproval, dateList.get(i).getApproval());
+	if(dateList != null){
+		for(int i = 0; i < dateList.size(); i++){
+			String resApproval = "resApproval";
+			resApproval += i;
+			jsonMain.put(resApproval, dateList.get(i).getApproval());
+		}
+		jsonMain.put("resApprovalLength", dateList.size());
+
+		out.println(jsonMain.toJSONString());
+	}else{
+		jsonMain.put("reservationCheck", "예약없음");
+		
+		out.println(jsonMain.toJSONString());
 	}
-	jsonMain.put("resApprovalLength", dateList.size());
 	
-	out.println(jsonMain.toJSONString());
 %>

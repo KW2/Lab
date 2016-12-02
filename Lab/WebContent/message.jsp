@@ -14,13 +14,6 @@
 <%
 	request.setCharacterEncoding("utf-8");
 
-//	String[] rids = request.getParameterValues("rid");
-//	String[] sids = request.getParameterValues("sid");	//학번
-//	String[] status = request.getParameterValues("status");	//상태
-//	String day = request.getParameter("today");
-	
-
-
 	java.util.Date current = new java.util.Date();
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	String date = format.format(current);

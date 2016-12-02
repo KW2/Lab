@@ -187,15 +187,13 @@
 		}
 		idProblem += "\n";
 	}
-	if(!res_date_check){
-		dateProblem += "예약날짜가 잘못되었습니다.\n";
+	if(!res_date_check || !start_time_check){
+		dateProblem += "예약날짜 및 예약시간이 잘못되었습니다.\n";
 		dateProblem += "다음의 사항을 다시 한번 확인하십시오.\n";
 		dateProblem += "1. 예약은 현재 날짜부터 2주 안에만 가능합니다.\n";
-		dateProblem += "2. 주말예약은 평일에만 가능합니다.\n";
-		dateProblem += "3. 당일예약은 18시 이전에만 가능합니다.\n\n";
-	}
-	if(!start_time_check){
-		problem += "시작시간 기입여부\n";
+		dateProblem += "2. 평일의 예약시간은 18시 이후로만 설정가능합니다.\n";
+		dateProblem += "3. 주말예약은 평일에만 가능하며 예약시간은 08시 이후로만 가능합니다.\n";
+		dateProblem += "4. 당일예약은 18시 이전에만 가능합니다.\n\n";
 	}
 	if(!using_time_check){
 		problem += "사용시간 기입여부\n";
@@ -221,8 +219,6 @@
 
 		// 수정으로 페이지 접속시와 아닐때 두 경우의 중복체크
 		if(!request.getParameter("updateCheck").equals("true")){
-			
-			System.out.println("??");
 			// 수정아닐시 중복체크, 모든 예약사항과 중복 체크를 한다.
 			if(selectReservationService.isDuplicationReservation(reservationInfo)){
 				response.setStatus(308);

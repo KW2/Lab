@@ -347,7 +347,7 @@
 <title>실습실 예약 페이지</title>
 </head>
 <body>
-	<form id="resForm" action="./checkItem.jsp" method="post">
+	<form id="resForm" action="./static/util/checkItem.jsp" method="post">
 	<table class="table table-bordered table-condensed table-hover" border="1" id="table"
 				white-space="nonwrap">
 			<tr>

@@ -88,6 +88,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<!-- <script>alert("취소가 완료되었습니다!"); window.history.back();</script> -->
+<script>alert("취소가 완료되었습니다!"); window.history.back();</script>
 </body>
 </html>

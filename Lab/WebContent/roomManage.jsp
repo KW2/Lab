@@ -378,7 +378,6 @@ $.datepicker.setDefaults({
 		case 4:
 		case 5:
 			
-			
 			$.ajax({
 				url:'./static/ajax/returnApproval.jsp',
 				type: 'POST',
@@ -388,32 +387,40 @@ $.datepicker.setDefaults({
 					var flag = false;
 					var reject = 0;
 					var size = parseInt(data.resApprovalLength);
-					for(var i = 0; i < size; i++){
-						var compareValue = "resApproval" + i;
-						if(data[compareValue] == "승인대기"){
-							flag = true;
-							break;
+					
+					if(data.reservationCheck != "예약없음"){
+						for(var i = 0; i < size; i++){
+							var compareValue = "resApproval" + i;
+							if(data[compareValue] == "승인대기"){
+								flag = true;
+								break;
+							}
+							if(data[compareValue] == "예약승인"){
+								reject++;
+							}
+							
+						} 
+						if(flag){
+							$("#sendMsg").attr("disabled", "true");
+							$("#disable_reason").html("당일 승인대기 예약이 있습니다.");
+							
+						}else{
+							$(".checkbox").attr('checked', false);						
+							$("input[type=hidden]").remove();
+							$(".btnn").attr('disabled', true);
+							if(reject != 0){
+								$("#sendMsg").removeAttr("disabled");
+								$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
+							}else{
+								$("#disable_reason").html("승인된 당일 예약이 없습니다.");	
+							}
 						}
-						if(data[compareValue] == "예약승인"){
-							reject++;
-						}
-						
-					} 
-					if(flag){
-						$("#sendMsg").attr("disabled", "true");
-						$("#disable_reason").html("당일 승인대기 예약이 있습니다.");
-						
 					}else{
 						$(".checkbox").attr('checked', false);						
 						$("input[type=hidden]").remove();
 						$(".btnn").attr('disabled', true);
-						if(reject != 0){
-							$("#sendMsg").removeAttr("disabled");
-							$("#disable_reason").html("당일 예약에 대해 승인 문자를 발송합니다.");
-						}else{
-							$("#disable_reason").html("승인된 당일 예약이 없습니다.");	
-						}
-					}
+						$("#disable_reason").html("당일 예약이 없습니다.");	
+					}				
 				},
 				error: function(){
 					alert("데이터베이스 연동 실패");
