@@ -6,13 +6,13 @@
 	request.setCharacterEncoding("utf-8");
     String content = request.getParameter("pageContent");   // 파라미터로 받은 값에 따라 본문내용 페이지를 변경한다.
 	
-    String pageContent = "indexHome.jsp";					// 처음 로그인 했을 때 뜨는 페이지 ( 수정 필요 )
+    String pageContent = "home.jsp";					// 처음 로그인 했을 때 뜨는 페이지 ( 수정 필요 )
 	
     if(content != null){
 		if(content.equals("reservation")){
-			pageContent="reservation.jsp";					// 예약하기 페이지 (1조 페이지 명)
+			pageContent="./static/view/reservation.jsp";					// 예약하기 페이지 (1조 페이지 명)
 		}else if(content.equals("list")){
-			pageContent="myList.jsp";						// 예약 현향 확인 하기 페이지
+			pageContent="./static/view/myList.jsp";						// 예약 현향 확인 하기 페이지
 		}
 	}
 	
@@ -120,7 +120,7 @@ div.item{
 <div id="wrap">
 	<div class="header" id="header">
 		<div class="container">
-  			<div class="item" ><h4><a href="logout.jsp" class="btn btn-success">로그아웃</a></h4></div>
+  			<div class="item" ><h4><a href="./static/util/logout.jsp" class="btn btn-success">로그아웃</a></h4></div>
   			<div class="item" ><h4><a href="index.jsp" class="btn btn-warning">홈페이지</a></h4></div>
 		</div>
 	</div>

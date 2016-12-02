@@ -96,7 +96,7 @@
        </form>
        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
     
-       <form id="sid_form" action="message.jsp" style="overflow: auto; position: absolute; float: bottom;  bottom: 110px;"method="post">
+       <form id="sid_form" action="./static/util/message.jsp" style="overflow: auto; position: absolute; float: bottom;  bottom: 110px;"method="post">
             <input type="submit" class="btn btn-default" id="sendMsg"
                value="문자전송" disabled="false" /> <label id="disable_reason"></label>
          </form>

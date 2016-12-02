@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script>alert("로그아웃하였습니다."); location.href = "login.jsp";</script>
+<script>alert("로그아웃하였습니다."); location.href = "../../login.jsp";</script>
 </body>
 </html>

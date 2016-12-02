@@ -26,7 +26,7 @@
 %>
 <c:set var="week" value="<%= week %>"/>
 
-<script src="./static/js/jquery.js"></script>
+<script src="../js/jquery.js"></script>
 
 <script>
    $(document).ready(function(){

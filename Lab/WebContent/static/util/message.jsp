@@ -27,23 +27,6 @@
 	String phoneNumber = "";
 	String phoneNum = ""; 
 	
-/* 	for(int i = 0; i < sids.length; i++){
-		int rid = Integer.parseInt(rids[i]);
-		String sid = sids[i];
-		String stat = status[i];
-		if(stat.equals("승인대기")){
-			throw new WaitingStatusException("승인대기 학생"); //(변)
-		}
-		if(selectService.getGroupLeader(rid) != null){	//단체 대표가 있으면 해당 단체원들의 학번을 뽑아와서 list에 저장
-			List<String> id = selectService.getSid(selectService.getGroupLeader(rid), selectService.getReservation(rid).getStartdate(), selectService.getReservation(rid).getStarttime());
-			for(String memberId : id){
-				phoneList.add(service.selectPhoneNumber(memberId));
-			}
-		} else {
-			phoneList.add(service.selectPhoneNumber(sid));	//학번을 이용해 DB에서 추출한 전화번호를 리스트에 저장
-		}
-	} */
- 
  	msgList = selectService.getListMsg(today); 
 	if(msgList != null){
 		for(int i=0; i<msgList.size(); i++){
@@ -68,7 +51,7 @@
 <title>Insert title here</title>
 </head>
 <body> 
- 	<form name="phone" action="indexManager.jsp?pageContent=phoneMessage" method="post">
+ 	<form name="phone" action="../../indexManager.jsp?pageContent=phoneMessage" method="post">
 		<input type="hidden" name="phoneNumber" value="<%=phoneNumber%>">
 		<input type="submit" > 
 	</form>

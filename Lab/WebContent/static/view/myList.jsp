@@ -26,16 +26,13 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
-<link href="./static/css/jquery-ui.min.css" rel="stylesheet">
-
-
 </head>
 
 <body>
 	<!-- 비로그인시, 로그인 폼 이동 -->
 	<c:if test="<%=check %>">
 		<script> alert("로그인 오류 !"); </script>
-		<script> location.href = "login.jsp" ;</script>
+		<script> location.href = "./login.jsp" ;</script>
 	</c:if>
  
 
@@ -53,7 +50,7 @@
 	
 	
 	
- <form id="table_form" action="permisson.jsp" method="post" onsubmit="return false;" >
+ <form id="table_form" method="post" onsubmit="return false;" >
 	<table class="table table-bordered table-condensed" border="1" id="table">
 		<tr>
 			<td>선택</td>
@@ -99,7 +96,7 @@ function reservation_cancel(){				// 취소 버튼 클릭 이벤트 (다중 취�
 			}
 		});
 	    
-		location.href = "resDelete.jsp?array="+array+"&arrayG="+arrayG+"&arrayGG="+arrayGG; 			
+		location.href = "./static/util/resDelete.jsp?array="+array+"&arrayG="+arrayG+"&arrayGG="+arrayGG; 			
 		// 파라미터로 array(일반 취소할 rid 값들), arrayG(단체예약이지만 단체장이 아닌 rid 값들), arrayGG(단체장 개인 취소할 rid 값들)를 보내준다.
 		
 	}
@@ -111,7 +108,7 @@ function reservation_cancelAll(){													// 단체 취소 버튼 클릭 이
 	
 	if(confirm("단체 취소하시겠습니까??")==true){
 		var rid = $('.caution_check:checked').siblings("#hidden").val();			 
-	    location.href = "resDelete.jsp?rid="+rid; 									// 단체장의 예약 rid 값을 보내준다.
+	    location.href = "./static/util/resDelete.jsp?rid="+rid; 									// 단체장의 예약 rid 값을 보내준다.
 	}
 	else
 		return;
@@ -124,11 +121,9 @@ function reservation_modify(){														// 수정 하기 버튼 클릭 이�
 		var groupleader = $('.caution_check:checked').parent().siblings("#groupleader").html(); 
 	
 		if(groupleader == '${UserId}'){												// 수정 하는 예약이 단체장의 단체예약인지 확인
-			location.href = "index.jsp?pageContent=reservation&rid="+rid+"&groupleader="+groupleader;	// 단체장의 단체예약 수정 시, rid와 groupleader를 보내준다.
-		//	location.href = "reservation.jsp?rid="+rid+"&groupleader="+groupleader;
+			location.href = "./index.jsp?pageContent=reservation&rid="+rid+"&groupleader="+groupleader;	// 단체장의 단체예약 수정 시, rid와 groupleader를 보내준다.
 		}else{
-			location.href = "index.jsp?pageContent=reservation&rid="+rid;								// 단체 예약 수정이 아니면 rid 값만 보내준다.
-		//	location.href = "reservation.jsp?rid="+rid;
+			location.href = "./index.jsp?pageContent=reservation&rid="+rid;								// 단체 예약 수정이 아니면 rid 값만 보내준다.
 		}
 		
 	}
