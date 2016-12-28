@@ -44,6 +44,8 @@
 			phoneNumber = phoneNumber + ",";
 		}
 	}  
+	
+
 %>
 <html>
 <head>
@@ -51,11 +53,37 @@
 <title>Insert title here</title>
 </head>
 <body> 
- 	<form name="phone" action="../view/ms_send.jsp" method="post">
-		<input type="hidden" name="phoneNumber" value="<%=phoneNumber%>">
+ 	<form name="phone" method="post">
+ 		<input type="hidden" name="webmail_id" value="dyhan">
+ 		<input type="hidden" name="domain" value="yc.ac.kr">
+		<input type="hidden" name="receiveHpValue" value="<%=phoneNumber%>">
 		<input type="submit" > 
 	</form>
+<script>
 
-	 <script>document.phone.submit();</script> 
+
+function requestSmsHttp() {
+
+	var frm = document.phone;
+
+	//frm.webmail_id.value = '아이디';
+	//frm.domain.value = 'yc.ac.kr';
+
+	//var vReceiveHpValue = ["01012345679", "01012345678","01012345670"]; 
+
+
+	//frm.receiveHpValue.value = vReceiveHpValue;
+
+    window.open('', 'smsFormForPost', 'width=500, height=600, resizable= yes');
+
+    frm.target = 'smsFormForPost';
+    //frm.action = domain;
+    frm.action = 'http://mail.yc.ac.kr/mail/sso.public.do?method=sso_sms';
+	frm.submit();
+}
+requestSmsHttp();
+location.href = "../../indexManager.jsp?pageContent=roomManage";
+</script>
+	 
 </body>
 </html>
